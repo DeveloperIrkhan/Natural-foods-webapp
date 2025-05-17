@@ -16,7 +16,7 @@ const AdminMenu = async () => {
       <FavoriteButton />
       <ClerkLoaded>
         <SignedIn>
-           <UserButton />
+          <UserButton />
         </SignedIn>
         {!LoggedInUser && <SignIn />}
       </ClerkLoaded>

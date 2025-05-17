@@ -3,7 +3,7 @@ import "./globals.css";
 import Header from "@/components/Navbar-components/Header";
 import Footer from "@/components/Footer";
 import { ClerkProvider } from "@clerk/nextjs";
-import Carousel from "@/components/Carousel/Carousel";
+import CarouselSlider from "@/components/Carousel/Carousel";
 export const metadata: Metadata = {
   title: {
     template: "eShopping Store.",
@@ -22,7 +22,7 @@ export default function RootLayout({
       <html lang="en">
         <body className="">
           <Header />
-          <Carousel/>
+          <CarouselSlider/>
           {children}
           <Footer />
         </body>
