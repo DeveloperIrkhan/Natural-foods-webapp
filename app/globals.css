@@ -55,6 +55,7 @@
 }
 
 :root {
+  --swiper-navigation-size: 22px !important;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -139,4 +140,7 @@
   .TitleStyle {
     @apply tracking-[3px];
   }
+  .swiper-button-next,
+  .swiper-button-prev {
+  @apply border rounded-full bg-white/20 w-20 h-20}
 }

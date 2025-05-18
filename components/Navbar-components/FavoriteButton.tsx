@@ -6,7 +6,7 @@ const FavoriteButton = () => {
   return (
     <Link href='/favorite-list' className='group relative hoverEffect'>
         <Heart  className='hoverEffect w-5 h-5 hover:text-secondary-color hover:cursor-pointer'/>
-        <span className={`absolute -top-2 -right-2 hoverEffect text-white text-[12px] bg-secondary-color group-hover:bg-secondary-color rounded-full w-4 h-4 flex justify-center items-center`}>0</span>
+        <span className={`absolute -top-3 -right-3 hoverEffect text-white text-[12px] bg-primary-color group-hover:bg-secondary-color rounded-full w-5 h-5 flex justify-center items-center`}>10</span>
     </Link>
   )
 }
