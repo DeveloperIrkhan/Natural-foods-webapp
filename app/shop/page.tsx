@@ -6,7 +6,7 @@ const page = () => {
   return (
     <>
       <Container>
-        <PageTitle text="Our Shop" />
+        <PageTitle>Our Shop</PageTitle>
         <p className="py-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint quos
           itaque error officia inventore dolor perspiciatis maiores blanditiis!

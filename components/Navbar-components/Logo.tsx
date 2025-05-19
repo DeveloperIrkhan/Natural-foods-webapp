@@ -9,7 +9,7 @@ interface ILogoType {
 }
 const Logo = ({ logoSrc, className, logoText }: ILogoType) => {
   return (
-    <Link href={"/ "} className="group cursor-pointer">
+    <Link href={"/ "} className="group cursor-pointer inline-flex">
       <div className="flex justify-center items-center gap-3">
         <Image
           className={cn("", className)}

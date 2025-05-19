@@ -10,12 +10,13 @@ const SignIn = () => {
         hover:translate-y-0.5 hover:bg-white
          hover:text-primary-color hover:border
          hover:border-primary-color
-        hover:shadow-[0_0_15px_rgba(177_54_135/0.7)]"
+        hover:shadow-[0_0_15px_rgba(131_184_53/0.5)]"
       >
         SignIn
       </button>
     </SignInButton>
-  );
+  )
+  // ;rgb(131, 184, 53)
 };
 
 export default SignIn;

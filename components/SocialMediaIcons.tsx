@@ -59,7 +59,7 @@ const SocialMediaIcons = ({
             <TooltipTrigger asChild>
               <Link target="_blank"
                 className={cn(
-                  "flex justify-center items-center hover:text-accent-color hoverEffect border rounded-full w-8 h-8 p-2 hover:border-accent-color",
+                  "flex justify-center items-center hover:text-primary-color hoverEffect border rounded-full w-8 h-8 p-2 hover:border-primary-color",
                   iconClassName
                 )}
                 href={item?.href}
