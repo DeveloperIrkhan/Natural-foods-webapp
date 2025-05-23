@@ -1,3 +1,4 @@
+"use client"
 import { Clock, Mail, MapPin, Phone } from "lucide-react";
 import React from "react";
 import Container from "../Container";
@@ -27,7 +28,7 @@ const FooterTop = () => {
       {ContactData.map((item) => (
         <div
           key={item.title}
-          className="group flex gap-4 border-b hover:border-gray-900 items-center hoverEffect duration-200"
+          className="group flex gap-4 pb-3 border-b hover:border-gray-900 items-center hoverEffect duration-200"
         >
           <div className="h-5 w-5 text-gray-500 group-hover:text-gray-border-gray-900 duration-300 transition-colors hoverEffect">
             {item.icon}

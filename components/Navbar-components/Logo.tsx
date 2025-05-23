@@ -6,8 +6,10 @@ interface ILogoType {
   logoSrc: string;
   className?: string;
   logoText?: string;
+  width?: number;
+  height?: number;
 }
-const Logo = ({ logoSrc, className, logoText }: ILogoType) => {
+const Logo = ({ logoSrc, className, logoText, width, height }: ILogoType) => {
   return (
     <Link href={"/ "} className="group cursor-pointer inline-flex">
       <div className="flex justify-center items-center gap-3">
@@ -15,8 +17,8 @@ const Logo = ({ logoSrc, className, logoText }: ILogoType) => {
           className={cn("", className)}
           src={logoSrc}
           alt="logo image"
-          width={80}
-          height={80}
+          width={width ?? 80}
+          height={height ?? 80}
         />
         <h2
           className="hoverEffect text-2xl font-extrabold font-Jost

@@ -1,14 +1,16 @@
-import React from "react";
+"use client";
+// import React, { useEffect, useState } from "react";
 import Container from "../Container";
 import FooterTop from "./FooterTop";
 import Logo from "../Navbar-components/Logo";
-import { images } from "@/public/ImagesUrls";
 import SocialMediaIcons from "../SocialMediaIcons";
 import PageTitle, { Textsm } from "../PageTitle";
 import { categoriesData, QuickLinks } from "@/app/constants/constants";
 import Link from "next/link";
 
 const Footer = () => {
+  // const [year, setYear] = useState<number | null>(null);
+  // setYear(new Date().getFullYear());
   return (
     <footer className="border-t">
       <Container>
@@ -19,7 +21,13 @@ const Footer = () => {
         <Container>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-3">
             <div className="text-sm">
-              <Logo logoText="Khalis Foods" logoSrc="/Logo.png" />
+              <Logo
+                logoText="Khalis Foods"
+                logoSrc="/Logo.png"
+                width={100}
+                height={100}
+              />
+
               <Textsm className="px-2">
                 Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nihil
                 voluptatum inventore recusandae mollitia, amet ullam placeat.
@@ -88,7 +96,7 @@ const Footer = () => {
       </Container>
       <div className="border-t text-center bg-gray-100 py-2 text-gray-600">
         <p className="text-sm">
-           &copy;  {new Date().getFullYear()} All rights reserved. Developed by
+          &copy; 2025 All rights reserved. Developed by
           <span className="uppercase px-3 text-primary-color font-bold text-[15px]">
             Khalis Foods
           </span>
