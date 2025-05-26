@@ -51,6 +51,7 @@ export const POST = async (request: NextRequest) => {
       email,
       password: hashedPassword,
       avatorUrl: response?.url
+      
     });
     // checking for user creating if not then create a new user and send a response back to frontend
     if (!newUser) {

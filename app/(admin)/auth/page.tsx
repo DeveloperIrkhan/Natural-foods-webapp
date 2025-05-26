@@ -1,19 +1,23 @@
 "use client";
+import LoadingScreen from "@/components/Loading/LoadingScreen";
 import PageTitle from "@/components/PageTitle";
 import { images } from "@/public/ImagesUrls";
 import axios from "axios";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const UserAuth = () => {
   const [currentState, setCurrentState] = useState("Sign Up");
   const [name, setName] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [avatorUrl, setAvatorUrl] = useState<File>();
-  useEffect(() => {
-    console.log("avatorUrl", avatorUrl);
-  }, [avatorUrl]);
+  const router = useRouter();
+  // useEffect(() => {
+  //   console.log("avatorUrl", avatorUrl);
+  // }, [avatorUrl]);
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
@@ -24,14 +28,24 @@ const UserAuth = () => {
       formData.append("avator", avatorUrl); // Safe now
     }
     try {
+      setIsLoading(true);
       const response = await axios.post("/api/auth", formData);
-      console.log("response", response.data);
+      console.log("Response from backend:", response.data);
+      if (response.data.success === true) {
+        console.log("Raw response:", response);
+        localStorage.setItem("loggedInUser", response.data.createdUser);
+        localStorage.setItem("email", email);
+        router.push("/setup-2fa");
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <div className="h-full">
+      {isLoading && <LoadingScreen />}
       <div className="max-w-xl mx-auto p-4 bg-white shadow-lg rounded-2xl">
         <PageTitle>{currentState}</PageTitle>
         <form onSubmit={submitHandler} className="">
@@ -135,7 +149,9 @@ const UserAuth = () => {
               )}
             </div>
             <button className="custom-button uppercase">
-              {currentState === "Log in" ? "Log in" : "Sign up"}
+              {isLoading && "Loading" && currentState === "Log in"
+                ? "Log in"
+                : "Sign up"}
             </button>
           </div>
         </form>

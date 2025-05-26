@@ -41,15 +41,17 @@ const userSchema = new mongoose.Schema(
     forgotPasswordToken: { type: String },
     forgotPasswordTokenExpiry: { type: Date },
     verifyToken: { type: String },
-    verifyTokenExpiry: { type: Date }
+    verifyTokenExpiry: { type: Date },
+    twoFactorSecret: {
+      type: String
+    },
+    isTwoFactorEnabled: {
+      type: Boolean,
+      default: false
+    }
   },
   { timestamps: true }
 );
-// userSchema.pre("save", async function (next) {
-//   if (!this.isModified("password")) return next();
-//   this.password = await bycrpt.hash(this.password, 10);
-// });
-
 const User =
   mongoose.models.users || mongoose.model<IUserModel>("users", userSchema);
 
