@@ -29,14 +29,14 @@ const page = () => {
         heading="Total Pending"
         text="Total Pending"
       />
-      <PieChart value={10} chartTitle="Product Reviews" />
-      <PieChart value={35} chartTitle="Shipping" />
-      <PieChart value={55} chartTitle="Total Sales" />
-      <PieChart value={80} chartTitle="Total Revenue" />
-      <BarChart value={20} chartTitle="Product Reviews" />
-      <BarChart value={35} chartTitle="Shipping" />
-      <BarChart value={65} chartTitle="Total Sales" />
-      <BarChart value={100} chartTitle="Product Reviews" />
+      <PieChart value={60} totalCount={300} chartTitle="Product Reviews" />
+      <PieChart value={135} totalCount={300} chartTitle="Shipping" />
+      <PieChart value={205} totalCount={300} chartTitle="Total Sales" />
+      <PieChart value={258} totalCount={300} chartTitle="Total Revenue" />
+      <BarChart value={50} totalCount={300} chartTitle="Product Reviews" />
+      <BarChart value={138} totalCount={300} chartTitle="Shipping" />
+      <BarChart value={200} totalCount={300} chartTitle="Total Sales" />
+      <BarChart value={250} totalCount={300} chartTitle="Product Reviews" />
     </main>
   );
 };

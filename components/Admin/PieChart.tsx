@@ -3,17 +3,18 @@ import React from "react";
 interface IPieChartProps {
   chartTitle: string;
   value: number;
+  totalCount: number;
 }
-const PieChart = ({ value, chartTitle }: IPieChartProps) => {
+const PieChart = ({ value, chartTitle, totalCount }: IPieChartProps) => {
   const getColor = (persentage: number) => {
     if (persentage <= 25) return "#f44336"; // Red
     if (persentage <= 50) return "#42A5F5"; // Yellow
     if (persentage <= 75) return "#66BB6A"; // Orange
     return "#FFA000";
   };
-  const persentage = Math.min(value,100)
+  const persentage = Math.floor((value * 100) / totalCount);;
   const progressColor = getColor(persentage);
-  
+
   const getProgress = (persentage: number) => {
     if (persentage <= 25) return "Normal";
     if (persentage <= 50) return "Good"; // Yellow

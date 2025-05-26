@@ -142,5 +142,18 @@
   }
   .swiper-button-next,
   .swiper-button-prev {
-  @apply border rounded-full bg-white/20 w-20 h-20}
+    @apply border rounded-full bg-white/20 w-20 h-20;
+  }
+}
+
+@layer components {
+  .custom-button {
+    @apply bg-black text-white px-3 py-1 shadow-md
+           hover:shadow-[0_0_10px_rgba(0_0_0/0.3)]
+           rounded-lg hover:bg-slate-700 hover:tracking-widest
+           hover:translate-y-1 duration-400;
+  }
+  .custom-input {
+    @apply border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color;
+  }
 }

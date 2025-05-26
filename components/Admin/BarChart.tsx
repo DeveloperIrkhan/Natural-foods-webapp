@@ -4,16 +4,17 @@ import React from "react";
 interface IBarChartProps {
   chartTitle: string;
   value: number; // percentage from 0 to 100
+  totalCount: number; // percentage from 0 to 100
 }
 
-const BarChart = ({ value, chartTitle }: IBarChartProps) => {
+const BarChart = ({ value, chartTitle, totalCount }: IBarChartProps) => {
   const getColor = (persentage: number) => {
     if (persentage <= 25) return "#f44336"; // Red
     if (persentage <= 50) return "#42A5F5"; // Yellow
     if (persentage <= 75) return "#66BB6A"; // Orange
     return "#FFA000";
   };
-  const persentage = Math.min(value, 100);
+  const persentage = Math.floor((value * 100) / totalCount);
 
   const progressColor = getColor(persentage);
 

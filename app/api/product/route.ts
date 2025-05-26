@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import connectDB from "@/app/DatabaseConnection/DbConnection";
-import Product from "@/app/models/product";
+import connectDB from "@/app/dbConfig/DbConnection";
+import Product from "@/app/models/productModel";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
