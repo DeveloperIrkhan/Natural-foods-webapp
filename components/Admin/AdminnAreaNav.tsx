@@ -62,7 +62,7 @@ const AdminnAreaNav = () => {
                     onClick={signOutasync}
                     className="p-1 hoverEffect hover:bg-gray-200 hover:cursor-pointer"
                   >
-                    Sign out
+                    Sign Out
                   </p>
                 </div>
               </>
