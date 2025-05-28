@@ -41,6 +41,7 @@ const userSchema = new mongoose.Schema(
     forgotPasswordToken: { type: String },
     forgotPasswordTokenExpiry: { type: Date },
     verifyToken: { type: String },
+    refreshToken: { type: String },
     verifyTokenExpiry: { type: Date },
     twoFactorSecret: {
       type: String

@@ -72,6 +72,7 @@ const page = () => {
       });
 
       if (res.data.verified) {
+        console.log(res.data);
         router.push("/dashboard");
       } else {
         alert("Invalid Code");

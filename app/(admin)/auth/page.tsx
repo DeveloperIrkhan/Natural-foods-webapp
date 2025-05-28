@@ -15,9 +15,7 @@ const UserAuth = () => {
   const [password, setPassword] = useState<string>("");
   const [avatorUrl, setAvatorUrl] = useState<File>();
   const router = useRouter();
-  // useEffect(() => {
-  //   console.log("avatorUrl", avatorUrl);
-  // }, [avatorUrl]);
+  useEffect(() => {}, [currentState]);
   const submitHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     const formData = new FormData();
@@ -29,13 +27,28 @@ const UserAuth = () => {
     }
     try {
       setIsLoading(true);
-      const response = await axios.post("/api/auth", formData);
-      console.log("Response from backend:", response.data);
-      if (response.data.success === true) {
-        console.log("Raw response:", response);
-        localStorage.setItem("loggedInUser", response.data.createdUser);
-        localStorage.setItem("email", email);
-        router.push("/setup-2fa");
+      if (currentState === "Sign Up") {
+        const response = await axios.post("/api/auth/signup", formData);
+        console.log("Response from backend:", response.data);
+        if (response.data.success === true) {
+          console.log("Raw response:", response);
+          localStorage.setItem("loggedInUser", response.data.createdUser);
+          localStorage.setItem("email", email);
+          setCurrentState("Log in");
+        }
+      } else {
+        const response = await axios.post("/api/auth/signin", formData);
+        console.log("Response from backend:", response.data);
+        if (response.data.success === true) {
+          console.log("Raw response:", response.data.loggedInUser);
+          localStorage.setItem(
+            "loggedInUser",
+            JSON.stringify(response.data.loggedInUser)
+          );
+          localStorage.setItem("email", email);
+          setCurrentState("Log in");
+          router.push("/setup-2fa");
+        }
       }
     } catch (error) {
       console.log(error);
@@ -49,111 +62,128 @@ const UserAuth = () => {
       <div className="max-w-xl mx-auto p-4 bg-white shadow-lg rounded-2xl">
         <PageTitle>{currentState}</PageTitle>
         <form onSubmit={submitHandler} className="">
-          <div className="flex flex-col gap-y-6">
-            <div className="flex justify-center items-center relative">
-              <label className="cursor-pointer" htmlFor="avator">
-                <Image
-                  alt="avatorUrl"
-                  src={
-                    avatorUrl && avatorUrl !== undefined
-                      ? `${URL.createObjectURL(avatorUrl)}`
-                      : images.Profile
-                  }
-                  className={`border rounded-full shadow-md drop-shadow-black
+          {currentState === "Sign Up" ? (
+            <div className="flex flex-col gap-y-6">
+              <div className="flex justify-center items-center relative">
+                <label className="cursor-pointer" htmlFor="avator">
+                  <Image
+                    alt="avatorUrl"
+                    src={
+                      avatorUrl && avatorUrl !== undefined
+                        ? `${URL.createObjectURL(avatorUrl)}`
+                        : images.Profile
+                    }
+                    className={`border rounded-full shadow-md drop-shadow-black
                      border-black/20 my-3 h-20 w-20 ${
                        !avatorUrl && "opacity-50"
                      }`}
-                  width={80}
-                  height={80}
-                />
-                <Image
-                  alt="avatorUrl"
-                  src={images.Camera}
-                  className={`absolute w-7 h-7 ${
-                    avatorUrl ? "hidden" : "opacity-80 block"
-                  }`}
-                  width={80}
-                  height={80}
-                />
+                    width={80}
+                    height={80}
+                  />
+                  <Image
+                    alt="avatorUrl"
+                    src={images.Camera}
+                    className={`absolute w-7 h-7 ${
+                      avatorUrl ? "hidden" : "opacity-80 block"
+                    }`}
+                    width={80}
+                    height={80}
+                  />
+                  <input
+                    type="file"
+                    name="avator"
+                    id="avator"
+                    hidden
+                    required
+                    onChange={(e) => {
+                      setAvatorUrl(e.target.files?.[0]);
+                    }}
+                  />
+                </label>
+                <p className="mt-4 p-0 text-gray-600 font-bold absolute top-20">
+                  Upload Avator
+                </p>
+              </div>
+              {currentState === "Sign Up" && (
                 <input
-                  type="file"
-                  name="avator"
-                  id="avator"
-                  hidden
+                  id="name"
+                  name="name"
+                  type="text"
+                  placeholder="Enter Your Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
-                  onChange={(e) => {
-                    // const file = e.target.files?.[0];
-                    // if (file) {
-                    //   setAvatorUrl(file);
-                    // }
-                    setAvatorUrl(e.target.files?.[0]);
-                  }}
+                  className="custom-input"
                 />
-              </label>
-              <p className="mt-4 p-0 text-gray-600 font-bold absolute top-20">
-                Upload Avator
-              </p>
-            </div>
-            {currentState === "Sign Up" && (
+              )}
               <input
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Enter Your Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 className="custom-input"
               />
-            )}
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Enter Your Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="custom-input"
-            />
-            <input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="Enter Your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="custom-input"
-            />
-            <div className="w-full flex justify-between text-gray-600 mt-3">
-              {currentState === "Log in" && (
-                <p className="text-sm pb-1 cursor-pointer transition-colors duration-200 hover:text-gray-300">
-                  Forgot password?
-                </p>
-              )}
-              {currentState === "Log in" ? (
-                <p
-                  onClick={() => setCurrentState("Sign up")}
-                  className="text-sm pb-1 cursor-pointer transition-colors duration-200 hover:text-gray-300"
-                >
-                  can't have account
-                </p>
-              ) : (
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="custom-input"
+              />
+              <div className="w-full flex justify-between text-gray-600 mt-3">
                 <p
                   onClick={() => setCurrentState("Log in")}
                   className="text-sm pb-1 cursor-pointer transition-colors duration-200 hover:text-gray-300"
                 >
                   I have account
                 </p>
-              )}
+              </div>
+              <button className="custom-button uppercase">Sign up</button>
             </div>
-            <button className="custom-button uppercase">
-              {isLoading && "Loading" && currentState === "Log in"
-                ? "Log in"
-                : "Sign up"}
-            </button>
-          </div>
+          ) : (
+            <div className="flex flex-col gap-y-6">
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="Enter Your Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="custom-input"
+              />
+              <input
+                id="password"
+                name="password"
+                type="password"
+                placeholder="Enter Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="custom-input"
+              />
+              <div className="w-full flex justify-between text-gray-600 mt-3">
+                {currentState === "Log in" && (
+                  <p className="text-sm pb-1 cursor-pointer transition-colors duration-200 hover:text-gray-300">
+                    Forgot password?
+                  </p>
+                )}
+                <p
+                  onClick={() => setCurrentState("Sign Up")}
+                  className="text-sm pb-1 cursor-pointer transition-colors duration-200 hover:text-gray-300"
+                >
+                  can't have account
+                </p>
+              </div>
+              <button className="custom-button uppercase">Log in</button>
+            </div>
+          )}
         </form>
       </div>
     </div>

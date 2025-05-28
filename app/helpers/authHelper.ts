@@ -9,9 +9,4 @@ export const hashingPassword = async (password: string) => {
     console.log("error while hashing password", error);
   }
 };
-export const comparePassword = async (
-  password: string,
-  hashedpassword: string
-) => {
-  return bcrypt.compare(password, hashedpassword);
-};
+  

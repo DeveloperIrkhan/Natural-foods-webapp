@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "../globals.css";
-import DashboardCard from "@/components/Admin/DashboardCard";
 import Link from "next/link";
-import PieChart from "@/components/Admin/PieChart";
+import AdminnAreaNav from "@/components/Admin/AdminnAreaNav";
 // export const metadata: Metadata = {
 //   title: {
 //     template: "admin panel | eshopping Store",
@@ -60,7 +59,7 @@ export default function RootLayout({
         {/* Topbar */}
         <header className="bg-white border-b p-6 flex justify-between items-center">
           <h2 className="text-lg font-semibold">Admin Area</h2>
-          <div className="text-sm text-gray-600">Welcome, Admin</div>
+          <AdminnAreaNav />
         </header>
         {/* Page Content */}
         <main className="flex-1 p-6 bg-gray-50">{children}</main>
