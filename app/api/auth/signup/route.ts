@@ -1,10 +1,8 @@
-import fs from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/app/dbConfig/DbConnection";
 import { hashingPassword } from "@/app/helpers/authHelper";
 import User from "@/app/models/userModel";
 import { uploadOnCloudinary } from "@/app/helpers/cloudinaryUpload";
-import path from "path";
 connectDB();
 export const POST = async (request: NextRequest) => {
   try {
@@ -32,18 +30,7 @@ export const POST = async (request: NextRequest) => {
 
     // Save file to local folder
     const buffer = Buffer.from(await file.arrayBuffer());
-    const timestamp = Date.now();
-    const fileExtension = file.name.split(".").pop();
-    // replace spaces with dashes
-    const baseName = file.name.split(".")[0].replace(/\s+/g, "-");
-    const fileName = `${baseName}-${timestamp}.${fileExtension}`;
-    // Create directory if not exists
-    const uploadDir = path.join(process.cwd(), "public/uploads");
-    await fs.mkdir(uploadDir, { recursive: true });
-    const filePath = path.join(uploadDir, fileName);
-    await fs.writeFile(filePath, buffer);
-    // if avator then upload it to cloundinary and save path in database
-    const response = await uploadOnCloudinary(filePath);
+    const response = await uploadOnCloudinary(buffer, file.name);
     // console.log("response", response);
     //creating user
     const newUser = await User.create({
@@ -74,6 +61,7 @@ export const POST = async (request: NextRequest) => {
       createdUser
     });
   } catch (error) {
+    console.error(error);
     return NextResponse.json({
       status: 500,
       success: false,

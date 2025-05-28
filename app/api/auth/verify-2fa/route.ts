@@ -32,6 +32,7 @@ export const POST = async (req: NextRequest) => {
   }
 
   user.isTwoFactorEnabled = true;
+  user.isVerfied = true;
   await user.save();
   return NextResponse.json({
     success: true,

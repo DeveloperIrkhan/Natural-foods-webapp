@@ -15,7 +15,14 @@ export const config = {
   ]
 };
 
-const protectedRoutes = ["/dashboard", "/settings", "/setup-2fa"];
+const protectedRoutes = [
+  "/dashboard",
+  "/settings",
+  "/setup-2fa",
+  "/products",
+  "/add-product",
+  "/add-category"
+];
 export const middleware = (request: NextRequest) => {
   const accessToken = request.cookies.get("accessToken");
   const loggedInUser = request.cookies.get("loggedInUser");

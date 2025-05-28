@@ -1,31 +1,38 @@
 "use client";
+import LoadingScreen from "@/components/Loading/LoadingScreen";
 import axios from "axios";
 import React, { useState } from "react";
 const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [image, setImage] = useState("");
   const [category, setCategory] = useState("");
-  const [inStock, setInStock] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [inStock, setInStock] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
+  const [productImage0, setProductImage0] = useState<File | null>(null);
+  const [productImage1, setProductImage1] = useState<File | null>(null);
+  const [productImage2, setProductImage2] = useState<File | null>(null);
+  const [productImage3, setProductImage3] = useState<File | null>(null);
+
   const inputTextStyle =
     "border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color";
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const formdata = new FormData();
-    formdata.append("name", name);
-    formdata.append("description", description);
-    formdata.append("price", price);
-    formdata.append("image", image);
-    formdata.append("category", category);
-    formdata.append("inStock", inStock.toString());
-
     try {
       setLoading(true);
-      const response = await axios.post("/api/product", formdata, {
-        headers: { "Content-Type": "application/json" }
+      const form = new FormData();
+      form.append("name", name);
+      form.append("description", description);
+      form.append("price", price);
+      form.append("category", category);
+      form.append("inStock", inStock.toString());
+      productImage0 && form.append("productImage0", productImage0);
+      productImage1 && form.append("productImage1", productImage1);
+      productImage2 && form.append("productImage2", productImage2);
+      productImage3 && form.append("productImage3", productImage3);
+      const response = await axios.post("/api/product", form, {
+        headers: { "Content-Type": "multipart/form-data" }
       });
       console.log("response", response);
       console.log("response data", response.data);
@@ -40,8 +47,126 @@ const AddProduct = () => {
   return (
     <div>
       <div className="max-w-xl mx-auto p-4">
+        {loading && <LoadingScreen />}
         <h1 className="text-2xl font-semibold mb-4">Create Product</h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex flex-row  md:justify-normal justify-center items-center gap-3">
+            <label
+              htmlFor="productImage0"
+              className="border-2 border-dashed w-16 h-16 md:w-32 md:h-32 flex justify-center items-center"
+            >
+              <img
+                src={
+                  productImage0
+                    ? URL.createObjectURL(productImage0)
+                    : "/Upload.png"
+                }
+                className={`${
+                  productImage0 != null
+                    ? "w-full h-full"
+                    : "w-9 h-9 md:w-16 md:h-16"
+                }`}
+                alt=""
+              />
+              <input
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setProductImage0(file);
+                }}
+                type="file"
+                accept="image/*"
+                name="productImage0"
+                id="productImage0"
+                hidden
+              />
+            </label>
+            <label
+              htmlFor="productImage1"
+              className="border-2 border-dashed w-16 h-16 md:w-32 md:h-32 flex justify-center items-center"
+            >
+              <img
+                src={
+                  productImage1
+                    ? URL.createObjectURL(productImage1)
+                    : "/Upload.png"
+                }
+                className={`${
+                  productImage1 != null
+                    ? "w-full h-full"
+                    : "w-9 h-9 md:w-16 md:h-16"
+                }`}
+                alt=""
+              />
+              <input
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setProductImage1(file);
+                }}
+                type="file"
+                id="productImage1"
+                accept="image/*"
+                name="productImage1"
+                hidden
+              />
+            </label>
+            <label
+              htmlFor="productImage2"
+              className="border-2 border-dashed w-16 h-16 md:w-32 md:h-32 flex justify-center items-center"
+            >
+              <img
+                src={
+                  productImage2
+                    ? URL.createObjectURL(productImage2)
+                    : "/Upload.png"
+                }
+                className={`${
+                  productImage2 != null
+                    ? "w-full h-full"
+                    : "w-9 h-9 md:w-16 md:h-16"
+                }`}
+                alt=""
+              />
+              <input
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setProductImage2(file);
+                }}
+                type="file"
+                id="productImage2"
+                accept="image/*"
+                hidden
+              />
+            </label>
+            <label
+              htmlFor="productImage3"
+              className="border-2 border-dashed w-16 h-16 md:w-32 md:h-32 flex justify-center items-center"
+            >
+              <img
+                src={
+                  productImage3
+                    ? URL.createObjectURL(productImage3)
+                    : "/Upload.png"
+                }
+                className={`${
+                  productImage3 != null
+                    ? "w-full h-full"
+                    : "w-9 h-9 md:w-16 md:h-16"
+                }`}
+                alt=""
+              />
+              <input
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setProductImage3(file);
+                }}
+                type="file"
+                id="productImage3"
+                accept="image/*"
+                hidden
+              />
+            </label>
+          </div>
+
           <input
             name="name"
             type="text"
@@ -67,32 +192,6 @@ const AddProduct = () => {
             required
             className={inputTextStyle}
           />
-          <input
-            name="image"
-            type="text"
-            placeholder="Image URL"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            className={inputTextStyle}
-          />
-          {/* <label
-          htmlFor="productImage0"
-          className="border-2 border-dashed w-16 h-16 md:w-32 md:h-32 flex justify-center items-center"
-        >
-          <img
-            src={image ? URL.createObjectURL(image) : images.Upload}
-            className={`${
-              image != null ? "w-full h-full" : "w-9 h-9 md:w-16 md:h-16"
-            }`}
-            alt=""
-          />
-          <input
-            onChange={(e) => setProductImage0(e.target.files[0])}
-            type="file"
-            id="productImage0"
-            hidden
-          />
-        </label> */}
           <input
             name="category"
             type="text"
