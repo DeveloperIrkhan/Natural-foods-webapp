@@ -1,5 +1,6 @@
 import Carousel from "@/components/Carousel/Carousel";
-import ProductGrid from "@/components/custom-ui/ProductGridProductGrid";
+import ProductGrid from "@/components/custom-ui/ProductGrid";
+
 
 const Home = () => {
   return (
