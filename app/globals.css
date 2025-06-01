@@ -156,4 +156,18 @@
   .custom-input {
     @apply border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color;
   }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .animate-blink {
+    animation: blink 1s step-start infinite;
+  }
 }

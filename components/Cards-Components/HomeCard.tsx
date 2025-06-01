@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -28,7 +27,6 @@ const HomeCard = ({
   buttonText = "Buy Now",
   onBuyNowClick
 }: IhomeCard) => {
-  console.log("id", id);
   return (
     <Link
       href={`/product-details/${id}`}

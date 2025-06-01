@@ -1,11 +1,20 @@
+"use client";
 import Container from "@/components/Container";
+import LoadingScreen from "@/components/Loading/LoadingScreen";
 import PageTitle from "@/components/PageTitle";
-import React from "react";
+import React, { useState } from "react";
 
 const page = () => {
+  const [loading, setLoading] = useState(true);
   return (
     <Container>
-              <PageTitle>Our Blogs</PageTitle>
+      {loading && (
+        <LoadingScreen
+          text="please wait sir!"
+          onComplete={() => setLoading(false)}
+        />
+      )}
+      <PageTitle>Our Blogs</PageTitle>
 
       <p className="py-3">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint quos
