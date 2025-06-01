@@ -3,14 +3,27 @@ import Carousel from "@/components/Carousel/Carousel";
 import Container from "@/components/Container";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import LoadingScreen from "@/components/Loading/LoadingScreen";
+import HomeCard from "@/components/Cards-Components/HomeCard";
 export const dynamic = "force-dynamic";
 
+interface IProductType {
+  _id: string;
+  name: string;
+  category: string;
+  images: string[];
+  inStock: boolean;
+  slug: string;
+  price: number;
+  description: string;
+}
 const Home = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<IProductType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setIsLoading(true);
         const response = await axios.get("/api/product");
         const data = response.data;
         console.log(data);
@@ -20,60 +33,33 @@ const Home = () => {
       } catch (error) {
         console.error("Failed to fetch products", error);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
 
     fetchProducts();
   }, []);
 
-  useEffect(() => {
-    console.log("loading", products, loading);
-  }, []);
-
   return (
     <>
       <Carousel />
-      <Container className="">
-        <p className="py-3">
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod modi
-          velit quia cumque corporis ex, blanditiis eligendi quo deserunt
-          asperiores neque rerum assumenda delectus aliquam, necessitatibus
-          numquam cupiditate? Perferendis dolorum fugiat neque blanditiis dolore
-          ullam, incidunt iure rerum obcaecati nemo ut totam dolor impedit
-          deserunt quae inventore officia sunt tenetur aperiam corrupti?
-          Accusamus cum consectetur, necessitatibus alias, tenetur nulla eius
-          facilis sapiente a earum inventore. Natus dolorem commodi quo sapiente
-          itaque voluptas incidunt delectus, asperiores nisi ex impedit quis,
-          expedita ad accusamus atque dolores beatae dignissimos laudantium
-          architecto eaque reiciendis nemo. Assumenda natus doloremque
-          consequatur? Ducimus nulla voluptatem distinctio? Sint?
-        </p>
-        <p className="py-3">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque
-          consectetur corrupti dolore optio quidem quisquam dolor similique
-          debitis quas labore, reiciendis omnis quo, illo numquam eaque, autem
-          sint soluta nobis.
-        </p>
-        <p className="py-3">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Repellendus
-          odit, recusandae perspiciatis officia sed tenetur, harum, accusamus ex
-          soluta vero incidunt labore reprehenderit laudantium. Sint fugiat
-          error laudantium porro cupiditate.
-        </p>
-        <p className="py-3">
-          Lorem ipsum dolor sit amet cons similique expedita, est sit architecto
-          aliquam consequuntur autem explicabo voluptas molestiae ratione rem?
-          Ad dolorum veritatis doloremque dolore quibusdam, molestias eaque iste
-          praesentium omnis amet officia alias! Velit, voluptate. Cumque unde,
-          eligendi suscipit ex sunt perspiciatis, molestiae aliquid maxime
-          nobis, debitis molestias voluptatum quidem. Ex repudiandae facere
-          deserunt voluptatum. Sed deleniti esse dolor odio! Ipsam, unde
-          exercitationem! Nulla qui sit officiis possimus, ex fuga recusandae
-          neque ut ad et tempore suscipit dicta corporis, ea autem at,
-          dignissimos eaque aspernatur necessitatibus delectus rem. Iste dolore
-          debitis suscipit excepturi.{" "}
-        </p>
+      <Container className="m-5">
+        {isLoading && <LoadingScreen />}
+        <div className="flex justify-center items-center">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:gap-4 md:gap-3 gap-2">
+            {products.map((product) => (
+              <HomeCard
+                id={product._id}
+                key={product._id}
+                image={product.images}
+                price={product.price}
+                title={product.name}
+                description={product.description}
+                buttonText="Add to Cart"
+              />
+            ))}
+          </div>
+        </div>
       </Container>
     </>
   );

@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import MenuButtons from "./MenuButtons";
-import AdminMenu from "./AdminMenu";
-import SearchBar from "./SearchBar";
 import CartIcon from "./CartIcon";
 import FavoriteButton from "./FavoriteButton";
 
@@ -26,10 +24,10 @@ const SimpleNavbar = () => {
       className={`fixed inset-x-0 bg-[#F8F3E8] top-0 left-0 right-0 z-50 py-5 md:px-6 
         transition-all duration-300
           ${
-           isScrolled
-             ? "hoverEffect block translate-y-0 shadow-lg text-coal"
-             : "hidden translate-y-full"
-         }`}
+            isScrolled
+              ? "hoverEffect block translate-y-0 shadow-lg text-coal"
+              : "hidden translate-y-full"
+          }`}
     >
       <div className="flex justify-center gap-6">
         <MenuButtons />

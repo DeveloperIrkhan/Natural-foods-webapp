@@ -1,9 +1,8 @@
-import fs from "fs/promises";
 import { NextRequest } from "next/server";
 import connectDB from "@/app/dbConfig/DbConnection";
 import Product from "@/app/models/productModel";
 import { uploadOnCloudinary } from "@/app/helpers/cloudinaryUpload";
-import path from "path";
+import { generateSlug } from "@/app/helpers/generateSlug";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
@@ -49,11 +48,21 @@ export async function POST(req: NextRequest) {
         }
       }
     }
+    //creating slugs
+    const existingProducts = await Product.find({}, "slug").lean();
+    // .lean() for plain JS objects, faster
+    const existingProductSlugs = existingProducts.map((p) => p.slug);
+    const createdSlug: string = generateSlug({
+      name,
+      existingSlugs: existingProductSlugs
+    });
+    console.log("createdSlug", createdSlug);
     const newProduct = new Product({
       name,
       description,
       price,
       category,
+      slug: createdSlug,
       images: ImageArray,
       inStock
     });

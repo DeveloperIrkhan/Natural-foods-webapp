@@ -8,7 +8,6 @@ const LoadingScreen = () => {
       className="z-50 w-screen h-screen fixed top-0 left-0 flex justify-center 
             items-center bg-darkColor/70 backdrop-blur-sm text-2xl"
     >
-      <span className="animate-blink ml-1"> | </span>
       <span>
         <Image
           src={images.Spinner}

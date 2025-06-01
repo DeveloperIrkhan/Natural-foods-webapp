@@ -1,5 +1,4 @@
 import speakeasy from "speakeasy";
-import qrcode from "qrcode";
 import { NextRequest, NextResponse } from "next/server";
 import User from "@/app/models/userModel";
 import connectDB from "@/app/dbConfig/DbConnection";

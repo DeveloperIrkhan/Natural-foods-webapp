@@ -1,12 +1,19 @@
 "use client";
 import LoadingScreen from "@/components/Loading/LoadingScreen";
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+interface Category {
+  _id: string;
+  name: string;
+  slug: string;
+  description: string;
+}
 const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState<Category[]>([]);
   const [inStock, setInStock] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
@@ -27,6 +34,7 @@ const AddProduct = () => {
       form.append("price", price);
       form.append("category", category);
       form.append("inStock", inStock.toString());
+      console.log("category passing", category);
       productImage0 && form.append("productImage0", productImage0);
       productImage1 && form.append("productImage1", productImage1);
       productImage2 && form.append("productImage2", productImage2);
@@ -44,6 +52,23 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
+  const fetchCategory = async () => {
+    try {
+      setLoading(true);
+      const categories = await axios.get("/api/category");
+      setCategories(categories?.data?.categories);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    fetchCategory();
+  }, []);
+  useEffect(() => {
+    console.log(categories);
+  }, [categories]);
   return (
     <div>
       <div className="max-w-xl mx-auto p-4">
@@ -192,14 +217,29 @@ const AddProduct = () => {
             required
             className={inputTextStyle}
           />
-          <input
-            name="category"
-            type="text"
-            placeholder="Category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className={inputTextStyle}
-          />
+          <div className="flex flex-col gap-3 my-2">
+            <div className={`${inputTextStyle} w-[50%]`}>
+              <select
+                onChange={(e) => {
+                  setCategory(e.target.value);
+                }}
+                className="form-control w-full"
+              >
+                {categories &&
+                  categories.map((item) => {
+                    return (
+                      <option
+                        className="w-full"
+                        key={item._id}
+                        value={item._id}
+                      >
+                        {item.name}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+          </div>
           <label className="flex items-center space-x-2">
             <input
               name="inStock"
