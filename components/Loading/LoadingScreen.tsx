@@ -29,15 +29,17 @@ const LoadingScreen = ({ text, onComplete }: ILoadingScreenProps) => {
             items-center bg-darkColor/70 backdrop-blur-sm text-2xl"
     >
       <div className="flex flex-col justify-center items-center">
-        <p className="bg-primary-color/70 rounded-xl px-4 py-1 backdrop-blur-sm text-xl md:text-2xl flex items-center justify-center">
-          <span>{loadingText}</span>
-          <span className="animate-blink ml-1"> | </span>
-        </p>
         <Image
           src={images.Spinner}
           alt="Loading Spinner"
           className="w-36 h-3w-36"
         />
+        {loadingText && (
+          <p className="bg-primary-color/70 rounded-xl px-4 py-1 backdrop-blur-sm text-xl md:text-2xl flex items-center justify-center">
+            <span>{loadingText}</span>
+            <span className="animate-blink ml-1"> | </span>
+          </p>
+        )}
       </div>
     </div>
   );

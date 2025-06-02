@@ -83,8 +83,8 @@ const UserAuth = () => {
                   <Image
                     alt="avatorUrl"
                     src={images.Camera}
-                    className={`absolute w-7 h-7 ${
-                      avatorUrl ? "hidden" : "opacity-80 block"
+                    className={`absolute top-0 left-0 right-0 bottom-0 z-50 m-auto w-7 h-7 ${
+                      avatorUrl ? "hidden" : "opacity-100 block"
                     }`}
                     width={80}
                     height={80}

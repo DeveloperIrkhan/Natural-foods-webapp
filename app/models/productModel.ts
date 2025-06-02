@@ -4,13 +4,14 @@ export interface IProductModel extends Document {
   name: string;
   description: string;
   price: number;
-  image: string;
+  images: string[];
   slug: string;
   category: string;
+  productStatus: string;
   inStock: boolean;
 }
 
-const ProducrtSchema = new mongoose.Schema(
+const ProductSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String, required: true },
@@ -28,6 +29,7 @@ const ProducrtSchema = new mongoose.Schema(
       ref: "Category",
       required: [true, "Product must belong to a category"]
     },
+    productStatus: { type: String, default: "new arrival", required: true },
     inStock: { type: Boolean, default: true }
   },
   { timestamps: true }
@@ -35,6 +37,6 @@ const ProducrtSchema = new mongoose.Schema(
 
 const Product =
   mongoose.models.Product ||
-  mongoose.model<IProductModel>("Product", ProducrtSchema);
+  mongoose.model<IProductModel>("Product", ProductSchema);
 
 export default Product;

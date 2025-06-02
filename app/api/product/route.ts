@@ -32,11 +32,20 @@ export async function POST(req: NextRequest) {
     const formData = await req.formData();
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
+    const productStatus = formData.get("productStatus") as string;
     const price = parseFloat(formData.get("price") as string);
     const category = formData.get("category") as string;
     const inStockRaw = formData.get("inStock") as string;
     const inStock = inStockRaw === "true"; // convert from string
-
+    console.log(
+      "formData",
+      name,
+      description,
+      productStatus,
+      price,
+      category,
+      inStock
+    );
     const ImageArray: string[] = [];
     for (let i = 0; i <= 4; i++) {
       const file = formData.get(`productImage${i}`) as File;
@@ -56,7 +65,7 @@ export async function POST(req: NextRequest) {
       name,
       existingSlugs: existingProductSlugs
     });
-    console.log("createdSlug", createdSlug);
+    // console.log("createdSlug", createdSlug);
     const newProduct = new Product({
       name,
       description,
@@ -64,6 +73,7 @@ export async function POST(req: NextRequest) {
       category,
       slug: createdSlug,
       images: ImageArray,
+      productStatus,
       inStock
     });
     const savingProduct = new Product(newProduct);

@@ -37,5 +37,8 @@ export const QuickLinks = [
 export const categoriesData = [
   { title: "Cooking Oil", href: "CookingOil" },
   { title: "Hair Oil", href: "HairOil" },
-  { title: "Moringa Power", href: "MoringaPower" },
+  { title: "Moringa Power", href: "MoringaPower" }
 ];
+
+
+export const ProductStatuses = ["sale", "new arrival", "best seller"];

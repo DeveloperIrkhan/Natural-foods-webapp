@@ -1,4 +1,5 @@
 "use client";
+import { ProductStatuses } from "@/app/constants/constants";
 import LoadingScreen from "@/components/Loading/LoadingScreen";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ const AddProduct = () => {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [productStatus, setProductStatus] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
   const [inStock, setInStock] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -22,6 +24,9 @@ const AddProduct = () => {
   const [productImage2, setProductImage2] = useState<File | null>(null);
   const [productImage3, setProductImage3] = useState<File | null>(null);
 
+  useEffect(() => {
+    console.log(productStatus);
+  }, [productStatus]);
   const inputTextStyle =
     "border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color";
   const handleSubmit = async (e: any) => {
@@ -33,6 +38,7 @@ const AddProduct = () => {
       form.append("description", description);
       form.append("price", price);
       form.append("category", category);
+      form.append("productStatus", productStatus);
       form.append("inStock", inStock.toString());
       console.log("category passing", category);
       productImage0 && form.append("productImage0", productImage0);
@@ -237,6 +243,24 @@ const AddProduct = () => {
                       </option>
                     );
                   })}
+              </select>
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 my-2">
+            <div className={`${inputTextStyle} w-[50%]`}>
+              <select
+                onChange={(e) => {
+                  setProductStatus(e.target.value);
+                }}
+                className="form-control w-full"
+              >
+                {ProductStatuses.map((item, index) => {
+                  return (
+                    <option className="w-full" key={index} value={item}>
+                      {item}
+                    </option>
+                  );
+                })}
               </select>
             </div>
           </div>
