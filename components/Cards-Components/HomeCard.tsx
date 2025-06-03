@@ -1,16 +1,23 @@
+"use client";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
+import AddtoWishList from "../AddtoWishList";
+import { StarIcon } from "lucide-react";
+import PricePreview from "../PricePreview";
 
 interface IhomeCard {
   className?: string;
   id: string;
+  slug: string;
   image: string[];
   title: string;
   subtitle?: string;
   description: string;
   price: number;
+  discountPrice: number;
+  inStock: boolean;
   currencySymbol?: string;
   productStatus: string;
   buttonText?: string;
@@ -20,10 +27,13 @@ interface IhomeCard {
 const HomeCard = ({
   className,
   id,
+  slug,
   image,
   title,
+  inStock,
   subtitle, // Destructure subtitle
   price,
+  discountPrice,
   description,
   productStatus,
   currencySymbol = "Rs/-",
@@ -32,7 +42,7 @@ const HomeCard = ({
 }: IhomeCard) => {
   return (
     <Link
-      href={`/product-details/${id}`}
+      href={`/product-details/${slug}`}
       className={cn(
         "flex flex-col md:flex-row group bg-white rounded-lg shadow-xl",
         "overflow-hidden",
@@ -41,18 +51,25 @@ const HomeCard = ({
         className
       )}
     >
-      <AnimatePresence key={id}>
+      <AnimatePresence>
         <motion.div
+          key={id}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="w-full  h-48 md:w-1/2 md:h-auto bg-white flex items-center justify-center relative"
         >
           {productStatus && (
-            <div className="bg-primary-color border text-white px-2 py-1 rounded-md text-sm absolute z-10 top-2 left-3 hoverEffect group-hover:text-primary-color group-hover:bg-white group-hover:border-primary-color">
+            <div
+              className="bg-primary-color border border-primary-color text-white px-2 
+            py-0.5 rounded-md text-sm absolute z-10 top-2 left-3 hoverEffect group-hover:text-primary-color group-hover:bg-white group-hover:border-primary-color"
+            >
               {productStatus}
             </div>
           )}
+          <div className="">
+            <AddtoWishList />
+          </div>
           <div className="relative w-full h-full overflow-hidden">
             <img
               src={image[0] || "/placeholder-image.jpg"} // Use actual image or a placeholder
@@ -82,16 +99,41 @@ const HomeCard = ({
               {description}
             </p>
           </div>
+          <div className="flex items-center gap-2">
+            <div className="flex gap-1">
+              {[...Array(5)].map((_, index) => (
+                <StarIcon
+                  key={index}
+                  fill={index > 3 ? "bg-gray-200" : "#b4c635"}
+                  className={`${
+                    index > 4 ? "text-secondary-color" : "text-primary-color"
+                  }`}
+                  size={12}
+                />
+              ))}
+            </div>
+            <div className="flex text-gray-600 text-xs tracking-wider">
+              5 Reviews
+            </div>
+          </div>
+          <div
+            className={`flex text-xs tracking-wider ${
+              inStock ? "text-gray-600" : "text-red-600"
+            }`}
+          >
+            {inStock ? "in stock" : "out of stock"}
+          </div>
 
           <div className="flex justify-between items-center mt-4 md:mt-0 gap-2">
-            <span className="text-sm font-bold text-gray-800">
-              {currencySymbol}
-              {price.toFixed(2)}
-            </span>
+            <div className="flex gap-2 justify-center items-center">
+              {/* <p className="text-sm text-gray-700 ">{currencySymbol}</p> */}
+              <PricePreview price={price} discountPrice={discountPrice} />
+            </div>
             <button
               onClick={onBuyNowClick}
               className="bg-primary-color text-white font-semibold py-3 px-6 rounded-lg shadow-md
-                       hover:bg-secondary-color transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-color focus:ring-opacity-50"
+                       hover:bg-secondary-color transition-colors duration-200 focus:outline-none focus:ring-2
+                        focus:ring-primary-color focus:ring-opacity-50"
             >
               {buttonText}
             </button>

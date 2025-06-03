@@ -4,6 +4,7 @@ export interface IProductModel extends Document {
   name: string;
   description: string;
   price: number;
+  discountPrice: number;
   images: string[];
   slug: string;
   category: string;
@@ -16,6 +17,7 @@ const ProductSchema = new mongoose.Schema(
     name: { type: String, required: true },
     description: { type: String, required: true },
     price: { type: Number, required: true },
+    discountPrice: { type: Number, required: false, default: 0 },
     slug: {
       type: String,
       required: [true, "Product slug is required"],

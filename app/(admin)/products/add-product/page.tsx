@@ -13,8 +13,9 @@ const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("");
   const [category, setCategory] = useState("");
-  const [productStatus, setProductStatus] = useState("");
+  const [productStatus, setProductStatus] = useState("sale");
   const [categories, setCategories] = useState<Category[]>([]);
   const [inStock, setInStock] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -37,6 +38,7 @@ const AddProduct = () => {
       form.append("name", name);
       form.append("description", description);
       form.append("price", price);
+      form.append("discountPrice", discountPrice);
       form.append("category", category);
       form.append("productStatus", productStatus);
       form.append("inStock", inStock.toString());
@@ -227,6 +229,35 @@ const AddProduct = () => {
             <div className={`${inputTextStyle} w-[50%]`}>
               <select
                 onChange={(e) => {
+                  setProductStatus(e.target.value);
+                }}
+                className="form-control w-full"
+              >
+                {ProductStatuses.map((item, index) => {
+                  return (
+                    <option className="w-full" key={index} value={item}>
+                      {item}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          </div>
+          {productStatus === "sale" && (
+            <input
+              name="discountPrice"
+              type="number"
+              placeholder="discount Price"
+              value={discountPrice}
+              onChange={(e) => setDiscountPrice(e.target.value)}
+              required
+              className={inputTextStyle}
+            />
+          )}
+          <div className="flex flex-col gap-3 my-2">
+            <div className={`${inputTextStyle} w-[50%]`}>
+              <select
+                onChange={(e) => {
                   setCategory(e.target.value);
                 }}
                 className="form-control w-full"
@@ -246,24 +277,7 @@ const AddProduct = () => {
               </select>
             </div>
           </div>
-          <div className="flex flex-col gap-3 my-2">
-            <div className={`${inputTextStyle} w-[50%]`}>
-              <select
-                onChange={(e) => {
-                  setProductStatus(e.target.value);
-                }}
-                className="form-control w-full"
-              >
-                {ProductStatuses.map((item, index) => {
-                  return (
-                    <option className="w-full" key={index} value={item}>
-                      {item}
-                    </option>
-                  );
-                })}
-              </select>
-            </div>
-          </div>
+
           <label className="flex items-center space-x-2">
             <input
               name="inStock"

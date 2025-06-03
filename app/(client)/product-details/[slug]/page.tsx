@@ -1,17 +1,20 @@
-"use client"
+"use client";
 import Container from "@/components/Container";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface ProductDetailsPageProps {
   params: {
-    id: string;
+    slug: string;
   };
 }
 const page = async ({ params }: ProductDetailsPageProps) => {
-  const { id } = params;
+  const { slug } = params;
+  useEffect(() => {
+    console.log("slug", slug);
+  }, [slug]);
   return (
     <Container>
-      <p>i'm passing this id :{id} here</p>
+      <p>i'm passing this id :{slug} here</p>
     </Container>
   );
 };

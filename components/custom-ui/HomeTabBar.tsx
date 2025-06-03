@@ -13,6 +13,7 @@ interface IProductType {
   productStatus: string;
   slug: string;
   price: number;
+  discountPrice: number;
   description: string;
 }
 interface ICategory {
@@ -51,7 +52,7 @@ const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
         const data = response.data;
         if (data.success) {
           let productData = data.product;
-
+          console.log(productData);
           const latestProducts = productData
             .sort(
               (a: any, b: any) =>
@@ -124,13 +125,16 @@ const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
         <>
           <div className="flex justify-center items-center">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:gap-4 md:gap-3 gap-2">
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <HomeCard
-                  key={product._id}
+                  key={product._id + index}
                   id={product._id}
+                  slug={product.slug}
                   productStatus={product.productStatus}
                   image={product.images}
                   price={product.price}
+                  discountPrice={product.discountPrice}
+                  inStock={product.inStock}
                   title={product.name}
                   description={product.description}
                   buttonText="Add to Cart"
