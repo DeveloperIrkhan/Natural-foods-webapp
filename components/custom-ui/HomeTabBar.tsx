@@ -90,7 +90,7 @@ const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
             <button
               key={item._id.toString() || `${item.name}-${index}`}
               onClick={() => onTabSelected(`${item._id}`)}
-              className={`border border-primary-colorpx-2 py-1 text-sm md:px-4 md:py-2 rounded-full
+              className={`border border-primary-color px-2 py-1 text-sm md:px-4 md:py-2 rounded-full
                 hoverEffect hover:bg-primary-color hover:text-white ${
                   selectedTab === item.name
                     ? "bg-primary-color text-white"
