@@ -9,11 +9,11 @@ export async function GET(req: NextRequest) {
   await connectDB();
 
   try {
-    const product = await Product.find();
+    const products = await Product.find();
     return Response.json({
       success: true,
       message: "product fetched",
-      product
+      products
     });
   } catch (error) {
     return Response.json(
@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
     return Response.json(
       {
         success: false,
-        message: "product not added error"
+        message: "error while adding product"
       },
       { status: 500 }
     );

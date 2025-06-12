@@ -1,3 +1,4 @@
+import { ICategoryModel } from "@/interfaces/product.interface";
 import mongoose from "mongoose";
 
 const CategorySchema = new mongoose.Schema(
@@ -26,4 +27,5 @@ const CategorySchema = new mongoose.Schema(
 );
 
 export const Category =
-  mongoose.models.Category || mongoose.model("Category", CategorySchema);
+  mongoose.models.Category ||
+  mongoose.model<ICategoryModel>("Category", CategorySchema);

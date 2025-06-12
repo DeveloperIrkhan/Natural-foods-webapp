@@ -6,10 +6,11 @@ import React from "react";
 import AddtoWishList from "../AddtoWishList";
 import { StarIcon } from "lucide-react";
 import PricePreview from "../PricePreview";
+import mongoose from "mongoose";
 
 interface IhomeCard {
   className?: string;
-  id: string;
+  _id: mongoose.Types.ObjectId;
   slug: string;
   image: string[];
   title: string;
@@ -26,7 +27,7 @@ interface IhomeCard {
 
 const HomeCard = ({
   className,
-  id,
+  _id,
   slug,
   image,
   title,
@@ -36,7 +37,6 @@ const HomeCard = ({
   discountPrice,
   description,
   productStatus,
-  currencySymbol = "Rs/-",
   buttonText = "Buy Now",
   onBuyNowClick
 }: IhomeCard) => {
@@ -53,7 +53,7 @@ const HomeCard = ({
     >
       <AnimatePresence>
         <motion.div
-          key={id}
+          key={_id}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}

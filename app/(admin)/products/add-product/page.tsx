@@ -1,14 +1,9 @@
 "use client";
 import { ProductStatuses } from "@/app/constants/constants";
 import LoadingScreen from "@/components/Loading/LoadingScreen";
+import { ICategoryModel } from "@/interfaces/product.interface";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-interface Category {
-  _id: string;
-  name: string;
-  slug: string;
-  description: string;
-}
 const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -16,7 +11,7 @@ const AddProduct = () => {
   const [discountPrice, setDiscountPrice] = useState("");
   const [category, setCategory] = useState("");
   const [productStatus, setProductStatus] = useState("sale");
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ICategoryModel[]>([]);
   const [inStock, setInStock] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");

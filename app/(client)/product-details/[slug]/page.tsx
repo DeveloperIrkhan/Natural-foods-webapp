@@ -1,14 +1,11 @@
 "use client";
 import Container from "@/components/Container";
+import { useParams } from "next/navigation";
 import React, { useEffect } from "react";
 
-interface ProductDetailsPageProps {
-  params: {
-    slug: string;
-  };
-}
-const page = async ({ params }: ProductDetailsPageProps) => {
-  const { slug } = params;
+const page = () => {
+  const params = useParams();
+  const slug = params?.slug as string;
   useEffect(() => {
     console.log("slug", slug);
   }, [slug]);

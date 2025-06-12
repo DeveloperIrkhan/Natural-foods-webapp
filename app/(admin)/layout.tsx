@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Link from "next/link";
 import AdminnAreaNav from "@/components/Admin/AdminnAreaNav";
+import { ToastContainer } from "react-toastify";
 // export const metadata: Metadata = {
 //   title: {
 //     template: "admin panel | eshopping Store",
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <div className="flex min-h-screen bg-white">
       {/* Sidebar */}
+      <ToastContainer />
       <aside className="w-64 bg-white border-r hidden md:block">
         <div className="p-6 border-b">
           <h1 className="text-2xl font-bold text-primary-color">Admin Panel</h1>

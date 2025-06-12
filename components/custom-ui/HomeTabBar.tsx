@@ -4,86 +4,79 @@ import Container from "../Container";
 import LoadingScreen from "../Loading/LoadingScreen";
 import HomeCard from "../Cards-Components/HomeCard";
 import NoItemFounnd from "../NoItemFounnd";
-interface IProductType {
-  _id: string;
-  name: string;
-  category: string;
-  images: string[];
-  inStock: boolean;
-  productStatus: string;
-  slug: string;
-  price: number;
-  discountPrice: number;
-  description: string;
-}
-interface ICategory {
-  _id: string;
-  name: string;
-  description: string;
-}
+import { ICategoryModel, IProductModel } from "@/interfaces/product.interface";
+import { useGetProductQuery } from "@/features/product/productAPI";
+import { useGetCategoryQuery } from "@/features/category/categoryAPI";
+
 interface IHomeTabBar {
   selectedTab: string;
   onTabSelected: (tab: string) => void;
 }
 const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
-  const [products, setProducts] = useState<IProductType[]>([]);
+  const [products, setProducts] = useState<IProductModel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [category, setCategory] = useState<ICategory[]>([]);
+  const [category, setCategory] = useState<ICategoryModel[]>([]);
 
-  const fetchCategory = async () => {
-    try {
-      setIsLoading(true);
-      const categories = await axios.get("/api/category");
-      setCategory(categories?.data?.categories);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    } finally {
-      setIsLoading(false);
+  const {
+    data: Products,
+    isLoading: productsLoading,
+    error: productsError,
+    isError: isProductsError,
+    isSuccess: isProductsSuccess
+  } = useGetProductQuery();
+
+  const {
+    data: Categories,
+    isLoading: categoriesLoading,
+    error: categoriesError,
+    isError: isCategoriesError,
+    isSuccess: isCategoriesSuccess
+  } = useGetCategoryQuery();
+
+  useEffect(() => {
+    setIsLoading(productsLoading);
+  }, [productsLoading]);
+
+  useEffect(() => {
+    if (isProductsError) {
+      console.error("Error fetching products:", productsError);
     }
-  };
-  useEffect(() => {
-    fetchCategory();
-  }, []);
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setIsLoading(true);
-        const response = await axios.get("/api/product");
-        const data = response.data;
-        if (data.success) {
-          let productData = data.product;
-          console.log(productData);
-          const latestProducts = productData
-            .sort(
-              (a: any, b: any) =>
-                new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
-            )
-            .slice(0, 6);
-          if (selectedTab === "See all") {
-            setProducts(latestProducts);
-          } else {
-            setProducts(
-              latestProducts.filter(
-                (item: any) => item.category === selectedTab
-              )
-            );
-          }
-        }
-      } catch (error) {
-        console.error("Failed to fetch products", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    if (isProductsSuccess && Products.products) {
+      console.log("API response for latestProducts:", Products);
 
-    fetchProducts();
-  }, [selectedTab]);
+      const latestProducts = [...Products.products]
+        .sort(
+          (a, b) =>
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        .slice(0, 6);
+      if (selectedTab === "See all") {
+        setProducts(latestProducts);
+      } else {
+        setProducts(
+          latestProducts.filter((item: any) => item.category === selectedTab)
+        );
+      }
+    }
+  }, [isProductsSuccess, selectedTab]);
+
+  useEffect(() => {
+    if (isCategoriesError) {
+      console.error("Error fetching categories:", categoriesError);
+    }
+
+    if (isCategoriesSuccess && Categories?.categories) {
+      console.log("API response for categories:", Categories);
+      const latestCategories = [...Categories.categories];
+      setCategory(latestCategories);
+    }
+  }, [isCategoriesSuccess, Categories]);
+
   return (
     <Container className="m-5">
       {isLoading && (
         <LoadingScreen
-          text="please wait products is fetching...!"
+          text="please wait we are contacting with database!"
           onComplete={() => {
             if (products && products.length > 0) {
               setIsLoading(false);
@@ -95,7 +88,7 @@ const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
         <div className="flex flex-wrap gap-3">
           {category.map((item, index) => (
             <button
-              key={item._id || `${item.name}-${index}`}
+              key={item._id.toString() || `${item.name}-${index}`}
               onClick={() => onTabSelected(`${item._id}`)}
               className={`border border-primary-colorpx-2 py-1 text-sm md:px-4 md:py-2 rounded-full
                 hoverEffect hover:bg-primary-color hover:text-white ${
@@ -127,8 +120,8 @@ const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:gap-4 md:gap-3 gap-2">
               {products.map((product, index) => (
                 <HomeCard
-                  key={product._id + index}
-                  id={product._id}
+                  key={product._id.toString()}
+                  _id={product._id}
                   slug={product.slug}
                   productStatus={product.productStatus}
                   image={product.images}

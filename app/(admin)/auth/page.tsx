@@ -6,7 +6,7 @@ import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-
+import { toast } from "react-toastify";
 const UserAuth = () => {
   const [currentState, setCurrentState] = useState("Sign Up");
   const [name, setName] = useState<string>("");
@@ -29,8 +29,10 @@ const UserAuth = () => {
       setIsLoading(true);
       if (currentState === "Sign Up") {
         const response = await axios.post("/api/auth/signup", formData);
+        const { message } = response.data;
         console.log("Response from backend:", response.data);
         if (response.data.success === true) {
+          toast.success(message || "user signup successfully");
           console.log("Raw response:", response);
           localStorage.setItem("loggedInUser", response.data.createdUser);
           localStorage.setItem("email", email);
@@ -38,8 +40,10 @@ const UserAuth = () => {
         }
       } else {
         const response = await axios.post("/api/auth/signin", formData);
+        const { message } = response.data;
         console.log("Response from backend:", response.data);
         if (response.data.success === true) {
+          toast.success(message);
           console.log("Raw response:", response.data.loggedInUser);
           localStorage.setItem(
             "loggedInUser",
@@ -48,10 +52,11 @@ const UserAuth = () => {
           localStorage.setItem("email", email);
           setCurrentState("Log in");
           router.push("/setup-2fa");
-        }
+        } else toast.error(message);
       }
     } catch (error) {
       console.log(error);
+      toast.error("something went wrong");
     } finally {
       setIsLoading(false);
     }

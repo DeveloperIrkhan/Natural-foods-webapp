@@ -6,7 +6,6 @@ interface IPricePreview {
   discountPrice: number;
 }
 const PricePreview = ({ price, discountPrice }: IPricePreview) => {
-  console.log(price, discountPrice);
   return (
     <div className="flex gap-3 items-center">
       <span
@@ -14,11 +13,14 @@ const PricePreview = ({ price, discountPrice }: IPricePreview) => {
           discountPrice > 0 ? "line-through" : "font-medium"
         }`}
       >
-        <PriceFormater amount={price} className={"text-sm text-gray-600"}/>
+        <PriceFormater amount={price} className={"text-sm text-gray-600"} />
       </span>
-      { discountPrice > 0 && (
+      {discountPrice > 0 && (
         <span className="">
-          <PriceFormater amount={discountPrice} className={"text-sm font-bold text-red-600"}/>
+          <PriceFormater
+            amount={discountPrice}
+            className={"text-sm font-bold text-red-600"}
+          />
         </span>
       )}
     </div>
