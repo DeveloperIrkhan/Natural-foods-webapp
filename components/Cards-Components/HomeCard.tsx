@@ -4,13 +4,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 import AddtoWishList from "../AddtoWishList";
-import { StarIcon } from "lucide-react";
+import { CarTaxiFront, ShoppingCart, StarIcon } from "lucide-react";
 import PricePreview from "../PricePreview";
-import mongoose from "mongoose";
 
 interface IhomeCard {
   className?: string;
-  _id: mongoose.Types.ObjectId;
+  _id: string;
   slug: string;
   image: string[];
   title: string;
@@ -125,17 +124,17 @@ const HomeCard = ({
           </div>
 
           <div className="flex justify-between items-center mt-4 md:mt-0 gap-2">
-            <div className="flex gap-2 justify-center items-center">
+            <div className="flex gap-2 text-xs justify-start items-center flex-nowrap">
               {/* <p className="text-sm text-gray-700 ">{currencySymbol}</p> */}
               <PricePreview price={price} discountPrice={discountPrice} />
             </div>
             <button
               onClick={onBuyNowClick}
-              className="bg-primary-color text-white font-semibold py-3 px-6 rounded-lg shadow-md
+              className="bg-primary-color text-white font-semibold py-1 px-3 rounded-lg shadow-md
                        hover:bg-secondary-color transition-colors duration-200 focus:outline-none focus:ring-2
                         focus:ring-primary-color focus:ring-opacity-50"
             >
-              {buttonText}
+              <ShoppingCart />
             </button>
           </div>
         </motion.div>

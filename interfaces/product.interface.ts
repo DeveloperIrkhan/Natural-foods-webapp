@@ -10,8 +10,7 @@ export interface IProductModel extends Document {
   category: string;
   productStatus: string;
   inStock: boolean;
-  createdAt:Date;
-  
+  createdAt: Date;
 }
 
 export interface ICategoryModel extends Document {
@@ -19,4 +18,25 @@ export interface ICategoryModel extends Document {
   name: string;
   slug: string;
   description: string;
+}
+
+export interface ICategory {
+  _id: string;
+  name: string;
+  slug: string;
+  description: string;
+}
+
+export interface IProduct {
+  _id: string;
+  name: string;
+  description: string;
+  price: number;
+  discountPrice: number;
+  images: string[];
+  slug: string;
+  category: string;
+  productStatus: string;
+  inStock: boolean;
+  createdAt: Date;
 }

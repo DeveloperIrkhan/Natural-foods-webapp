@@ -1,8 +1,8 @@
-import { IProductModel } from "@/interfaces/product.interface";
+import { IProduct } from "@/interfaces/product.interface";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface ProductResponse {
-  products: IProductModel[];
+  products: IProduct[];
 }
 
 export const productAPI = createApi({

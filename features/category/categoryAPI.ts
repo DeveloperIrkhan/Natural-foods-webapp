@@ -1,8 +1,8 @@
-import { ICategoryModel } from "@/interfaces/product.interface";
+import { ICategory } from "@/interfaces/product.interface";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface categoryResponse {
-  categories: ICategoryModel[];
+  categories: ICategory[];
 }
 
 export const categoryAPI = createApi({
