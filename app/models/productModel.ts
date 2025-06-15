@@ -15,6 +15,7 @@ const ProductSchema = new mongoose.Schema(
       trim: true
     },
     images: { type: [String], default: [], required: true },
+    quantity: { type: [String], required: true },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",

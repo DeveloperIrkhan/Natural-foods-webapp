@@ -15,11 +15,12 @@ const AddProduct = () => {
   const [inStock, setInStock] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
+  const [quantity, setQuantity] = useState<string[]>([]);
   const [productImage0, setProductImage0] = useState<File | null>(null);
   const [productImage1, setProductImage1] = useState<File | null>(null);
   const [productImage2, setProductImage2] = useState<File | null>(null);
   const [productImage3, setProductImage3] = useState<File | null>(null);
-
+  const sizes = ["250ml", "500ml", "1lt", "100g", "250g", "500g", "800g"];
   useEffect(() => {
     console.log(productStatus);
   }, [productStatus]);
@@ -36,6 +37,7 @@ const AddProduct = () => {
       form.append("discountPrice", discountPrice);
       form.append("category", category);
       form.append("productStatus", productStatus);
+      form.append("quantity", JSON.stringify(quantity));
       form.append("inStock", inStock.toString());
       console.log("category passing", category);
       productImage0 && form.append("productImage0", productImage0);
@@ -55,6 +57,9 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    console.log(quantity);
+  }, [quantity]);
   const fetchCategory = async () => {
     try {
       setLoading(true);
@@ -220,6 +225,80 @@ const AddProduct = () => {
             required
             className={inputTextStyle}
           />
+          <div className="flex gap-4 mt-2">
+            {/* <div
+              onClick={() =>
+                setQuantity((prev) =>
+                  prev.includes("300ml")
+                    ? prev.filter((item) => item !== "300ml")
+                    : [...prev, "300ml"]
+                )
+              }
+            >
+              <p
+                className={`bg-gray-500 text-white hover:bg-gray-700 px-3 py-1 cursor-pointer ${
+                  quantity.includes("300ml") ? "bg-gray-900" : ""
+                }`}
+              >
+                300 ml
+              </p>
+            </div>
+            <div
+              onClick={() =>
+                setQuantity((prev) =>
+                  prev.includes("500ml")
+                    ? prev.filter((item) => item !== "500ml")
+                    : [...prev, "500ml"]
+                )
+              }
+            >
+              <p
+                className={`bg-gray-500 text-white hover:bg-gray-700 px-3 py-1 cursor-pointer ${
+                  quantity.includes("500ml") ? "bg-gray-900" : ""
+                }`}
+              >
+                500 ml
+              </p>
+            </div>
+            <div
+              onClick={() =>
+                setQuantity((prev) =>
+                  prev.includes("800ml")
+                    ? prev.filter((item) => item !== "800ml")
+                    : [...prev, "800ml"]
+                )
+              }
+            >
+              <p
+                className={`bg-gray-500 text-white hover:bg-gray-700 px-3 py-1 cursor-pointer ${
+                  quantity.includes("800ml") ? "bg-gray-900" : ""
+                }`}
+              >
+                800 ml
+              </p>
+            </div> */}
+
+            {sizes.map((Item, index) => (
+              <div
+                onClick={() => {
+                  setQuantity((prev) =>
+                    prev.includes(Item)
+                      ? prev.filter((size) => size !== Item)
+                      : [...prev, Item]
+                  );
+                }}
+                className=""
+                key={index}
+              >
+                <p
+                  className={`bg-gray-500 text-white hover:bg-gray-700 px-3 py-1 cursor-pointer
+                 ${quantity.includes(Item) ? "bg-gray-900" : ""}`}
+                >
+                  {Item}
+                </p>
+              </div>
+            ))}
+          </div>
           <div className="flex flex-col gap-3 my-2">
             <div className={`${inputTextStyle} w-[50%]`}>
               <select

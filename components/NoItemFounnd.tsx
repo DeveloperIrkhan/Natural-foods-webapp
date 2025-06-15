@@ -14,7 +14,7 @@ const NoItemFounnd = ({ selectedTab, className }: INoItemFound) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className={cn(
-        "flex flex-col items-center justify-center py-10 min-h-80 space-y-8 text-center bg-gray-100 rounded-lg w-full mt-10",
+        "flex flex-col items-center justify-center py-10 min-h-80 space-y-8 text-center bg-gray-100 rounded-lg w-full px-3 mt-10",
         className
       )}
     >
@@ -24,7 +24,7 @@ const NoItemFounnd = ({ selectedTab, className }: INoItemFound) => {
         transition={{ duration: 0.5 }}
       >
         <h2 className="text-xl font-medium text-gray-800">
-          No Product Found....
+          No Product Found for {selectedTab}
         </h2>
         <motion.p
           initial={{ opacity: 0 }}
@@ -32,7 +32,7 @@ const NoItemFounnd = ({ selectedTab, className }: INoItemFound) => {
           transition={{ duration: 0.5 }}
         >
           We&apos; re sorry, but there is not product found on the criteria at
-          the moment...
+          the moment
         </motion.p>
         <motion.div
           className="flex items-center justify-center gap-4"

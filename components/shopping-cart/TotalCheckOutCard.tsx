@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PageTitle, { Textsm } from "../PageTitle";
 
 const TotalCheckOutCard = () => {
@@ -6,6 +6,7 @@ const TotalCheckOutCard = () => {
   let discount = 140;
   let shippingcharges = 500;
   let total = subtotal - discount + shippingcharges;
+  const [checked, setChecked] = useState<boolean>(false);
   return (
     <div
       className="px-2 md:px-4 py-2 md:py-4 bg-white rounded-xl
@@ -38,7 +39,8 @@ const TotalCheckOutCard = () => {
         <input
           name="inStock"
           type="checkbox"
-          checked={true}
+          checked={checked}
+          onChange={(e) => setChecked(e.target.checked)}
           //   onChange={(e) => setInStock(e.target.checked)}
         />
         I agreed with the terms and conditions
