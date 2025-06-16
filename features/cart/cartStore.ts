@@ -1,6 +1,8 @@
 import { getWithExpiry, setWithExpiry } from "@/app/helpers/localStorage";
+import { IProduct } from "@/interfaces/product.interface";
 import { toast } from "react-toastify";
 import { create } from "zustand";
+import { useProductsStore } from "../product/productStore";
 export interface IItems {
   productId: string;
   productSize: string;
@@ -13,11 +15,19 @@ interface ICartStore {
   incrementQuantity: (productId: string, productSize: string) => void;
   decrementQuantity: (productId: string, productSize: string) => void;
   hydrateCartFromStorage: () => void;
+  getCartAmount: () => void;
+  getDiscountTotal: () => void;
   isHydrated: boolean;
+  totalAmountAfter: number;
+  settotalAmountAfter: (totalAmountAfter: number) => void;
 }
 export const useCartStore = create<ICartStore>((set, get) => ({
   // getting items from local storage for the firsttime
   isHydrated: false,
+  totalAmountAfter: 0,
+  settotalAmountAfter: (amount) => {
+    set({ totalAmountAfter: amount });
+  },
   items: [],
   hydrateCartFromStorage: () => {
     try {
@@ -103,7 +113,34 @@ export const useCartStore = create<ICartStore>((set, get) => ({
       set({ items: cartItems });
       setWithExpiry({ key: "cartItems", value: cartItems, timeInHours: 8 });
     }
+  },
+  getCartAmount: () => {
+    let totalAmount = 0;
+    const products = useProductsStore.getState().products;
+    let cartItems = [...get().items];
+    cartItems.forEach((item) => {
+      const product = products.find(
+        (singleProduct) => singleProduct._id === item.productId
+      );
+      if (!product) return;
+      const price = product.price;
+      totalAmount += price * item.Quantity;
+    });
+    return totalAmount;
+  },
+  getDiscountTotal: () => {
+    let discountAmount = 0;
+    const products = useProductsStore.getState().products;
+    let cartItems = [...get().items];
+    cartItems.forEach((item) => {
+      const product = products.find(
+        (singleProduct) => singleProduct._id === item.productId
+      );
+      if (!product) return;
+      discountAmount += product.price - product.discountPrice;
+      console.log("discountAmount", discountAmount);
+    });
+    return discountAmount;
   }
-
   // #end
 }));

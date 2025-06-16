@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PageTitle, { Textsm } from "../PageTitle";
+import { useCartStore } from "@/features/cart/cartStore";
+import PriceFormater from "../PriceFormater";
 
 const TotalCheckOutCard = () => {
-  let subtotal = 1190;
-  let discount = 140;
+  const {
+    getCartAmount,
+    getDiscountTotal,
+    settotalAmountAfter
+  } = useCartStore();
+  let subtotal = Number(getCartAmount());
+  let discount = Number(getDiscountTotal());
   let shippingcharges = 500;
   let total = subtotal - discount + shippingcharges;
+  useEffect(() => {
+    console.log("subtotal amount", total);
+    settotalAmountAfter(total);
+  }, [subtotal]);
+  useEffect(() => {
+    console.log("discount from state", discount);
+  }, [discount]);
   const [checked, setChecked] = useState<boolean>(false);
   return (
     <div
@@ -19,20 +33,23 @@ const TotalCheckOutCard = () => {
       <div className="flex flex-col font- font-semibold text-[15px]">
         <div className="flex items-center justify-between">
           <p>Subtotal</p>
-          <p>Rs/- {subtotal.toFixed(2)}</p>
+          <PriceFormater amount={subtotal} className="" />
         </div>
         <div className="flex items-center justify-between">
           <p>Discount</p>
-          <p className="text-red-500">Rs/- {discount.toFixed(2)}</p>
+          <PriceFormater amount={discount} className="text-red-500" />
         </div>
         <div className="flex items-center justify-between">
           <p>Shipping</p>
-          <p>Rs/- {shippingcharges.toFixed(2)}</p>
+          <PriceFormater amount={shippingcharges} className="font-semibold" />
         </div>
       </div>
       <hr className="my-5" />
-      <Textsm className="text-gray-700 text-[20px] font-bold">
-        Total Rs/- {total.toFixed(2)}
+      <Textsm className="">
+        <PriceFormater
+          amount={total}
+          className="text-gray-700 text-[20px] font-bold"
+        />
       </Textsm>
 
       <label className="flex items-center space-x-2 text-sm gap-3">

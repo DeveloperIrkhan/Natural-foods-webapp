@@ -39,13 +39,10 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
       </div>
       <div className="flex flex-col justify-around items-center">
         <h2 className="text-[12px] md:text-[14px] md:font-semibold">
-          Price : {item.price}
+          Price : {item.price} x {cartItems.Quantity}
         </h2>
       </div>
       <div className="flex flex-col justify-around items-center">
-        {/* <h2 className="text-[12px] md:text-[14px] md:font-semibold">
-          Quantity {cartItem.Quantity}
-        </h2> */}
         <div className="flex items-center gap-4 mt-4">
           <div className="flex border rounded-full overflow-hidden w-full">
             <button

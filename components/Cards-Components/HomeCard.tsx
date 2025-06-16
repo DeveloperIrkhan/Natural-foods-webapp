@@ -4,8 +4,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React from "react";
 import AddtoWishList from "../AddtoWishList";
-import { CarTaxiFront, ShoppingCart, StarIcon } from "lucide-react";
+import { ShoppingCart, StarIcon } from "lucide-react";
 import PricePreview from "../PricePreview";
+import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
 
 interface IhomeCard {
   className?: string;
@@ -39,6 +40,7 @@ const HomeCard = ({
   buttonText = "Buy Now",
   onBuyNowClick
 }: IhomeCard) => {
+  const { addToFavorite } = useFavoriteItemsStore();
   return (
     <Link
       href={`/product-details/${slug}`}
@@ -67,7 +69,7 @@ const HomeCard = ({
             </div>
           )}
           <div className="">
-            <AddtoWishList />
+            <AddtoWishList onClick={() => addToFavorite(_id)} />
           </div>
           <div className="relative w-full h-full overflow-hidden">
             <img

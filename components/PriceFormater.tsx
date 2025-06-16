@@ -2,8 +2,8 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 interface IPriceFormater {
-  amount: number | undefined;
-  className: string | undefined;
+  amount: number;
+  className?: string;
 }
 
 const PriceFormater = ({ amount, className }: IPriceFormater) => {

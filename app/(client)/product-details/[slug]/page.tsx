@@ -8,9 +8,17 @@ import { useProductsStore } from "@/features/product/productStore";
 import PageTitle from "@/components/PageTitle";
 import PriceFormater from "@/components/PriceFormater";
 import AddtoWishList from "@/components/AddtoWishList";
-import { Facebook, Heart, Instagram, PhoneCall, X } from "lucide-react";
+import {
+  Facebook,
+  Heart,
+  HeartCrack,
+  Instagram,
+  PhoneCall,
+  X
+} from "lucide-react";
 import SocialMediaIcons from "@/components/SocialMediaIcons";
 import { useCartStore } from "@/features/cart/cartStore";
+import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
 
 const Page = () => {
   const params = useParams();
@@ -21,7 +29,7 @@ const Page = () => {
   const [productSize, setProductSize] = useState("");
   const { addToCart, items } = useCartStore();
   // );
-
+  const { addToFavorite, favItems } = useFavoriteItemsStore();
   useEffect(() => {
     console.log("slug:", slug);
     console.log("zustand stored products:", products);
@@ -96,7 +104,24 @@ const Page = () => {
                   <p className="text-gray-600">{product.description}</p>
                 </div>
                 <div className="mt-4 flex items-center gap-3">
-                  <Heart size={20} /> <p>Add to Wishlist</p>
+                  {favItems.map((item) => item.productId !== product._id) ? (
+                    <>
+                      <Heart
+                        onClick={() => addToFavorite(product._id)}
+                        size={20}
+                      />
+                      <p>Add to Wishlist</p>
+                    </>
+                  ) : (
+                    <>
+                      <Heart
+                        color="#3e9392"
+                        onClick={() => addToFavorite(product._id)}
+                        size={20}
+                      />
+                      <p>remove form Wishlist</p>
+                    </>
+                  )}{" "}
                 </div>
                 <p className="text-sm mt-4">
                   Product is {product.inStock ? "in stock" : "out of stock"}

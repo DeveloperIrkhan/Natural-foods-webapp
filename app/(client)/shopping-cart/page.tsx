@@ -5,7 +5,6 @@ import LoadingScreen from "@/components/Loading/LoadingScreen";
 import ItemBarCard from "@/components/shopping-cart/ItemBarCard";
 import TotalCheckOutCard from "@/components/shopping-cart/TotalCheckOutCard";
 import { useCartStore } from "@/features/cart/cartStore";
-import { useGetProductQuery } from "@/features/product/productAPI";
 import { useProductsStore } from "@/features/product/productStore";
 import React, { useEffect } from "react";
 
