@@ -6,6 +6,7 @@ import ItemBarCard from "@/components/shopping-cart/ItemBarCard";
 import TotalCheckOutCard from "@/components/shopping-cart/TotalCheckOutCard";
 import { useCartStore } from "@/features/cart/cartStore";
 import { useProductsStore } from "@/features/product/productStore";
+import { EqualApproximatelyIcon } from "lucide-react";
 import React, { useEffect } from "react";
 
 const page = () => {
@@ -38,7 +39,9 @@ const page = () => {
               );
             })
           ) : (
-            <LoadingScreen />
+            <div className="flex w-full bg-red-200 rounded-md py-3 px-6 items-center text-lg">
+              <h3>your shopping cart is empty!</h3>
+            </div>
           )}
         </div>
         <div className="w-full md:w-1/4 flex justify-center">

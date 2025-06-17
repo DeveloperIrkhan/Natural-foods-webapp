@@ -4,11 +4,8 @@ import { useCartStore } from "@/features/cart/cartStore";
 import PriceFormater from "../PriceFormater";
 
 const TotalCheckOutCard = () => {
-  const {
-    getCartAmount,
-    getDiscountTotal,
-    settotalAmountAfter
-  } = useCartStore();
+  const { getCartAmount, getDiscountTotal, settotalAmountAfter } =
+    useCartStore();
   let subtotal = Number(getCartAmount());
   let discount = Number(getDiscountTotal());
   let shippingcharges = 500;
@@ -52,9 +49,13 @@ const TotalCheckOutCard = () => {
         />
       </Textsm>
 
-      <label className="flex items-center space-x-2 text-sm gap-3">
+      <label
+        htmlFor="termsandconditions"
+        className="flex items-center space-x-2 text-sm gap-3"
+      >
         <input
-          name="inStock"
+          id="termsandconditions"
+          name="termsandconditions"
           type="checkbox"
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
@@ -63,7 +64,12 @@ const TotalCheckOutCard = () => {
         I agreed with the terms and conditions
       </label>
       <div className="flex justify-center mt-3">
-        <button className="px-3 py-1.5 bg-black text-white hoverEffect hover:bg-primary-color rounded">
+        <button onClick={()=> console.log("item clicked")}
+          disabled={!checked}
+          className={`px-3 py-1.5 bg-black ${
+            !checked ? "bg-gray-400 cursor-not-allowed" : "bg-black hover:bg-primary-color"
+          } text-white hoverEffect rounded`}
+        >
           Proceed to checkout
         </button>
       </div>

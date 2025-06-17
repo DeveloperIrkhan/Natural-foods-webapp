@@ -40,7 +40,7 @@ const NoItemFounnd = ({ selectedTab, className }: INoItemFound) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Loader2 className="w-6 h-6 animate-spin" />
+          <Loader2 className="text-[#83bd35] w-6 h-6 animate-spin" />
           <span>We're restocking it shortly</span>
         </motion.div>
         <motion.p

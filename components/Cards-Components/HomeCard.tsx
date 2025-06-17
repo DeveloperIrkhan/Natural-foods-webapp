@@ -17,7 +17,7 @@ interface IhomeCard {
   subtitle?: string;
   description: string;
   price: number;
-  discountPrice: number;
+  discountPrice?: number;
   inStock: boolean;
   currencySymbol?: string;
   productStatus: string;
@@ -34,7 +34,7 @@ const HomeCard = ({
   inStock,
   subtitle, // Destructure subtitle
   price,
-  discountPrice,
+  discountPrice = 20,
   description,
   productStatus,
   buttonText = "Buy Now",

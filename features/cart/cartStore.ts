@@ -1,5 +1,4 @@
 import { getWithExpiry, setWithExpiry } from "@/app/helpers/localStorage";
-import { IProduct } from "@/interfaces/product.interface";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useProductsStore } from "../product/productStore";
@@ -43,7 +42,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
   },
   addToCart: (productId, productSize) => {
     if (!productSize) {
-      toast.error("please select size!");
+      toast.error("please select size!", { autoClose: 1500 });
       return;
     }
     const items = [...get().items];
@@ -59,7 +58,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
 
     set({ items });
     setWithExpiry({ key: "cartItems", value: items, timeInHours: 8 });
-    toast.success("item added");
+    toast.success("item added", { autoClose: 1500 });
   },
   removeFromCart: (productId: string, productSize: string) => {
     let cartItems = [...get().items];
@@ -69,22 +68,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
     );
     set({ items: cartItems });
     setWithExpiry({ key: "cartItems", value: cartItems, timeInHours: 8 });
-    toast.success("Item removed");
-    // let cartItems = [...get().items];
-    // const index = cartItems.findIndex(
-    //   (item) => item.productId === productId && item.productSize === productSize
-    // );
-    // if (index > -1) {
-    //   if (cartItems[index].Quantity > 1) {
-    //     cartItems[index].Quantity -= 1;
-    //   } else {
-    //     cartItems.splice(index, 1);
-    //   }
-    //   set({ items: cartItems });
-    //   toast.success("Item removed");
-    // } else {
-    //   toast.error("Item not found in cart");
-    // }
+    toast.success("Item removed", { autoClose: 1500 });
   },
   incrementQuantity: (productId: string, productSize: string) => {
     const cartItems = [...get().items];
@@ -133,14 +117,22 @@ export const useCartStore = create<ICartStore>((set, get) => ({
     const products = useProductsStore.getState().products;
     let cartItems = [...get().items];
     cartItems.forEach((item) => {
+      console.log("cartItems", cartItems);
       const product = products.find(
         (singleProduct) => singleProduct._id === item.productId
       );
       if (!product) return;
-      discountAmount += product.price - product.discountPrice;
+      if (product.discountPrice > 0) {
+        // discountAmount += product.price - product.discountPrice;
+        const singleItemDiscount = product.price - product.discountPrice;
+        discountAmount += singleItemDiscount * item.Quantity;
+      }
       console.log("discountAmount", discountAmount);
     });
     return discountAmount;
   }
   // #end
 }));
+
+
+
