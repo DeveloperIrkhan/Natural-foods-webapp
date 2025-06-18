@@ -2,11 +2,12 @@
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import AddtoWishList from "../AddtoWishList";
 import { ShoppingCart, StarIcon } from "lucide-react";
 import PricePreview from "../PricePreview";
 import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
+import IncrementAndDecrementQuantity from "../IncrementAndDecrementQuantity";
 
 interface IhomeCard {
   className?: string;
@@ -41,6 +42,7 @@ const HomeCard = ({
   onBuyNowClick
 }: IhomeCard) => {
   const { addToFavorite } = useFavoriteItemsStore();
+  const [showButtons, setShowButtons] = useState(false);
   return (
     <Link
       href={`/product-details/${slug}`}
@@ -96,7 +98,7 @@ const HomeCard = ({
                 {subtitle}
               </p>
             )}
-            <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6 line-clamp-5">
+            <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-6 line-clamp-3">
               {description}
             </p>
           </div>
@@ -130,9 +132,20 @@ const HomeCard = ({
               {/* <p className="text-sm text-gray-700 ">{currencySymbol}</p> */}
               <PricePreview price={price} discountPrice={discountPrice} />
             </div>
+          </div>
+          <div className="flex gap-4 items-center justify-between">
+            {showButtons && (
+              <IncrementAndDecrementQuantity
+                id=""
+                Quantity={0}
+                cartProductSize=""
+                decrementCartQuantity={() => console.log("")}
+                incrementCartQuantity={() => console.log("")}
+              />
+            )}
             <button
-              onClick={onBuyNowClick}
-              className="bg-primary-color text-white font-semibold py-1 px-3 rounded-lg shadow-md
+              onClick={() => setShowButtons(!showButtons)}
+              className="bg-primary-color text-white font-semibold mt-4 py-1 px-3 rounded-lg shadow-md
                        hover:bg-secondary-color transition-colors duration-200 focus:outline-none focus:ring-2
                         focus:ring-primary-color focus:ring-opacity-50"
             >

@@ -2,6 +2,7 @@ import { useCartStore } from "@/features/cart/cartStore";
 import { IProduct } from "@/interfaces/product.interface";
 import { Trash2 } from "lucide-react";
 import React from "react";
+import IncrementAndDecrementQuantity from "../IncrementAndDecrementQuantity";
 
 interface IItemsBarCardProps {
   item: IProduct;
@@ -43,25 +44,13 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
         </h2>
       </div>
       <div className="flex flex-col justify-around items-center">
-        <div className="flex items-center gap-4 mt-4">
-          <div className="flex border rounded-full overflow-hidden w-full">
-            <button
-              onClick={() => decrementQuantity(item._id, cartItems.productSize)}
-              className="flex flex-1 justify-center items-center px-3 py-1 hover:bg-secondary-color duration-200 font-bold hover:text-white"
-            >
-              -
-            </button>
-            <span className="font-semibold flex flex-1  justify-center items-center px-4 py-1">
-              {cartItems.Quantity}
-            </span>
-            <button
-              onClick={() => incrementQuantity(item._id, cartItems.productSize)}
-              className="flex flex-1 justify-center items-center px-3 py-1 hover:bg-secondary-color duration-200 font-bold hover:text-white"
-            >
-              +
-            </button>
-          </div>
-        </div>
+        <IncrementAndDecrementQuantity
+          id={item._id}
+          Quantity={cartItems.Quantity}
+          cartProductSize={cartItems.productSize}
+          decrementCartQuantity={decrementQuantity}
+          incrementCartQuantity={incrementQuantity}
+        />
       </div>
       <div className="flex flex-col justify-around items-center">
         <h2 className="text-[12px] md:text-[14px] font-normal md:font-semibold">

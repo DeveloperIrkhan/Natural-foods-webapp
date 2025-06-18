@@ -1,12 +1,11 @@
 "use client";
 import Banner from "@/components/Banner/Banner";
 import Container from "@/components/Container";
-import LoadingScreen from "@/components/Loading/LoadingScreen";
 import ItemBarCard from "@/components/shopping-cart/ItemBarCard";
 import TotalCheckOutCard from "@/components/shopping-cart/TotalCheckOutCard";
 import { useCartStore } from "@/features/cart/cartStore";
 import { useProductsStore } from "@/features/product/productStore";
-import { EqualApproximatelyIcon } from "lucide-react";
+import { SignInButton, useUser } from "@clerk/nextjs";
 import React, { useEffect } from "react";
 
 const page = () => {
@@ -19,7 +18,22 @@ const page = () => {
   useEffect(() => {
     console.log("products:", products);
   }, [products]);
+  const { isSignedIn } = useUser();
 
+  if (!isSignedIn) {
+    return (
+      <div className="flex justify-center items-center h-[70vh] flex-col gap-4">
+        <p className="text-lg text-gray-700">
+          Please sign in to view your shopping cart
+        </p>
+        <SignInButton mode="modal">
+          <button className="bg-primary-color px-4 py-2 rounded-md text-white text-sm hover:bg-white hover:text-primary-color hover:border hover:border-primary-color hover:shadow-[0_0_15px_rgba(131,184,53,0.5)] transition duration-300">
+            Sign In
+          </button>
+        </SignInButton>
+      </div>
+    );
+  }
   return (
     <div className="bg-gray-100">
       <Banner text="Dashboard" media="/Slider-2.png" />
