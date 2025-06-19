@@ -27,12 +27,12 @@ const SamillerCard = ({ product, LinkTo }: ISamillerCardProps) => {
           <img
             src={product.images[0]}
             alt={product.name}
-            className="w-full h-full object-center transition-transform duration-500 ease-in-out transform group-hover:rotate-3 group-hover:scale-110"
+            className="w-full rounded-t-lg h-full object-center transition-transform duration-500 ease-in-out transform group-hover:rotate-3 group-hover:scale-110"
           />
         </div>
         <div className="py-3">
           <p className="text-center text-black text-sm font-semibold tracking-wide">{product.name}</p>
-          <p className="text-center card-title-fonts text-gray-800 text-sm">
+          <p className="flex gap-3 items-center justify-center text-center card-title-fonts text-gray-800 text-sm">
             <span className="text-gray-600 font-semibold">
               PKR: {product.discountPrice > 0 ? product.discountPrice : ""}
             </span>

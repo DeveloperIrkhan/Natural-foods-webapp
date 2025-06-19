@@ -10,7 +10,7 @@ interface IItemsBarCardProps {
 }
 interface IShopingCartModel {
   productId: string;
-  productSize: string;
+  // productSize: string;
   Quantity: number;
 }
 const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
@@ -34,20 +34,29 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
         <h2 className="text-[12px] md:text-[14px] md:font-semibold">
           {item.name}
         </h2>
-        <h2 className="text-[12px] md:text-[14px] font-normal md:font-semibold">
+        {/* <h2 className="text-[12px] md:text-[14px] font-normal md:font-semibold">
           Size : {cartItems.productSize}
-        </h2>
+        </h2> */}
       </div>
       <div className="flex flex-col justify-around items-center">
-        <h2 className="text-[12px] md:text-[14px] md:font-semibold">
-          Price : {item.price} x {cartItems.Quantity}
+        <h2 className="text-[12px] md:text-[14px] md:font-semibold flex gap-2 items-center">
+          Price :
+          {item.discountPrice > 0 ? (
+            <p className="">
+              <span className="line-through"> {item.price}</span>
+              <span className="text-red-600 font-bold"> {item.discountPrice}</span>
+            </p>
+          ) : (
+            <span className="font-bold"> {item.price}</span>
+          )}{" "}
+          x {cartItems.Quantity}
         </h2>
       </div>
       <div className="flex flex-col justify-around items-center">
         <IncrementAndDecrementQuantity
           id={item._id}
           Quantity={cartItems.Quantity}
-          cartProductSize={cartItems.productSize}
+          // cartProductSize={cartItems.productSize}
           decrementCartQuantity={decrementQuantity}
           incrementCartQuantity={incrementQuantity}
         />
@@ -55,7 +64,7 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
       <div className="flex flex-col justify-around items-center">
         <h2 className="text-[12px] md:text-[14px] font-normal md:font-semibold">
           <Trash2
-            onClick={() => removeFromCart(item._id, cartItems.productSize)}
+            onClick={() => removeFromCart(item._id)}
             className="hoverEffect w-4 md:h-5 h-4 md:w-5 hover:text-red-600 hover:cursor-pointer"
           />
         </h2>

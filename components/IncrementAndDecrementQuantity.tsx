@@ -2,16 +2,18 @@ import React from "react";
 
 type Props = {
   id: string;
-  cartProductSize: string;
+  // cartProductSize: string;
   Quantity: number;
-  incrementCartQuantity: (id: string, cartProductSize: string) => void;
-  decrementCartQuantity: (id: string, cartProductSize: string) => void;
+  incrementCartQuantity: (id: string) => void;
+  decrementCartQuantity: (id: string) => void;
+  // incrementCartQuantity: (id: string, cartProductSize: string) => void;
+  // decrementCartQuantity: (id: string, cartProductSize: string) => void;
 };
 
 const IncrementAndDecrementQuantity = ({
   id,
   Quantity,
-  cartProductSize,
+  // cartProductSize,
   incrementCartQuantity,
   decrementCartQuantity
 }: Props) => {
@@ -20,7 +22,7 @@ const IncrementAndDecrementQuantity = ({
       <div className="flex items-center gap-4 mt-4">
         <div className="flex border rounded-full overflow-hidden w-full">
           <button
-            onClick={() => decrementCartQuantity(id, cartProductSize)}
+            onClick={() => decrementCartQuantity(id)}
             className="flex flex-1 justify-center items-center px-3 py-1 hover:bg-secondary-color duration-200 font-bold hover:text-white"
           >
             -
@@ -29,7 +31,7 @@ const IncrementAndDecrementQuantity = ({
             {Quantity}
           </span>
           <button
-            onClick={() => incrementCartQuantity(id, cartProductSize)}
+            onClick={() => incrementCartQuantity(id)}
             className="flex flex-1 justify-center items-center px-3 py-1 hover:bg-secondary-color duration-200 font-bold hover:text-white"
           >
             +

@@ -4,15 +4,19 @@ import { create } from "zustand";
 import { useProductsStore } from "../product/productStore";
 export interface IItems {
   productId: string;
-  productSize: string;
+  // productSize: string;
   Quantity: number;
 }
 interface ICartStore {
   items: IItems[];
-  addToCart: (productId: string, productSize: string) => void;
-  removeFromCart: (productId: string, productSize: string) => void;
-  incrementQuantity: (productId: string, productSize: string) => void;
-  decrementQuantity: (productId: string, productSize: string) => void;
+  // addToCart: (productId: string, productSize: string) => void;
+  // removeFromCart: (productId: string, productSize: string) => void;
+  // incrementQuantity: (productId: string, productSize: string) => void;
+  // decrementQuantity: (productId: string, productSize: string) => void;
+  addToCart: (productId: string) => void;
+  removeFromCart: (productId: string) => void;
+  incrementQuantity: (productId: string) => void;
+  decrementQuantity: (productId: string) => void;
   hydrateCartFromStorage: () => void;
   getCartAmount: () => void;
   getDiscountTotal: () => void;
@@ -40,41 +44,35 @@ export const useCartStore = create<ICartStore>((set, get) => ({
       set({ isHydrated: true });
     }
   },
-  addToCart: (productId, productSize) => {
-    if (!productSize) {
-      toast.error("please select size!", { autoClose: 1500 });
-      return;
-    }
+  // addToCart: (productId, productSize) => {
+  addToCart: (productId) => {
+    // if (!productSize) {
+    //   toast.error("please select size!", { autoClose: 1500 });
+    //   return;
+    // }
     const items = [...get().items];
-    const index = items.findIndex(
-      (item) => item.productId === productId && item.productSize === productSize
-    );
+    const index = items.findIndex((item) => item.productId === productId);
 
     if (index > -1) {
       items[index].Quantity += 1;
     } else {
-      items.push({ productId, productSize, Quantity: 1 });
+      items.push({ productId, Quantity: 1 });
     }
 
     set({ items });
     setWithExpiry({ key: "cartItems", value: items, timeInHours: 8 });
     toast.success("item added", { autoClose: 1500 });
   },
-  removeFromCart: (productId: string, productSize: string) => {
+  removeFromCart: (productId: string) => {
     let cartItems = [...get().items];
-    cartItems = cartItems.filter(
-      (item) =>
-        !(item.productId === productId && item.productSize === productSize)
-    );
+    cartItems = cartItems.filter((item) => !(item.productId === productId));
     set({ items: cartItems });
     setWithExpiry({ key: "cartItems", value: cartItems, timeInHours: 8 });
     toast.success("Item removed", { autoClose: 1500 });
   },
-  incrementQuantity: (productId: string, productSize: string) => {
+  incrementQuantity: (productId: string) => {
     const cartItems = [...get().items];
-    const index = cartItems.findIndex(
-      (item) => item.productId === productId && item.productSize === productSize
-    );
+    const index = cartItems.findIndex((item) => item.productId === productId);
 
     if (index > -1) {
       cartItems[index].Quantity += 1;
@@ -82,11 +80,9 @@ export const useCartStore = create<ICartStore>((set, get) => ({
       setWithExpiry({ key: "cartItems", value: cartItems, timeInHours: 8 });
     }
   },
-  decrementQuantity: (productId: string, productSize: string) => {
+  decrementQuantity: (productId: string) => {
     const cartItems = [...get().items];
-    const index = cartItems.findIndex(
-      (item) => item.productId === productId && item.productSize === productSize
-    );
+    const index = cartItems.findIndex((item) => item.productId === productId);
 
     if (index > -1) {
       if (cartItems[index].Quantity > 1) {
@@ -133,6 +129,3 @@ export const useCartStore = create<ICartStore>((set, get) => ({
   }
   // #end
 }));
-
-
-

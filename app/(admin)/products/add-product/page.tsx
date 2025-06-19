@@ -15,7 +15,7 @@ const AddProduct = () => {
   const [inStock, setInStock] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
-  const [quantity, setQuantity] = useState<string[]>([]);
+  // const [quantity, setQuantity] = useState<string[]>([]);
   const [productImage0, setProductImage0] = useState<File | null>(null);
   const [productImage1, setProductImage1] = useState<File | null>(null);
   const [productImage2, setProductImage2] = useState<File | null>(null);
@@ -37,7 +37,7 @@ const AddProduct = () => {
       form.append("discountPrice", discountPrice);
       form.append("category", category);
       form.append("productStatus", productStatus);
-      form.append("quantity", JSON.stringify(quantity));
+      // form.append("quantity", JSON.stringify(quantity));
       form.append("inStock", inStock.toString());
       console.log("category passing", category);
       productImage0 && form.append("productImage0", productImage0);
@@ -57,9 +57,9 @@ const AddProduct = () => {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    console.log(quantity);
-  }, [quantity]);
+  // useEffect(() => {
+  //   console.log(quantity);
+  // }, [quantity]);
   const fetchCategory = async () => {
     try {
       setLoading(true);
@@ -278,7 +278,7 @@ const AddProduct = () => {
               </p>
             </div> */}
 
-            {sizes.map((Item, index) => (
+            {/* {sizes.map((Item, index) => (
               <div
                 onClick={() => {
                   setQuantity((prev) =>
@@ -297,7 +297,7 @@ const AddProduct = () => {
                   {Item}
                 </p>
               </div>
-            ))}
+            ))} */}
           </div>
           <div className="flex flex-col gap-3 my-2">
             <div className={`${inputTextStyle} w-[50%]`}>

@@ -6,7 +6,7 @@ export interface IProductModel extends Document {
   price: number;
   discountPrice: number;
   images: string[];
-  quantity: string[];
+  // quantity: string[];
   slug: string;
   category: string;
   productStatus: string;
@@ -35,7 +35,7 @@ export interface IProduct {
   price: number;
   discountPrice: number;
   images: string[];
-  quantity: string[];
+  // quantity: string[];
   slug: string;
   category: string;
   productStatus: string;

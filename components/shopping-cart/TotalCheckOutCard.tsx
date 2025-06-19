@@ -57,6 +57,12 @@ const TotalCheckOutCard = () => {
           id="termsandconditions"
           name="termsandconditions"
           type="checkbox"
+          className="appearance-none w-5 h-5 border-2 border-[#b4c635] rounded-sm 
+                            checked:bg-[#b4c635] checked:border-[#b4c635] 
+                            checked:after:content-['🗸'] checked:after:block 
+                            checked:after:text-black checked:after:text-sm checked:after:leading-none 
+                            checked:after:text-center
+                             cursor-pointer"
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
           //   onChange={(e) => setInStock(e.target.checked)}
@@ -64,14 +70,18 @@ const TotalCheckOutCard = () => {
         I agreed with the terms and conditions
       </label>
       <div className="flex justify-center mt-3">
-        <button onClick={()=> console.log("item clicked")}
+        <button
+          onClick={() => console.log("item clicked")}
           disabled={!checked}
           className={`px-3 py-1.5 bg-black ${
-            !checked ? "bg-gray-400 cursor-not-allowed" : "bg-black hover:bg-primary-color"
+            !checked
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-black hover:bg-primary-color"
           } text-white hoverEffect rounded`}
         >
           Proceed to checkout
         </button>
+        
       </div>
     </div>
   );

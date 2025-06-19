@@ -77,9 +77,8 @@ const Page = () => {
                 >
                   ADD TO CART
                 </button>
-                {/* description */}
                 <div className="text-gray-600">
-                  {product.quantity && (
+                  {/* {product.quantity && (
                     <div className="mt-4 flex items-center gap-2">
                       <p className="font-semibold">Quantity</p>
                       {product.quantity.map((item) => (
@@ -96,7 +95,7 @@ const Page = () => {
                         </button>
                       ))}
                     </div>
-                  )}
+                  )} */}
                   <div className="mt-4">
                     <p className="font-semibold">Description</p>
                     <p className="text-gray-600">{product.description}</p>
