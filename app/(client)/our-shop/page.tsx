@@ -1,7 +1,8 @@
 "use client";
 import SamillerCard from "@/components/Cards-Components/SamillerCard";
 import Container from "@/components/Container";
-import PageTitle from "@/components/PageTitle";
+import NoItemFounnd from "@/components/NoItemFounnd";
+import PageTitle, { Textsm } from "@/components/PageTitle";
 import { useCategoryStore } from "@/features/category/categoryStore";
 import { useProductsStore } from "@/features/product/productStore";
 import React, { useState } from "react";
@@ -16,8 +17,7 @@ const page = () => {
       const update = prev.includes(target)
         ? prev.filter((item) => item != target)
         : [...prev, target];
-      console.log("Selected Categories:", update);
-
+      // console.log("Selected Categories:", update);
       return update;
     });
   };
@@ -37,39 +37,57 @@ const page = () => {
             <div className="flex md:flex-row flex-col gap-3">
               <div className="md:w-1/4 w-full p-3 rounded-xl bg-white">
                 <div className="filter">
-                  <p className="text-[15px] tracking-wide font-bold text-black">
+                  <p className="text-[15px] my-3 tracking-wide font-bold text-black">
                     {" "}
                     Filter by category
                   </p>
                 </div>
                 {categories &&
                   categories.map((category) => (
-                      <label key={category._id}
-                        htmlFor={category.name}
-                        className="flex items-center capitalize gap-3 tracking-wider"
-                      >
-                        <input
-                          id={category.name}
-                          name={category.name}
-                          type="checkbox"
-                          //  className="w-5 h-5 accent-[#b4c635] text-white cursor-pointer"
-                          className="appearance-none w-5 h-5 border-2 border-[#b4c635] rounded-sm 
+                    <label
+                      key={category._id}
+                      htmlFor={category.name}
+                      className="flex items-center capitalize gap-3 tracking-wider"
+                    >
+                      <input
+                        id={category.name}
+                        name={category.name}
+                        type="checkbox"
+                        //  className="w-5 h-5 accent-[#b4c635] text-white cursor-pointer"
+                        className="appearance-none w-5 h-5 border-2 border-[#b4c635] rounded-sm 
                             checked:bg-[#b4c635] checked:border-[#b4c635] 
                             checked:after:content-['🗸'] checked:after:block 
                             checked:after:text-black checked:after:text-sm checked:after:leading-none 
                             checked:after:text-center
                             flex items-center justify-center cursor-pointer"
-                          value={category._id}
-                          onChange={toggleCategories}
-                          checked={filteredCategory.includes(category._id)}
-                        />
-                        {category.name}
-                      </label>
-                  
+                        value={category._id}
+                        onChange={toggleCategories}
+                        checked={filteredCategory.includes(category._id)}
+                      />
+                      {category.name}
+                    </label>
                   ))}
-                <div className="price">Filter Price wise</div>
+                <div className="price mt-5">
+                  <p className="text-[15px] tracking-wide font-bold text-black">
+                    {" "}
+                    Filter by Price
+                  </p>
+                </div>
               </div>
               <div className="md:w-3/4 w-full p-3">
+                <Textsm className="capitalize flex gap-2 my-4 font-bold text-primary-color">
+                  result showing for
+                  {filteredCategory.map((item, index) => {
+                    const filterCategory = categories.filter(
+                      (category) => category._id === item
+                    );
+                    return (
+                      <span key={index} className="text-gray-800 font-normal">
+                        {filterCategory.map((item) => item.name)}
+                      </span>
+                    );
+                  })}
+                </Textsm>
                 {filterProducts && filterProducts.length > 0 ? (
                   // <div className="flex flex-wrap gap-3">
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -80,7 +98,7 @@ const page = () => {
                     ))}
                   </div>
                 ) : (
-                  <div>product is loading</div>
+                  <NoItemFounnd className="" selectedTab={""} />
                 )}
               </div>
             </div>

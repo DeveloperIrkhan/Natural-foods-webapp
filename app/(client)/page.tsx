@@ -1,3 +1,4 @@
+import HomeCategories from "@/components/Cards-Components/HomeCategories";
 import Carousel from "@/components/Carousel/Carousel";
 import ProductGrid from "@/components/custom-ui/ProductGrid";
 const Home = () => {
@@ -7,6 +8,8 @@ const Home = () => {
       <Carousel />
       {/* product grid */}
       <ProductGrid />
+      {/* Home Cartegories grid */}
+      <HomeCategories />
     </div>
   );
 };

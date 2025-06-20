@@ -138,7 +138,6 @@ const HomeCard = ({
               <IncrementAndDecrementQuantity
                 id=""
                 Quantity={0}
-                cartProductSize=""
                 decrementCartQuantity={() => console.log("")}
                 incrementCartQuantity={() => console.log("")}
               />

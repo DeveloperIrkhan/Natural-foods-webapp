@@ -28,17 +28,17 @@ const ClientHydration = () => {
     ) {
       setProducts(data?.products);
     }
-    console.log(
-      "Products from store calling in ClientHydration",
-      data?.products
-    );
+    // console.log(
+    //   "Products from store calling in ClientHydration",
+    //   data?.products
+    // );
   }, [data]);
 
   useEffect(() => {
     if (Categories && Categories.categories) {
       setCategories(Categories.categories);
     }
-    console.log("categories from store calling in ClientHydration", categories);
+    // console.log("categories from store calling in ClientHydration", categories);
   }, [Categories]);
 
   return (

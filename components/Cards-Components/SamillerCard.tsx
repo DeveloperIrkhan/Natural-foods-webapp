@@ -11,7 +11,7 @@ const SamillerCard = ({ product, LinkTo }: ISamillerCardProps) => {
   );
 
   return (
-    <Link className={"p-0 m-0"} href={LinkTo}>
+    <Link href={`/product-details/${LinkTo}`} className={"p-0 m-0"}>
       <div
         className={`relative min-w-[2vmin] group mt-0 bg-white rounded-lg shadow-md hover:bg-slate-50 duration-300`}
       >

@@ -60,19 +60,17 @@ const Page = () => {
                 </PageTitle>
               </div>
               <div className="flex flex-col gap-y-3">
-                <p className="">
-                  <PriceFormater
-                    amount={product.price}
-                    className="text-gray-700 text-xl font-medium tracking-wide"
-                  />
-                  <PricePreview
-                    price={product.price}
-                    discountPrice={product.discountPrice}
-                  />
-                </p>
+                <PriceFormater
+                  amount={product.price}
+                  className="text-gray-700 text-xl font-medium tracking-wide"
+                />
+                <PricePreview
+                  price={product.price}
+                  discountPrice={product.discountPrice}
+                />
 
                 <button
-                  onClick={() => addToCart(product._id, productSize)}
+                  onClick={() => addToCart(product._id)}
                   className="bg-primary-color text-white px-6 py-2 rounded hover:bg-secondary-color hoverEffect"
                 >
                   ADD TO CART
