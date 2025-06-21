@@ -1,6 +1,7 @@
 import HomeCategories from "@/components/Cards-Components/HomeCategories";
 import Carousel from "@/components/Carousel/Carousel";
 import ProductGrid from "@/components/custom-ui/ProductGrid";
+import ShippingContainer from "@/components/ShippingContainer";
 const Home = () => {
   return (
     <div className="">
@@ -10,6 +11,8 @@ const Home = () => {
       <ProductGrid />
       {/* Home Cartegories grid */}
       <HomeCategories />
+      {/* Home Cartegories grid */}
+      <ShippingContainer />
     </div>
   );
 };

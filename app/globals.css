@@ -9,9 +9,10 @@
 
 @theme inline {
   --font-Jost: "Jost", sans-serif;
-  --color-primary-color: #b4c635;
+  --color-primary-color: #8fc22b;
   --color-secondary-color: #83b835;
   --color-accent-color: #d66fbf;
+  --color-black-color: #242424;
   --color-bg-color: #f9f6fa;
   --color-text-color: #2a003f;
   --color-muted-color: #6d4b71;

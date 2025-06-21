@@ -40,5 +40,4 @@ export const categoriesData = [
   { title: "Moringa Power", href: "MoringaPower" }
 ];
 
-
 export const ProductStatuses = ["sale", "new arrival", "best seller"];

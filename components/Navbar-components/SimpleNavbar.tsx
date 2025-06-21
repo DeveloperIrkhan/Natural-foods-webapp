@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import MenuButtons from "./MenuButtons";
 import CartIcon from "./CartIcon";
 import FavoriteButton from "./FavoriteButton";
+import AdminMenu from "./AdminMenu";
 
 const SimpleNavbar = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
