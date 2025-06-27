@@ -148,6 +148,9 @@
 }
 
 @layer components {
+  .input-custom-style {
+    @apply border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color;
+  }
   .custom-button {
     @apply bg-black text-white px-3 py-1 shadow-md
            hover:shadow-[0_0_10px_rgba(0_0_0/0.3)]

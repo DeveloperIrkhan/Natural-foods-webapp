@@ -36,6 +36,12 @@ export default function RootLayout({
             Dashboard
           </Link>
           <Link
+            href="/admin-blogs"
+            className="block px-4 py-2 rounded hover:bg-blue-50"
+          >
+            Add blogs
+          </Link>
+          <Link
             href="/products"
             className="block px-4 py-2 rounded hover:bg-blue-50"
           >

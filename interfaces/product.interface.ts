@@ -20,6 +20,25 @@ export interface ICategoryModel extends Document {
   slug: string;
   description: string;
 }
+export interface IBlogsModel extends Document {
+  _id: mongoose.Types.ObjectId;
+  title: string;
+  slug: string;
+  content: string[];
+  auther: string;
+  thumbnail: string;
+  createdAt: Date;
+}
+
+export interface IBlog {
+  _id: string;
+  title: string;
+  slug: string;
+  content: string[];
+  auther: string;
+  thumbnail: string;
+  createdAt: Date;
+}
 
 export interface ICategory {
   _id: string;
