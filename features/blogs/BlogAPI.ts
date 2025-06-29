@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface IAPIResponse {
   blogs: IBlog[];
+  blog: IBlog;
 }
 
 export const BlogAPI = createApi({
@@ -23,8 +24,15 @@ export const BlogAPI = createApi({
         url: "/blogs",
         method: "GET"
       })
+    }),
+    getBlogById: builder.query<IAPIResponse, string>({
+      query: (slug) => ({
+        url: `/blogs/${slug}`,
+        method: "GET"
+      })
     })
   })
 });
 
-export const { usePostBlogsMutation, useGetBlogsQuery } = BlogAPI;
+export const { usePostBlogsMutation, useGetBlogsQuery, useGetBlogByIdQuery } =
+  BlogAPI;

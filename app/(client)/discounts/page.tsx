@@ -1,23 +1,47 @@
-import Container from '@/components/Container';
-import PageTitle from '@/components/PageTitle';
-import React from 'react'
+"use client";
+import SamillerCard from "@/components/Cards-Components/SamillerCard";
+import Container from "@/components/Container";
+import PageTitle from "@/components/PageTitle";
+import { useProductsStore } from "@/features/product/productStore";
+import { IProduct } from "@/interfaces/product.interface";
+import React, { useEffect, useMemo, useState } from "react";
 
 const page = () => {
+  const [hotDeals, setHotDeals] = useState<IProduct[]>([]);
+  const { products } = useProductsStore();
+  const filteredProducts = useMemo(() => {
+    if (!products.length) return [];
+    return products.filter((product) => product.discountPrice > 0);
+  }, [products]);
+
+  useEffect(() => {
+    console.log(filteredProducts);
+  }, [products]);
+
   return (
-    <>
-      <Container>
-        <PageTitle>Our Offers</PageTitle>
-        
-
-        <p className="py-3">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint quos
-          itaque error officia inventore dolor perspiciatis maiores blanditiis!
-          Aliquid quisquam quam sit unde sapiente beatae dignissimos aspernatur
-          enim at labore!
-        </p>
+    <div className="bg-gray-50">
+      <Container className="mx-5">
+        <PageTitle className="text-primary-color tracking-wider">
+          Our Offers
+        </PageTitle>
+        <div>
+          <div className="w-full">
+            <div className="flex md:flex-row flex-col gap-3">
+              {filteredProducts?.map((item) => {
+                return (
+                  <SamillerCard
+                    key={item._id}
+                    product={item}
+                    LinkTo={`/${item.slug}`}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </div>
       </Container>
-    </>
+    </div>
   );
-}
+};
 
-export default page
+export default page;
