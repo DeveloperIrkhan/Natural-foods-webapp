@@ -2,6 +2,7 @@
 import SamillerCard from "@/components/Cards-Components/SamillerCard";
 import Container from "@/components/Container";
 import NoItemFounnd from "@/components/NoItemFounnd";
+import FiteredProductContainer from "@/components/our-shop/FiteredProductContainer";
 import PageTitle, { Textsm } from "@/components/PageTitle";
 import { useCategoryStore } from "@/features/category/categoryStore";
 import { useProductsStore } from "@/features/product/productStore";
@@ -54,10 +55,10 @@ const page = () => {
                         name={category.name}
                         type="checkbox"
                         //  className="w-5 h-5 accent-[#b4c635] text-white cursor-pointer"
-                        className="appearance-none w-5 h-5 border-2 border-[#b4c635] rounded-sm 
-                            checked:bg-[#b4c635] checked:border-[#b4c635] 
-                            checked:after:content-['🗸'] checked:after:block 
-                            checked:after:text-black checked:after:text-sm checked:after:leading-none 
+                        className="appearance-none w-5 h-5 border-2 border-[#b4c635] rounded-sm
+                            checked:bg-[#b4c635] checked:border-[#b4c635]
+                            checked:after:content-['🗸'] checked:after:block
+                            checked:after:text-black checked:after:text-sm checked:after:leading-none
                             checked:after:text-center
                             flex items-center justify-center cursor-pointer"
                         value={category._id}
@@ -66,6 +67,12 @@ const page = () => {
                       />
                       {category.name}
                     </label>
+                    // <div
+                    //   className="w-3/4 border text-gray-700 rounded-lg my-2 gap-3 px-3 p-1 hover:bg-primary-color hoverEffect text-center cursor-pointer hover:text-white"
+                    //   key={category._id}
+                    // >
+                    //   {category.name}
+                    // </div>
                   ))}
                 <div className="price mt-5">
                   <p className="text-[15px] tracking-wide font-bold text-black">
@@ -83,22 +90,19 @@ const page = () => {
                     );
                     return (
                       <span key={index} className="text-gray-800 font-normal">
-                        {filterCategory.map((item) => item.name)}
+                        {filterCategory &&
+                          filterCategory.map((item) => item.name)}
                       </span>
                     );
                   })}
                 </Textsm>
                 {filterProducts && filterProducts.length > 0 ? (
-                  // <div className="flex flex-wrap gap-3">
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {filterProducts.map((product) => (
-                      <div key={product._id}>
-                        <SamillerCard product={product} LinkTo={product.slug} />
-                      </div>
-                    ))}
-                  </div>
+                  <FiteredProductContainer products={filterProducts} slug="" />
                 ) : (
-                  <NoItemFounnd className="" selectedTab={""} />
+                  <NoItemFounnd
+                    className=""
+                    selectedTab={""}
+                  />
                 )}
               </div>
             </div>

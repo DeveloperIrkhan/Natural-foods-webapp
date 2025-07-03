@@ -52,8 +52,9 @@ const CategoriesCard = ({
         </p>
 
         {/* Button */}
+
         <Link
-          href={"/our-shop"}
+          href={`/category/${categories.slug}`}
           className="w-full px-5 border hover:bg-black-color border-gray-300 py-1 rounded-full text-sm font-medium text-gray-700 transition-all duration-300 group-hover:bg-primary-color group-hover:text-white"
         >
           Explore Now

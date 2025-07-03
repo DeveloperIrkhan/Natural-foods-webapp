@@ -1,27 +1,23 @@
 "use client";
+import BlogCard from "@/components/Bogs/BlogCard";
 import Container from "@/components/Container";
 import LoadingScreen from "@/components/Loading/LoadingScreen";
 import PageTitle from "@/components/PageTitle";
+import { useBlogsStore } from "@/features/blogs/blogStore";
 import React, { useState } from "react";
 
 const page = () => {
-  const [loading, setLoading] = useState(true);
+  const { blogs } = useBlogsStore();
+
   return (
-    <Container>
-      {loading && (
-        <LoadingScreen
-          text="please wait sir!"
-          onComplete={() => setLoading(false)}
-        />
-      )}
+    <Container className="m-5">
       <PageTitle>Our Blogs</PageTitle>
 
-      <p className="py-3">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint quos
-        itaque error officia inventore dolor perspiciatis maiores blanditiis!
-        Aliquid quisquam quam sit unde sapiente beatae dignissimos aspernatur
-        enim at labore!
-      </p>
+      <div className="mt-5 grid md:grid-cols-4 grid-cols-1 justify-center gap-4">
+        {blogs?.map((blog, index) => (
+          <BlogCard key={index} blogs={blog} />
+        ))}
+      </div>
     </Container>
   );
 };

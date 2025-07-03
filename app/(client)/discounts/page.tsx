@@ -15,7 +15,7 @@ const page = () => {
   }, [products]);
 
   useEffect(() => {
-    console.log(filteredProducts);
+    // console.log(filteredProducts);
   }, [products]);
 
   return (
