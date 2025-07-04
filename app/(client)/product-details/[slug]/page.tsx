@@ -20,7 +20,7 @@ const Page = () => {
   const product = products.find((item) => item.slug === slug);
   const [displayImage, setDisplayImage] = useState(product?.images[0]);
   const [productSize, setProductSize] = useState("");
-  const { addToCart } = useCartStore();
+  const { addToCart, items, removeFromCart } = useCartStore();
   // );
   const { addToFavorite, favItems } = useFavoriteItemsStore();
   useEffect(() => {
@@ -68,13 +68,24 @@ const Page = () => {
                   price={product.price}
                   discountPrice={product.discountPrice}
                 />
+                {items.some(
+                  (cartItem) => cartItem.productId === product._id
+                ) ? (
+                  <button
+                    onClick={() => removeFromCart(product._id)}
+                    className="bg-red-500 text-white px-6 py-2 rounded-lg shadow-md hover:bg-red-600 hoverEffect"
+                  >
+                    Remove From Cart
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => addToCart(product._id)}
+                    className="bg-primary-color text-white px-6 py-2 rounded-lg shadow-md hover:bg-secondary-color hoverEffect"
+                  >
+                    ADD TO CART
+                  </button>
+                )}
 
-                <button
-                  onClick={() => addToCart(product._id)}
-                  className="bg-primary-color text-white px-6 py-2 rounded hover:bg-secondary-color hoverEffect"
-                >
-                  ADD TO CART
-                </button>
                 <div className="text-gray-600">
                   {/* {product.quantity && (
                     <div className="mt-4 flex items-center gap-2">

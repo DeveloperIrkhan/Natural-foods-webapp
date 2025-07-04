@@ -8,10 +8,11 @@ import { useCategoryStore } from "@/features/category/categoryStore";
 import { useGetCategoryQuery } from "@/features/category/categoryAPI";
 import { useGetBlogsQuery } from "@/features/blogs/BlogAPI";
 import { useBlogsStore } from "@/features/blogs/blogStore";
+import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
 
 const ClientHydration = () => {
   const hydrateCart = useCartStore((state) => state.hydrateCartFromStorage);
-
+  const hydreateFav = useFavoriteItemsStore((state) => state.hydrateFavoritiesFromStorage);
   //fetching data from store.
   const { products, setProducts } = useProductsStore();
   const { blogs, setBlogs } = useBlogsStore();
@@ -30,6 +31,9 @@ const ClientHydration = () => {
     skip: categories.length > 0
   });
 
+  useEffect(() => {
+    hydreateFav();
+  }, []);
   useEffect(() => {
     hydrateCart();
   }, []);

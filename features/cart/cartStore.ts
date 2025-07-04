@@ -34,7 +34,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
   items: [],
   hydrateCartFromStorage: () => {
     try {
-      const data = getWithExpiry("cartItems");
+      const data = getWithExpiry<IItems[]>("cartItems");
       if (data) {
         set({ items: data });
       }
