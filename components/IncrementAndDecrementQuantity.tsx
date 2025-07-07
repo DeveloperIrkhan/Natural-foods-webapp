@@ -19,7 +19,7 @@ const IncrementAndDecrementQuantity = ({
 }: Props) => {
   return (
     <div>
-      <div className="flex items-center gap-4 mt-4">
+      <div className="flex items-center gap-4">
         <div className="flex border rounded-full overflow-hidden w-full">
           <button
             onClick={() => decrementCartQuantity(id)}

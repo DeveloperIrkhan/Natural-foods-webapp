@@ -24,7 +24,7 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
     >
       <div className="flex">
         <img
-          className="h-18 w-12 rounded"
+          className="h-18 w-auto rounded"
           src={item.images[0]}
           alt="product image"
         />
@@ -44,7 +44,10 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
           {item.discountPrice > 0 ? (
             <p className="">
               <span className="line-through"> {item.price}</span>
-              <span className="text-red-600 font-bold"> {item.discountPrice}</span>
+              <span className="text-red-600 font-bold">
+                {" "}
+                {item.discountPrice}
+              </span>
             </p>
           ) : (
             <span className="font-bold"> {item.price}</span>
@@ -52,22 +55,24 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
           x {cartItems.Quantity}
         </h2>
       </div>
-      <div className="flex flex-col justify-around items-center">
-        <IncrementAndDecrementQuantity
-          id={item._id}
-          Quantity={cartItems.Quantity}
-          // cartProductSize={cartItems.productSize}
-          decrementCartQuantity={decrementQuantity}
-          incrementCartQuantity={incrementQuantity}
-        />
-      </div>
-      <div className="flex flex-col justify-around items-center">
-        <h2 className="text-[12px] md:text-[14px] font-normal md:font-semibold">
-          <Trash2
-            onClick={() => removeFromCart(item._id)}
-            className="hoverEffect w-4 md:h-5 h-4 md:w-5 hover:text-red-600 hover:cursor-pointer"
+      <div className="flex md:flex-row flex-col gap-3">
+        <div className="flex flex-col justify-around items-center">
+          <IncrementAndDecrementQuantity
+            id={item._id}
+            Quantity={cartItems.Quantity}
+            // cartProductSize={cartItems.productSize}
+            decrementCartQuantity={decrementQuantity}
+            incrementCartQuantity={incrementQuantity}
           />
-        </h2>
+        </div>
+        <div className="flex flex-col justify-around items-center">
+          <h2 className="text-[12px] md:text-[14px] font-normal md:font-semibold">
+            <Trash2
+              onClick={() => removeFromCart(item._id)}
+              className="hoverEffect w-4 md:h-5 h-4 md:w-5 hover:text-red-600 hover:cursor-pointer"
+            />
+          </h2>
+        </div>
       </div>
     </div>
   );
