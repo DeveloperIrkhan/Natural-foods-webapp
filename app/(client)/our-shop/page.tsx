@@ -2,6 +2,7 @@
 import SamillerCard from "@/components/Cards-Components/SamillerCard";
 import Container from "@/components/Container";
 import NoItemFounnd from "@/components/NoItemFounnd";
+import FilteredProductForOurShop from "@/components/our-shop/FilteredProductForOurShop";
 import FiteredProductContainer from "@/components/our-shop/FiteredProductContainer";
 import PageTitle, { Textsm } from "@/components/PageTitle";
 import { useCategoryStore } from "@/features/category/categoryStore";
@@ -96,14 +97,18 @@ const page = () => {
                     );
                   })}
                 </Textsm>
-                {filterProducts && filterProducts.length > 0 ? (
-                  <FiteredProductContainer products={filterProducts} slug="" />
-                ) : (
-                  <NoItemFounnd
-                    className=""
-                    selectedTab={""}
-                  />
-                )}
+                <div className="flex flex-wrap md:justify-start justify-center items-center gap-3">
+                  {filterProducts && filterProducts.length > 0 ? (
+                    filterProducts.map((product) => (
+                      <FilteredProductForOurShop
+                        key={product._id}
+                        product={product}
+                      />
+                    ))
+                  ) : (
+                    <NoItemFounnd />
+                  )}
+                </div>
               </div>
             </div>
           </div>

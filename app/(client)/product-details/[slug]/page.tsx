@@ -19,7 +19,6 @@ const Page = () => {
   const { products } = useProductsStore();
   const product = products.find((item) => item.slug === slug);
   const [displayImage, setDisplayImage] = useState(product?.images[0]);
-  const [productSize, setProductSize] = useState("");
   const { addToCart, items, removeFromCart } = useCartStore();
   // );
   const { addToFavorite, favItems } = useFavoriteItemsStore();
