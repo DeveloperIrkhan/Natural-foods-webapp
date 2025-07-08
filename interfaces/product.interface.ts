@@ -61,3 +61,36 @@ export interface IProduct {
   inStock: boolean;
   createdAt: Date;
 }
+
+export interface IOrderModel extends Document {
+  _id: mongoose.Types.ObjectId;
+  products: {
+    productId: string;
+    quantity: string;
+    price: number;
+  }[];
+  userInfo: {
+    name: string;
+    email: string;
+    contact: string;
+  };
+  totalAmount: number;
+  shippingAddress: string;
+  paymentStatus: string;
+}
+export interface IOrder {
+  _id: string;
+  products: {
+    productId: string;
+    quantity: string;
+    price: number;
+  }[];
+  userInfo: {
+    name: string;
+    email: string;
+    contact: string;
+  }[];
+  totalAmount: number;
+  shippingAddress: string;
+  paymentStatus: string;
+}

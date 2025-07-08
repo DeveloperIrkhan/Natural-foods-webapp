@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import PageTitle, { Textsm } from "../PageTitle";
 import { useCartStore } from "@/features/cart/cartStore";
 import PriceFormater from "../PriceFormater";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const TotalCheckOutCard = () => {
+  const router = useRouter();
   const { getCartAmount, getDiscountTotal, settotalAmountAfter } =
     useCartStore();
   let subtotal = Number(getCartAmount());
@@ -11,11 +14,11 @@ const TotalCheckOutCard = () => {
   let shippingcharges = 500;
   let total = subtotal - discount + shippingcharges;
   useEffect(() => {
-    console.log("subtotal amount", total);
+    // console.log("subtotal amount", total);
     settotalAmountAfter(total);
   }, [subtotal]);
   useEffect(() => {
-    console.log("discount from state", discount);
+    // console.log("discount from state", discount);
   }, [discount]);
   const [checked, setChecked] = useState<boolean>(false);
   return (
@@ -67,11 +70,16 @@ const TotalCheckOutCard = () => {
           onChange={(e) => setChecked(e.target.checked)}
           //   onChange={(e) => setInStock(e.target.checked)}
         />
-        I agreed with the terms and conditions
+        <span className="flex gap-x-1 [@media(min-width:1350px)]:flex-row flex-col">
+          <span>I agreed with the</span>
+          <span className="border-b border-blue-500 text-blue-500">
+            <Link href={"/termAndCondition"}>terms and conditions</Link>
+          </span>
+        </span>
       </label>
       <div className="flex justify-center mt-3">
         <button
-          onClick={() => console.log("item clicked")}
+          onClick={() => router.push("shopping-cart/checkout")}
           disabled={!checked}
           className={`px-3 py-1.5 bg-black ${
             !checked
@@ -81,7 +89,6 @@ const TotalCheckOutCard = () => {
         >
           Proceed to checkout
         </button>
-        
       </div>
     </div>
   );
