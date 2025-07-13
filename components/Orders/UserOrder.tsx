@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import { Textsm } from "../PageTitle";
 import UserOrderCard from "./UserOrderCard";
 import OrderDetails from "./OrderDetails";
+import { useCartStore } from "@/features/cart/cartStore";
+import { usePostOrderMutation } from "@/features/Order/OrderAPI";
+import { toast } from "react-toastify";
+import LoadingScreen from "../Loading/LoadingScreen";
 
 interface IUserOrderCardProps {
   name: string;
@@ -16,8 +20,48 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
   const [userPhoneNumber, setUserPhoneNumber] = useState<string>(
     phoneNumber ? phoneNumber : ""
   );
+  const [cartItem, setCartItems] = useState();
+  const { getCartAmount, getDiscountTotal, shippingcharges, items, emptyCart } =
+    useCartStore();
+  let subtotal = Number(getCartAmount());
+  let discount = Number(getDiscountTotal());
+  let totalAmount = subtotal - discount + shippingcharges;
+
+  const [postOrder, { isLoading }] = usePostOrderMutation();
+
+  const handleOrderSubmit = async () => {
+    const orderData = {
+      products: items.map((item) => ({
+        productId: item.productId,
+        quantity: item.Quantity
+      })),
+      userInfo: {
+        name: userName,
+        email: userEmail,
+        contact: userPhoneNumber
+      },
+      totalAmount,
+      shippingAddress: userAddress,
+      paymentStatus: "pending"
+    };
+
+    try {
+      const response = await postOrder(orderData).unwrap();
+      toast.success(response?.data?.message);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setUserName("");
+      setUserEmail("");
+      setUserAddress("");
+      setUserPhoneNumber("");
+      emptyCart();
+    }
+  };
+
   return (
     <div className="flex flex-col md:flex-row gap-10">
+      {isLoading && <LoadingScreen />}
       <div className="md:w-2/4 w-full">
         <UserOrderCard cardTitle="User Information">
           <div className="mb-6">
@@ -84,7 +128,7 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
         </UserOrderCard>
       </div>
       <div className="md:w-2/4 w-full">
-        <OrderDetails />
+        <OrderDetails onSubmitOrder={handleOrderSubmit} />
       </div>
     </div>
   );

@@ -67,7 +67,6 @@ export interface IOrderModel extends Document {
   products: {
     productId: string;
     quantity: string;
-    price: number;
   }[];
   userInfo: {
     name: string;
@@ -83,7 +82,6 @@ export interface IOrder {
   products: {
     productId: string;
     quantity: string;
-    price: number;
   }[];
   userInfo: {
     name: string;

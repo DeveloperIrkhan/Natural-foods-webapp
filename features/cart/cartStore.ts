@@ -2,6 +2,7 @@ import { getWithExpiry, setWithExpiry } from "@/app/helpers/localStorage";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useProductsStore } from "../product/productStore";
+import { set } from "mongoose";
 export interface IItems {
   productId: string;
   // productSize: string;
@@ -9,10 +10,7 @@ export interface IItems {
 }
 interface ICartStore {
   items: IItems[];
-  // addToCart: (productId: string, productSize: string) => void;
-  // removeFromCart: (productId: string, productSize: string) => void;
-  // incrementQuantity: (productId: string, productSize: string) => void;
-  // decrementQuantity: (productId: string, productSize: string) => void;
+  shippingcharges: number;
   addToCart: (productId: string) => void;
   removeFromCart: (productId: string) => void;
   incrementQuantity: (productId: string) => void;
@@ -22,11 +20,14 @@ interface ICartStore {
   getDiscountTotal: () => void;
   isHydrated: boolean;
   totalAmountAfter: number;
+  emptyCart: () => void;
   settotalAmountAfter: (totalAmountAfter: number) => void;
 }
+
 export const useCartStore = create<ICartStore>((set, get) => ({
   // getting items from local storage for the firsttime
   isHydrated: false,
+  shippingcharges: 500,
   totalAmountAfter: 0,
   settotalAmountAfter: (amount) => {
     set({ totalAmountAfter: amount });
@@ -44,12 +45,8 @@ export const useCartStore = create<ICartStore>((set, get) => ({
       set({ isHydrated: true });
     }
   },
-  // addToCart: (productId, productSize) => {
+
   addToCart: (productId) => {
-    // if (!productSize) {
-    //   toast.error("please select size!", { autoClose: 1500 });
-    //   return;
-    // }
     const items = [...get().items];
     const index = items.findIndex((item) => item.productId === productId);
 
@@ -113,7 +110,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
     const products = useProductsStore.getState().products;
     let cartItems = [...get().items];
     cartItems.forEach((item) => {
-      console.log("cartItems", cartItems);
+      // console.log("cartItems", cartItems);
       const product = products.find(
         (singleProduct) => singleProduct._id === item.productId
       );
@@ -123,9 +120,13 @@ export const useCartStore = create<ICartStore>((set, get) => ({
         const singleItemDiscount = product.price - product.discountPrice;
         discountAmount += singleItemDiscount * item.Quantity;
       }
-      console.log("discountAmount", discountAmount);
+      // console.log("discountAmount", discountAmount);
     });
     return discountAmount;
+  },
+  emptyCart: () => {
+    set({ items: [] });
+    localStorage.removeItem("cartItems");
   }
   // #end
 }));

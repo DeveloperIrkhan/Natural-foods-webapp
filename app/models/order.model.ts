@@ -10,8 +10,7 @@ const OrderSchema = new mongoose.Schema(
           ref: "Product",
           required: true
         },
-        quantity: { type: Number, required: true },
-        price: { type: Number, required: true }
+        quantity: { type: Number, required: true }
       }
     ],
     userInfo: {
@@ -28,5 +27,5 @@ const OrderSchema = new mongoose.Schema(
   }
 );
 
-const Order =
+export const Order =
   mongoose.models.Order || mongoose.model<IOrderModel>("Order", OrderSchema);

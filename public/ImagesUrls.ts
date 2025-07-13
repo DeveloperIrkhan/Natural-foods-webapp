@@ -5,6 +5,7 @@ import Upload from "./Upload.png";
 import Spinner from "./Spinner.svg";
 import Heart from "./Heart.svg";
 import HeartFill from "./HeartFill.svg";
+import Page404 from "./Page404.png";
 export const images = {
   Logo,
   Profile,
@@ -12,5 +13,9 @@ export const images = {
   Spinner,
   Upload,
   Heart,
-  HeartFill
+  HeartFill,
+  Page404
 };
+
+
+
