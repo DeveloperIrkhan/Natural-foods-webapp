@@ -4,6 +4,13 @@ import MenuButtons from "./MenuButtons";
 import CartIcon from "./CartIcon";
 import FavoriteButton from "./FavoriteButton";
 import AdminMenu from "./AdminMenu";
+import {
+  ClerkLoaded,
+  SignedIn,
+  SignedOut,
+  SignIn,
+  UserButton
+} from "@clerk/clerk-react";
 
 const SimpleNavbar = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -32,9 +39,14 @@ const SimpleNavbar = () => {
     >
       <div className="flex justify-center gap-6">
         <MenuButtons />
-        <div className="flex gap-5">
+        <div className="flex justify-center items-center gap-5">
           <CartIcon />
           <FavoriteButton />
+          <ClerkLoaded>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </ClerkLoaded>
         </div>
       </div>
     </div>

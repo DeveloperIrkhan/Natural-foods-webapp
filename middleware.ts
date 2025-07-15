@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 //   orgId: string | null;
 // }
 // Your protected routes
-const protectedRoutes = [
+const adminprotectedRoutes = [
   "/dashboard",
   "/settings",
   "/setup-2fa",
@@ -17,28 +17,29 @@ const protectedRoutes = [
 ];
 const clientProtecedRoutes = ["/shopping-cart"];
 // Merge your logic into Clerk middleware
-const mergedMiddleware = clerkMiddleware(
-  (auth, request) => {
-    const path = request.nextUrl.pathname;
-    if (protectedRoutes.includes(path)) {
-      const accessToken = request.cookies.get("accessToken");
-      const loggedInUser = request.cookies.get("loggedInUser");
+const mergedMiddleware = clerkMiddleware((auth, request) => {
+  const path = request.nextUrl.pathname;
+  if (adminprotectedRoutes.includes(path)) {
+    const accessToken = request.cookies.get("accessToken");
+    const loggedInUser = request.cookies.get("loggedInUser");
 
-      if (!accessToken || !loggedInUser) {
-        return NextResponse.redirect(new URL("/auth", request.url));
-      }
+    if (!accessToken || !loggedInUser) {
+      return NextResponse.redirect(new URL("/auth", request.url));
     }
+  }
+  return (async () => {
     if (clientProtecedRoutes.includes(path)) {
-      // const { userId } = auth;
-      // if (!userId) {
-      //   // Clerk's sign-in page
-      //   return NextResponse.redirect(new URL("/sign-in", request.url));
-      // }
+      const { userId } = await auth();
+      if (!userId) {
+        const redirectUrl = new URL("/sign-in", request.url);
+        redirectUrl.searchParams.set("redirect_url", request.nextUrl.pathname);
+        return NextResponse.redirect(redirectUrl);
+      }
     }
 
     return NextResponse.next();
-  }
-);
+  })();
+});
 
 export default mergedMiddleware;
 

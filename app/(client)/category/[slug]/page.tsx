@@ -11,7 +11,7 @@ const FilterByCategory = () => {
 
   return (
     <div className="bg-gray-50">
-      <Container className="w-full h-screen">
+      <Container className="w-full">
         <PageTitle>Category wise</PageTitle>
         <FiteredProductContainer slug={slug} />
       </Container>

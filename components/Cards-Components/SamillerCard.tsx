@@ -16,9 +16,9 @@ const SamillerCard = ({ product, LinkTo }: ISamillerCardProps) => {
       <AnimatePresence>
         <div className="group">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.1 }}
             className={`relative max-w-[300px] min-w-[200px] mt-0 bg-white rounded-lg shadow-md hover:bg-slate-50 duration-300 group-hover:shadow-lg`}
           >
             {product.discountPrice > 0 ? (
@@ -31,20 +31,15 @@ const SamillerCard = ({ product, LinkTo }: ISamillerCardProps) => {
             ) : (
               <></>
             )}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="w-full h-[40vmin] overflow-hidden"
-            >
+            <div className="w-full h-[40vmin] overflow-hidden">
               <img
                 src={product.images[0]}
                 alt={product.name}
                 className="w-full rounded-t-lg h-full object-center transition-transform duration-500 ease-in-out transform group-hover:rotate-6 group-hover:scale-110"
               />
-            </motion.div>
+            </div>
             <motion.div
-              initial={{ opacity: 0, y: -20 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               className="py-3"

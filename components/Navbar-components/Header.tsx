@@ -3,7 +3,6 @@ import Logo from "./Logo";
 import MenuButtons from "./MenuButtons";
 import AdminMenu from "./AdminMenu";
 import MobileMenu from "./MobileMenu";
-import { useEffect, useState } from "react";
 import SimpleNavbar from "./SimpleNavbar";
 const Header = () => {
 
