@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: "Dynamic Admin Title | MyApp"
+    title: "Dynamic Admin Title | MyApp",
   };
 }
 export default function RootLayout({
@@ -15,8 +15,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="">
-        <div className="flex flex-col min-h-screen">
+      <body>
+        <div className="flex w-full flex-col min-h-screen">
           <StoreProvider>
             <main className="flex-1">
               <ToastContainer position="top-right" autoClose={3000} />

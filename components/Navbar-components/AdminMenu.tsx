@@ -8,7 +8,7 @@ import { currentUser } from "@clerk/nextjs/server";
 
 const AdminMenu = async () => {
   const LoggedInUser = await currentUser();
-  console.log(LoggedInUser);
+  // console.log(LoggedInUser);
   // useEffect(() => {}, [LoggedInUser]);
   return (
     <div className="w-auto md:w-1/3 gap-4 flex items-center justify-end font-Jost">

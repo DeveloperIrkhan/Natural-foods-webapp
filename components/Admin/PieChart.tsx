@@ -1,4 +1,3 @@
-import { number } from "framer-motion";
 import React from "react";
 interface IPieChartProps {
   chartTitle: string;

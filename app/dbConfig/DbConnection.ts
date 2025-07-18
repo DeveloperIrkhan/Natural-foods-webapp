@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 export default async function connectDB() {
   try {
-    await mongoose.connect(`${process.env.MONGO_DB_URL}/KhalalFoods`);
+    await mongoose.connect(`${process.env.MONGO_DB_URL!}/KhalalFoods`);
     const connection = mongoose.connection;
     connection.on("connected", () => {
       console.log("database now connected");

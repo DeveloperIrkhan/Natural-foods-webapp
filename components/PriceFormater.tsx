@@ -7,9 +7,9 @@ interface IPriceFormater {
 }
 
 const PriceFormater = ({ amount, className }: IPriceFormater) => {
-  const PriceFormater = new Number(amount).toLocaleString("eu-US", {
-    currency: "PKR",
+  const PriceFormater = new Number(amount).toLocaleString("en-PK", {
     style: "currency",
+    currency: "PKR",
     maximumFractionDigits: 2
   });
   return (

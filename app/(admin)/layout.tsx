@@ -12,7 +12,10 @@ import { ToastContainer } from "react-toastify";
 // };
 export const metadata: Metadata = {
   title: "Admin Panel | Khalis Foods",
-  description: "Khalis Foods"
+  description: "Khalis Foods",
+  icons: {
+    icon: "/favicon.ico"
+  }
 };
 
 export default function RootLayout({

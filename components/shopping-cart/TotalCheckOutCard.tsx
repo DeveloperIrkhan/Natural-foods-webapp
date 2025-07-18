@@ -9,17 +9,25 @@ const TotalCheckOutCard = () => {
   const router = useRouter();
   const { getCartAmount, getDiscountTotal, settotalAmountAfter } =
     useCartStore();
+  const [shippingcharges, setShippingcharges] = useState<number>(500);
   let subtotal = Number(getCartAmount());
   let discount = Number(getDiscountTotal());
-  let shippingcharges = 500;
-  let total = subtotal - discount + shippingcharges;
+  const [total, setTotal] = useState<number>(0);
+  // let shippingcharges = 500;
   useEffect(() => {
-    // console.log("subtotal amount", total);
+    let baseTotal = subtotal - discount;
+    if (baseTotal > 2500) {
+      setShippingcharges(0);
+    } else {
+      setShippingcharges(500);
+    }
+    setTotal(baseTotal + (baseTotal > 2500 ? 0 : 500));
+    console.log("total amount and shipping charges", total, shippingcharges);
+  }, [subtotal, discount]);
+  useEffect(() => {
     settotalAmountAfter(total);
   }, [subtotal]);
-  useEffect(() => {
-    // console.log("discount from state", discount);
-  }, [discount]);
+ 
   const [checked, setChecked] = useState<boolean>(false);
   return (
     <div
@@ -39,9 +47,16 @@ const TotalCheckOutCard = () => {
           <p>Discount</p>
           <PriceFormater amount={discount} className="text-red-500" />
         </div>
-        <div className="flex items-center justify-between">
-          <p>Shipping</p>
-          <PriceFormater amount={shippingcharges} className="font-semibold" />
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between">
+            <p>Shipping</p>
+            <PriceFormater amount={shippingcharges} className="font-semibold" />
+          </div>
+          {shippingcharges === 0 && (
+            <p className="text-sm text-gray-400 mt-2">
+              Congrulation your shipping charges waveoff
+            </p>
+          )}
         </div>
       </div>
       <hr className="my-5" />

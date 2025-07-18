@@ -6,7 +6,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 import ClientHydration from "@/components/ClientHydration";
 export const metadata: Metadata = {
   title: "Welcome | Khalis Foods",
-  description: "Khalis Foods"
+  description: "Khalis Foods",
+  icons: {
+    icon: "/favicon.ico"
+  }
 };
 
 export default function RootLayout({

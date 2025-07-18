@@ -31,7 +31,7 @@ export const useFavoriteItemsStore = create<IFavItemStoreProps>((set, get) => ({
         value: updated,
         timeInHours: 8
       });
-      toast.success("Item removed from favorites", { autoClose: 1500 });
+      toast.warning("Item removed from favorite list", { autoClose: 1500 });
     } else {
       const updated = [...favCart, { productId: Id }];
       set({ favItems: updated });
@@ -40,7 +40,7 @@ export const useFavoriteItemsStore = create<IFavItemStoreProps>((set, get) => ({
         value: updated,
         timeInHours: 8
       });
-      toast.success("Item added to favorites", { autoClose: 1500 });
+      toast.success("Item added to favorite list", { autoClose: 1500 });
     }
   },
 

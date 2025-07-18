@@ -29,7 +29,7 @@ const SimpleNavbar = () => {
   }, []);
   return (
     <div
-      className={`fixed inset-x-0 bg-[#F8F3E8] top-0 left-0 right-0 z-50 py-5 md:px-6 
+      className={`fixed inset-x-0 bg-[#F8F3E8]/80 backdrop-blur-md top-0 left-0 right-0 z-50 py-5 md:px-6 
         transition-all duration-300
           ${
             isScrolled

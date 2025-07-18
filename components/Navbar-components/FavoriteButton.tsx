@@ -9,7 +9,7 @@ const FavoriteButton = () => {
   const [total, setTotal] = useState(0);
   useEffect(() => {
     setTotal(getTotalFavItems());
-    console.log("total fav", total);
+    // console.log("total fav", total);
   }, [favItems]);
   return (
     <Link href="/favorite-list" className="group relative hoverEffect">

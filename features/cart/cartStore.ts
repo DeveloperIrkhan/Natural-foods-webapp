@@ -58,14 +58,14 @@ export const useCartStore = create<ICartStore>((set, get) => ({
 
     set({ items });
     setWithExpiry({ key: "cartItems", value: items, timeInHours: 8 });
-    toast.success("item added", { autoClose: 1500 });
+    toast.success("item added to cart", { autoClose: 1500 });
   },
   removeFromCart: (productId: string) => {
     let cartItems = [...get().items];
     cartItems = cartItems.filter((item) => !(item.productId === productId));
     set({ items: cartItems });
     setWithExpiry({ key: "cartItems", value: cartItems, timeInHours: 8 });
-    toast.success("Item removed", { autoClose: 1500 });
+    toast.warning("Item removed from cart", { autoClose: 1500 });
   },
   incrementQuantity: (productId: string) => {
     const cartItems = [...get().items];
