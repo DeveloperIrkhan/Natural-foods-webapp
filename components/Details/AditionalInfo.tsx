@@ -5,7 +5,7 @@ import { useProductsStore } from "@/features/product/productStore";
 import { useCartStore } from "@/features/cart/cartStore";
 import PricePreview from "../PricePreview";
 import PriceFormater from "../PriceFormater";
-import { Heart } from "lucide-react";
+import { Heart, StarIcon } from "lucide-react";
 import SocialMediaIcons from "../SocialMediaIcons";
 import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
 import { IProduct } from "@/interfaces/product.interface";
@@ -91,9 +91,24 @@ const AditionalInfo = ({ product }: props) => {
             )}
 
             <div className="text-gray-600">
-              <p className="text-sm mt-4">
-                Product is {product.inStock ? "in stock" : "out of stock"}
+              <p className={`text-sm mt-4 py-1 px-2 inline-block rounded-lg font-medium ${product.inStock ? "text-secondary-color bg-primary-color/10" : "bg-red-100"}`}>
+                Product is {product.inStock ? "in stock" : "out of stock at the moment"}
               </p>
+            </div>
+            <hr />
+            <div className="text-gray-600 flex items-center gap-2">
+              <p>Rating: </p>
+              <span className="flex gap-1 items-center">
+                {[...Array(5)].map((_, index) => (
+                  <StarIcon
+                    key={index}
+                    size={15}
+                    className="text-primary-color"
+                    fill="#8fc22b"
+                  />
+                ))}
+                <p className="font-semibold">{`(120)`}</p>
+              </span>
             </div>
             <div className="flex items-center mt-6 gap-6">
               <SocialMediaIcons toolTipClassName="bg-black text-white" />
