@@ -26,9 +26,7 @@ const page = () => {
       return update;
     });
   };
-  useEffect(() => {
-    console.log(selectedPrice);
-  }, [selectedPrice]);
+
   const filterProducts = products.filter((product) => {
     const matchCategory =
       filteredCategory.length === 0 ||
