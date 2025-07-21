@@ -12,11 +12,8 @@ const page = () => {
   const { items, isHydrated } = useCartStore();
   const { products } = useProductsStore();
   useEffect(() => {
-    // console.log("Hydrated:", isHydrated);
-    // console.log("Items from store:", items);
   }, [items, isHydrated]);
   useEffect(() => {
-    // console.log("products:", products);
   }, [products]);
   const { isSignedIn } = useUser();
 

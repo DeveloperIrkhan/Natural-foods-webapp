@@ -5,6 +5,7 @@ import PageTitle from "../PageTitle";
 import CategoriesCard from "./CategoriesCard";
 import { useCategoryStore } from "@/features/category/categoryStore";
 import { useProductsStore } from "@/features/product/productStore";
+import SectionHeading from "../SectionHeading";
 
 const HomeCategories = () => {
   const { products } = useProductsStore();
@@ -12,8 +13,12 @@ const HomeCategories = () => {
   return (
     <div>
       <Container className="m-5">
-        <PageTitle className="text-black text-xl">Popular Categories</PageTitle>
         <hr/>
+        {/* <PageTitle className="text-black text-xl">Popular Categories</PageTitle> */}
+        <SectionHeading
+        title="Our Categories"
+        subtitle="All our categories"
+      />
         <div className="flex my-5 gap-6 justify-center items-center flex-wrap">
 
           {/* <div className="grid grid-cols-2 md:grid-cols-6 gap-4"> */}

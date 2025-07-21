@@ -10,6 +10,7 @@ import SocialMediaIcons from "../SocialMediaIcons";
 import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
 import { IProduct } from "@/interfaces/product.interface";
 import IncrementAndDecrementQuantity from "../IncrementAndDecrementQuantity";
+import BenifetsDetails from "./BenifetsDetails";
 interface props {
   product: IProduct;
 }
@@ -24,7 +25,7 @@ const AditionalInfo = ({ product }: props) => {
   } = useCartStore();
   const [activeTab, setActiveTab] = useState("Description");
   const { addToFavorite, favItems } = useFavoriteItemsStore();
-  const tabs = ["Description", "Additional Information", "Reviews"];
+  const tabs = ["Description", "Additional Information", "benefits"];
   return (
     <div className="w-full md:w-1/2 px-10 py-3">
       {product && (
@@ -91,8 +92,15 @@ const AditionalInfo = ({ product }: props) => {
             )}
 
             <div className="text-gray-600">
-              <p className={`text-sm mt-4 py-1 px-2 inline-block rounded-lg font-medium ${product.inStock ? "text-secondary-color bg-primary-color/10" : "bg-red-100"}`}>
-                Product is {product.inStock ? "in stock" : "out of stock at the moment"}
+              <p
+                className={`text-sm mt-4 py-1 px-2 inline-block rounded-lg font-medium ${
+                  product.inStock
+                    ? "text-secondary-color bg-primary-color/10"
+                    : "bg-red-100"
+                }`}
+              >
+                Product is{" "}
+                {product.inStock ? "in stock" : "out of stock at the moment"}
               </p>
             </div>
             <hr />
@@ -147,12 +155,15 @@ const AditionalInfo = ({ product }: props) => {
                 </div>
               )}
 
-              {activeTab === "Reviews" && (
+              {activeTab === "benefits" && (
                 <div>
                   <h2 className="text-xl font-semibold mb-2">
-                    Customer Reviews
+                    benefits details
                   </h2>
-                  <p>No reviews yet. Be the first to review this product!</p>
+                  <BenifetsDetails
+                    productName={product.name}
+                    description={product.description}
+                  />
                 </div>
               )}
             </div>

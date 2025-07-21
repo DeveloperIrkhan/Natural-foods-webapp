@@ -2,7 +2,6 @@ import { getWithExpiry, setWithExpiry } from "@/app/helpers/localStorage";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import { useProductsStore } from "../product/productStore";
-import { set } from "mongoose";
 export interface IItems {
   productId: string;
   // productSize: string;

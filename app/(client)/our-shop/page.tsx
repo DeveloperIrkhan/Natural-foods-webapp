@@ -36,6 +36,7 @@ const page = () => {
       selectedPrice.length === 0 ||
       selectedPrice.some((selected) => {
         const priceRange = PriceArray.find((p) => p.value === selected)?.range;
+        
         if (!priceRange) return false;
         return product.price >= priceRange[0] && product.price <= priceRange[1];
       });
