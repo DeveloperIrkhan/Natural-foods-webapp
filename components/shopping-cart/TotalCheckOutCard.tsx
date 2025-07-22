@@ -7,28 +7,25 @@ import { useRouter } from "next/navigation";
 
 const TotalCheckOutCard = () => {
   const router = useRouter();
-  const { getCartAmount, getDiscountTotal, settotalAmountAfter } =
-    useCartStore();
-  const [shippingcharges, setShippingcharges] = useState<number>(500);
+  const { getCartAmount, getDiscountTotal, items } = useCartStore();
+  const [shippingcharges, setShippingcharges] = useState<number>(0);
+  const [checked, setChecked] = useState<boolean>(false);
   let subtotal = Number(getCartAmount());
   let discount = Number(getDiscountTotal());
   const [total, setTotal] = useState<number>(0);
-  // let shippingcharges = 500;
   useEffect(() => {
-    let baseTotal = subtotal - discount;
-    if (baseTotal > 2500) {
-      setShippingcharges(0);
-    } else {
+    if (items.length > 0) {
       setShippingcharges(500);
+    } else {
+      setShippingcharges(0);
     }
-    setTotal(baseTotal + (baseTotal > 2500 ? 0 : 500));
-    console.log("total amount and shipping charges", total, shippingcharges);
-  }, [subtotal, discount]);
+  }, [items]);
   useEffect(() => {
-    settotalAmountAfter(total);
-  }, [subtotal]);
- 
-  const [checked, setChecked] = useState<boolean>(false);
+    const baseTotal = subtotal - discount;
+    const shipping = items.length > 0 && baseTotal <= 2500 ? 500 : 0;
+    setShippingcharges(shipping);
+    setTotal(baseTotal + shipping);
+  }, [subtotal, discount, items]);
   return (
     <div
       className="px-2 md:px-4 py-2 md:py-4 bg-white rounded-xl

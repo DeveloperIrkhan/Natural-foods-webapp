@@ -19,14 +19,14 @@ interface ICartStore {
   getDiscountTotal: () => void;
   isHydrated: boolean;
   totalAmountAfter: number;
-  emptyCart: () => void;
+  resetCart: () => void;
   settotalAmountAfter: (totalAmountAfter: number) => void;
 }
 
 export const useCartStore = create<ICartStore>((set, get) => ({
   // getting items from local storage for the firsttime
   isHydrated: false,
-  shippingcharges: 500,
+  shippingcharges: 0,
   totalAmountAfter: 0,
   settotalAmountAfter: (amount) => {
     set({ totalAmountAfter: amount });
@@ -44,7 +44,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
       set({ isHydrated: true });
     }
   },
-
+ 
   addToCart: (productId) => {
     const items = [...get().items];
     const index = items.findIndex((item) => item.productId === productId);
@@ -123,7 +123,7 @@ export const useCartStore = create<ICartStore>((set, get) => ({
     });
     return discountAmount;
   },
-  emptyCart: () => {
+  resetCart: () => {
     set({ items: [] });
     localStorage.removeItem("cartItems");
   }

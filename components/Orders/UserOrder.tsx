@@ -20,8 +20,7 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
   const [userPhoneNumber, setUserPhoneNumber] = useState<string>(
     phoneNumber ? phoneNumber : ""
   );
-  const [cartItem, setCartItems] = useState();
-  const { getCartAmount, getDiscountTotal, shippingcharges, items, emptyCart } =
+  const { getCartAmount, getDiscountTotal, shippingcharges, items, resetCart } =
     useCartStore();
   let subtotal = Number(getCartAmount());
   let discount = Number(getDiscountTotal());
@@ -55,7 +54,7 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
       setUserEmail("");
       setUserAddress("");
       setUserPhoneNumber("");
-      emptyCart();
+      resetCart();
     }
   };
 

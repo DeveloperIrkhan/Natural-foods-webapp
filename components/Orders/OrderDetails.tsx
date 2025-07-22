@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserOrderCard from "./UserOrderCard";
 import { useCartStore } from "@/features/cart/cartStore";
 import { Textsm } from "../PageTitle";
@@ -9,12 +9,24 @@ interface IOrderDetailsProps {
   onSubmitOrder: () => void;
 }
 const OrderDetails = ({ onSubmitOrder }: IOrderDetailsProps) => {
-  const { getCartAmount, getDiscountTotal, shippingcharges } = useCartStore();
-
+  const { getCartAmount, getDiscountTotal, items } = useCartStore();
+  const [shippingcharges, setShippingcharges] = useState<number>(0);
   let subtotal = Number(getCartAmount());
   let discount = Number(getDiscountTotal());
-  let shippingcharge = subtotal === 0 ? 0 : shippingcharges;
-  let total = subtotal - discount + shippingcharge;
+  const [total, setTotal] = useState<number>(0);
+  useEffect(() => {
+    if (items.length > 0) {
+      setShippingcharges(500);
+    } else {
+      setShippingcharges(0);
+    }
+  }, [items]);
+  useEffect(() => {
+    const baseTotal = subtotal - discount;
+    const shipping = items.length > 0 && baseTotal <= 2500 ? 500 : 0;
+    setShippingcharges(shipping);
+    setTotal(baseTotal + shipping);
+  }, [subtotal, discount, items]);
   const [paymentMethod, setpaymentMethod] = useState("Cash on delivary");
   return (
     <UserOrderCard cardTitle="More Details">
