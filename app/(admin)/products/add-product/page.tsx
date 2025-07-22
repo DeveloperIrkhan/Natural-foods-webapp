@@ -12,10 +12,9 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const [productStatus, setProductStatus] = useState("sale");
   const [categories, setCategories] = useState<ICategoryModel[]>([]);
-  const [inStock, setInStock] = useState<boolean>(false);
+  const [inStock, setInStock] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [message, setMessage] = useState("");
-  // const [quantity, setQuantity] = useState<string[]>([]);
   const [productImage0, setProductImage0] = useState<File | null>(null);
   const [productImage1, setProductImage1] = useState<File | null>(null);
   const [productImage2, setProductImage2] = useState<File | null>(null);
@@ -38,7 +37,7 @@ const AddProduct = () => {
       form.append("category", category);
       form.append("productStatus", productStatus);
       // form.append("quantity", JSON.stringify(quantity));
-      form.append("inStock", inStock.toString());
+      form.append("inStock", inStock);
       console.log("category passing", category);
       productImage0 && form.append("productImage0", productImage0);
       productImage1 && form.append("productImage1", productImage1);
@@ -355,9 +354,9 @@ const AddProduct = () => {
           <label className="flex items-center space-x-2">
             <input
               name="inStock"
-              type="checkbox"
-              checked={inStock}
-              onChange={(e) => setInStock(e.target.checked)}
+              type="number"
+              placeholder="please enter product quantity"
+              onChange={(e) => setInStock(e.target.value)}
             />
             <span>In Stock</span>
           </label>

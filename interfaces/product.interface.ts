@@ -10,7 +10,7 @@ export interface IProductModel extends Document {
   slug: string;
   category: string;
   productStatus: string;
-  inStock: boolean;
+  inStock: number;
   createdAt: Date;
 }
 
@@ -58,7 +58,7 @@ export interface IProduct {
   slug: string;
   category: string;
   productStatus: string;
-  inStock: boolean;
+  inStock: number;
   createdAt: Date;
 }
 

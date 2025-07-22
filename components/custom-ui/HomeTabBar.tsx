@@ -24,7 +24,6 @@ const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
       setProducts(latest);
     }
   }, []);
-
   // Filtered Products
   const filteredProducts = useMemo(() => {
     if (!products.length) return [];

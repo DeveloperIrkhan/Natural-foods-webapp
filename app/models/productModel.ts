@@ -22,7 +22,7 @@ const ProductSchema = new mongoose.Schema(
       required: [true, "Product must belong to a category"]
     },
     productStatus: { type: String, default: "new arrival", required: true },
-    inStock: { type: Boolean, default: true }
+    inStock: { type: Number, default: 0 }
   },
   { timestamps: true }
 );

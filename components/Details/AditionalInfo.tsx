@@ -16,13 +16,7 @@ interface props {
 }
 const AditionalInfo = ({ product }: props) => {
   const { products } = useProductsStore();
-  const {
-    addToCart,
-    items,
-    removeFromCart,
-    incrementQuantity,
-    decrementQuantity
-  } = useCartStore();
+  const { addToCart, items, removeFromCart } = useCartStore();
   const [activeTab, setActiveTab] = useState("Description");
   const { addToFavorite, favItems } = useFavoriteItemsStore();
   const tabs = ["Description", "Additional Information", "benefits"];
@@ -70,7 +64,12 @@ const AditionalInfo = ({ product }: props) => {
               <div className="flex gap-3">
                 <button
                   onClick={() => addToCart(product._id)}
-                  className="w-full bg-primary-color text-white px-6 py-2 rounded-lg shadow-md hover:bg-secondary-color hoverEffect"
+                  disabled={product.inStock > 0 ? false : true}
+                  className={`${
+                    product.inStock > 0
+                      ? "bg-primary-color hover:bg-secondary-color"
+                      : "bg-gray-400 cursor-not-allowed"
+                  } w-full  text-white px-6 py-2 rounded-lg shadow-md hoverEffect`}
                 >
                   ADD TO CART
                 </button>
@@ -94,13 +93,15 @@ const AditionalInfo = ({ product }: props) => {
             <div className="text-gray-600">
               <p
                 className={`text-sm mt-4 py-1 px-2 inline-block rounded-lg font-medium ${
-                  product.inStock
+                  product.inStock > 0
                     ? "text-secondary-color bg-primary-color/10"
                     : "bg-red-100"
                 }`}
               >
                 Product is{" "}
-                {product.inStock ? "in stock" : "out of stock at the moment"}
+                {product.inStock > 0
+                  ? "in stock"
+                  : "out of stock at the moment"}
               </p>
             </div>
             <hr />

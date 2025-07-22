@@ -1,15 +1,20 @@
 "use client";
 import { cn } from "@/lib/utils";
-import { Heart } from "lucide-react";
+import { FaHeart } from "react-icons/fa";
 import React from "react";
 interface IAddToWishList {
   className?: string;
-  onClick: () => void;
+  buttonClick: () => void;
 }
-const AddtoWishList = ({ className }: IAddToWishList) => {
+const AddtoWishList = ({ className, buttonClick }: IAddToWishList) => {
   return (
-    <button className={cn("absolute z-10 top-2 right-2", className)}>
-      <Heart className="hoverEffect w-4 h-4 hover:text-secondary-color hover:cursor-pointer" />
+    <button onClick={() => buttonClick()}>
+      <FaHeart
+        className={cn(
+          "absolute z-10 top-2 right-2 w-5 h-5 hoverEffect hover:text-gray-400 hover:cursor-pointer",
+          className
+        )}
+      />
     </button>
   );
 };

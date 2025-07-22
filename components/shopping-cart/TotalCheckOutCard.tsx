@@ -80,7 +80,6 @@ const TotalCheckOutCard = () => {
                              cursor-pointer"
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
-          //   onChange={(e) => setInStock(e.target.checked)}
         />
         <span className="flex gap-x-1 [@media(min-width:1350px)]:flex-row flex-col">
           <span>I agreed with the</span>
