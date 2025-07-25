@@ -10,6 +10,7 @@ import { useCategoryStore } from "@/features/category/categoryStore";
 import { useProductsStore } from "@/features/product/productStore";
 import React, { useEffect, useState } from "react";
 import { PriceArray } from "@/app/constants/constants";
+import Banner from "@/components/Banner/Banner";
 const page = () => {
   const { categories } = useCategoryStore();
 
@@ -36,7 +37,7 @@ const page = () => {
       selectedPrice.length === 0 ||
       selectedPrice.some((selected) => {
         const priceRange = PriceArray.find((p) => p.value === selected)?.range;
-        
+
         if (!priceRange) return false;
         return product.price >= priceRange[0] && product.price <= priceRange[1];
       });
@@ -50,8 +51,8 @@ const page = () => {
   };
   return (
     <div className="bg-gray-50">
+      <Banner text="Our Shop" media="/images/Ourshop.png" />
       <Container>
-        <PageTitle>Our Shop</PageTitle>
         <Container>
           <div className="w-full">
             <div className="flex md:flex-row flex-col gap-3">

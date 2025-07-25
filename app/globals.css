@@ -155,7 +155,7 @@
     @apply bg-black text-white px-3 py-1 shadow-md
            hover:shadow-[0_0_10px_rgba(0_0_0/0.3)]
            rounded-lg hover:bg-slate-700 hover:tracking-widest
-           hover:translate-y-1 duration-400;
+           hover:translate-y-1 duration-500;
   }
   .custom-input {
     @apply border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color;

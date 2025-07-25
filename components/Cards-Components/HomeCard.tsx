@@ -99,8 +99,10 @@ const HomeCard = ({
               <img
                 src={image[0] || "/placeholder-image.jpg"} // Use actual image or a placeholder
                 alt={title}
-                className="md:rounded-l-lg w-full h-full object-cover transition-transform duration-500 ease-in-out transform
-       group-hover:rotate-3 group-hover:scale-110"
+                className={`md:rounded-l-lg w-full h-full object-cover transition-transform duration-500 ease-in-out transform
+       group-hover:rotate-3 group-hover:scale-110 ${
+         inStock > 0 ? "" : "opacity-30"
+       }`}
               />
             </div>
           </Link>
@@ -164,11 +166,13 @@ const HomeCard = ({
               <>
                 <button
                   onClick={() => removeFromCart(_id)}
-                  className="text-white font-semibold py-1 px-3 rounded-lg shadow-md
+                  className="text-white font-semibold py-1 px-3 my-3 md:my-0 rounded-lg shadow-md
                         transition-colors duration-200 focus:outline-none focus:ring-2
                          focus:ring-opacity-50 bg-red-600 hover:bg-red-700 focus:ring-red-600"
                 >
-                  <ShoppingCart />
+                  <div className="flex gap-2.5">
+                    <ShoppingCart /> <p>Remove From cart</p>
+                  </div>
                 </button>
               </>
             ) : (
@@ -190,7 +194,10 @@ const HomeCard = ({
                              : "bg-gray-400 cursor-not-allowed"
                          }`}
                 >
-                  <ShoppingCart />
+                  <div className="flex gap-2.5">
+                    <ShoppingCart />{" "}
+                    <p>{inStock > 0 ? "Add to cart" : "Out of stock"}</p>
+                  </div>
                 </button>
               </>
             )}

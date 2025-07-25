@@ -2,6 +2,7 @@ import BlogSection from "@/components/Bogs/BlogSection";
 import HomeCategories from "@/components/Cards-Components/HomeCategories";
 import Carousel from "@/components/Carousel/Carousel";
 import ProductGrid from "@/components/custom-ui/ProductGrid";
+import ShippingComponent from "@/components/ShippingComponent";
 import ShippingContainer from "@/components/ShippingContainer";
 const Home = () => {
   return (
@@ -15,7 +16,7 @@ const Home = () => {
       {/* blog sections */}
       <BlogSection />
       {/* Home Cartegories grid */}
-      <ShippingContainer />
+      <ShippingComponent />
     </div>
   );
 };

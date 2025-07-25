@@ -6,8 +6,10 @@ import Spinner from "./Spinner.svg";
 import Heart from "./Heart.svg";
 import HeartFill from "./HeartFill.svg";
 import Page404 from "./Page404.png";
+import EmptyShoppingCart from "./images/EmptyShoppingCart.png";
 export const images = {
   Logo,
+  EmptyShoppingCart,
   Profile,
   Camera,
   Spinner,
@@ -16,6 +18,3 @@ export const images = {
   HeartFill,
   Page404
 };
-
-
-

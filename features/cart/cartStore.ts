@@ -21,6 +21,7 @@ interface ICartStore {
   totalAmountAfter: number;
   resetCart: () => void;
   settotalAmountAfter: (totalAmountAfter: number) => void;
+  getCurrentItemCount: (productId: string) => number;
 }
 
 export const useCartStore = create<ICartStore>((set, get) => ({
@@ -30,6 +31,11 @@ export const useCartStore = create<ICartStore>((set, get) => ({
   totalAmountAfter: 0,
   settotalAmountAfter: (amount) => {
     set({ totalAmountAfter: amount });
+  },
+  getCurrentItemCount: (productId: string) => {
+    const cart = get().items;
+    const item = cart.find((item) => item.productId === productId);
+    return item ? item.Quantity : 0;
   },
   items: [],
   hydrateCartFromStorage: () => {
@@ -44,7 +50,6 @@ export const useCartStore = create<ICartStore>((set, get) => ({
       set({ isHydrated: true });
     }
   },
- 
   addToCart: (productId) => {
     const items = [...get().items];
     const index = items.findIndex((item) => item.productId === productId);
@@ -56,8 +61,15 @@ export const useCartStore = create<ICartStore>((set, get) => ({
     }
 
     set({ items });
+    const product = useProductsStore.getState().products;
+    const productName = product.find((item) => item._id === productId);
     setWithExpiry({ key: "cartItems", value: items, timeInHours: 8 });
-    toast.success("item added to cart", { autoClose: 1500 });
+    toast.success(
+      `${
+        productName ? `${productName.name} added to cart` : "item added to cart"
+      }`,
+      { autoClose: 1500 }
+    );
   },
   removeFromCart: (productId: string) => {
     let cartItems = [...get().items];
@@ -69,6 +81,15 @@ export const useCartStore = create<ICartStore>((set, get) => ({
   incrementQuantity: (productId: string) => {
     const cartItems = [...get().items];
     const index = cartItems.findIndex((item) => item.productId === productId);
+    const currentItemQuantity = get().getCurrentItemCount(productId);
+    const products = useProductsStore.getState().products;
+    const product = products.find((item) => item._id === productId);
+    if (!product) return;
+
+    if (currentItemQuantity >= product.inStock) {
+      toast.error("Sorry, we are out of stock", { autoClose: 1500 });
+      return;
+    }
 
     if (index > -1) {
       cartItems[index].Quantity += 1;
@@ -127,5 +148,4 @@ export const useCartStore = create<ICartStore>((set, get) => ({
     set({ items: [] });
     localStorage.removeItem("cartItems");
   }
-  // #end
 }));

@@ -35,7 +35,8 @@ const SamillerCard = ({ product, LinkTo }: ISamillerCardProps) => {
               <img
                 src={product.images[0]}
                 alt={product.name}
-                className="w-full rounded-t-lg h-full object-center transition-transform duration-500 ease-in-out transform group-hover:rotate-6 group-hover:scale-110"
+                className={`w-full rounded-t-lg h-full object-center transition-transform duration-500 ease-in-out transform group-hover:rotate-6 group-hover:scale-110 
+                  ${product.inStock > 0 ? "" : "opacity-30"}`}
               />
             </div>
             <motion.div
@@ -61,6 +62,9 @@ const SamillerCard = ({ product, LinkTo }: ISamillerCardProps) => {
                   {product.price}
                 </span>
               </p>
+              {product.inStock === 0 && (
+                <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  rounded-md text-sm px-2 py-1 text-center text-white bg-red-500">out of stock</p>
+              )}
             </motion.div>
           </motion.div>
         </div>

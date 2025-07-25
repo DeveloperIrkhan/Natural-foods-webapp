@@ -49,10 +49,18 @@ const TotalCheckOutCard = () => {
             <p>Shipping</p>
             <PriceFormater amount={shippingcharges} className="font-semibold" />
           </div>
-          {shippingcharges === 0 && (
-            <p className="text-sm text-gray-400 mt-2">
-              Congrulation your shipping charges waveoff
-            </p>
+          {shippingcharges === 0 && items.length !== 0 && (
+            <div className="mt-4 bg-gradient-to-r from-lime-100 to-yellow-100 border-l-8 border-lime-600 text-green-800 p-5 rounded-lg shadow-lg flex items-start gap-4">
+              <div className="text-2xl">🎉</div>
+              <div>
+                <p className="font-bold text-lg tracking-wide">Great news!</p>
+                <p className="text-sm tracking-normal">
+                  Your shipping charges have been{" "}
+                  <span className="font-semibold">waived</span>. Enjoy free
+                  delivery on your order!
+                </p>
+              </div>
+            </div>
           )}
         </div>
       </div>
