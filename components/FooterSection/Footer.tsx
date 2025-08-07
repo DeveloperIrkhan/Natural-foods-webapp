@@ -7,10 +7,11 @@ import SocialMediaIcons from "../SocialMediaIcons";
 import PageTitle, { Textsm } from "../PageTitle";
 import { categoriesData, QuickLinks } from "@/app/constants/constants";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const Footer = () => {
-  // const [year, setYear] = useState<number | null>(null);
-  // setYear(new Date().getFullYear());
+  const [email, setEmail] = useState("");
+  // const currentYear = new Date().getFullYear();
   return (
     <footer className="border-t">
       <Container>
@@ -76,9 +77,13 @@ const Footer = () => {
               <Textsm className="font-bold">
                 Subscribe to our newsletter to recieve news and offers
               </Textsm>
-              <form className="grid gap-3">
+              {/* <form className="grid gap-3">
                 <input
-                  type="text"
+                  id="newsletter-email"
+                  type="email"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color"
                   placeholder="Enter your Email"
                 />
@@ -89,14 +94,14 @@ const Footer = () => {
                 >
                   Subscribe
                 </button>
-              </form>
+              </form> */}
             </div>
           </div>
         </Container>
       </Container>
       <div className="border-t text-center bg-gray-100 py-2 text-gray-600">
         <p className="text-sm">
-          &copy; 2025 All rights reserved. Developed by
+          © {"2025"} All rights reserved. Developed by
           <span className="uppercase px-3 text-primary-color font-bold text-[15px]">
             Khalis Foods
           </span>

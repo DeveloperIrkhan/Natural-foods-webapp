@@ -66,7 +66,7 @@ export interface IOrderModel extends Document {
   _id: mongoose.Types.ObjectId;
   products: {
     productId: string;
-    quantity: string;
+    quantity: number;
   }[];
   userInfo: {
     name: string;
@@ -81,7 +81,7 @@ export interface IOrder {
   _id: string;
   products: {
     productId: string;
-    quantity: string;
+    quantity: number;
   }[];
   userInfo: {
     name: string;
@@ -91,4 +91,27 @@ export interface IOrder {
   totalAmount: number;
   shippingAddress: string;
   paymentStatus: string;
+}
+export interface IUserOrderData {
+  metaData: {
+    orderNumber: string;
+    user: string;
+    customerEmail: string;
+    clerkUserId: string;
+    address: string;
+  };
+  orderData: {
+    products: {
+      productId: string;
+      quantity: number;
+    }[];
+    userInfo: {
+      name: string;
+      email: string;
+      contact: string;
+    };
+    totalAmount: number;
+    shippingAddress: string;
+    paymentStatus: string;
+  };
 }

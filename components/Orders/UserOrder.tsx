@@ -1,52 +1,110 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Textsm } from "../PageTitle";
 import UserOrderCard from "./UserOrderCard";
-import OrderDetails from "./OrderDetails";
 import { useCartStore } from "@/features/cart/cartStore";
 import { usePostOrderMutation } from "@/features/Order/OrderAPI";
 import { toast } from "react-toastify";
 import LoadingScreen from "../Loading/LoadingScreen";
+import PriceFormater from "../PriceFormater";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { IUserOrderData } from "@/interfaces/product.interface";
 
 interface IUserOrderCardProps {
   name: string;
   email: string;
   phoneNumber: string;
+  userId?: string;
 }
-const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
+const UserOrder = ({
+  name,
+  email,
+  phoneNumber,
+  userId
+}: IUserOrderCardProps) => {
   const [userName, setUserName] = useState<string>(name);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userEmail, setUserEmail] = useState<string>(email);
   const [userAddress, setUserAddress] = useState<string>("");
+  const [shippingcharges, setShippingcharges] = useState<number>(0);
   const [userPhoneNumber, setUserPhoneNumber] = useState<string>(
     phoneNumber ? phoneNumber : ""
   );
-  const { getCartAmount, getDiscountTotal, shippingcharges, items, resetCart } =
-    useCartStore();
+  const [paymentMethod, setpaymentMethod] = useState("COD");
+  const [postOrder, { isLoading: PostOrderLoading }] = usePostOrderMutation();
+
+  const { getCartAmount, getDiscountTotal, items, resetCart } = useCartStore();
+  const router = useRouter();
   let subtotal = Number(getCartAmount());
   let discount = Number(getDiscountTotal());
+  const [total, setTotal] = useState<number>(0);
+  useEffect(() => {
+    if (items.length > 0) {
+      setShippingcharges(500);
+    } else {
+      setShippingcharges(0);
+    }
+  }, [items]);
   let totalAmount = subtotal - discount + shippingcharges;
+  useEffect(() => {
+    const baseTotal = subtotal - discount;
+    const shipping = items.length > 0 && baseTotal <= 2500 ? 500 : 0;
+    setShippingcharges(shipping);
+    setTotal(baseTotal + shipping);
+  }, [subtotal, discount, items]);
 
-  const [postOrder, { isLoading }] = usePostOrderMutation();
+  useEffect(() => {
+    console.log("totalAmount", totalAmount);
+    console.log("total", total);
+  }, [totalAmount, total]);
 
   const handleOrderSubmit = async () => {
-    const orderData = {
-      products: items.map((item) => ({
-        productId: item.productId,
-        quantity: item.Quantity
-      })),
-      userInfo: {
-        name: userName,
-        email: userEmail,
-        contact: userPhoneNumber
+    const userOrderData: IUserOrderData = {
+      metaData: {
+        orderNumber: crypto.randomUUID(),
+        user: userName,
+        customerEmail: userEmail,
+        clerkUserId: userId!,
+        address: userAddress
       },
-      totalAmount,
-      shippingAddress: userAddress,
-      paymentStatus: "pending"
+      orderData: {
+        products: items.map((item) => ({
+          productId: item.productId,
+          quantity: item.Quantity
+        })),
+        userInfo: {
+          name: userName,
+          email: userEmail,
+          contact: userPhoneNumber
+        },
+        totalAmount,
+        shippingAddress: userAddress,
+        paymentStatus: "pending"
+      }
     };
 
     try {
-      const response = await postOrder(orderData).unwrap();
-      toast.success(response?.data?.message);
+      setIsLoading(true);
+      if (paymentMethod === "COD") {
+        const response = await postOrder(userOrderData).unwrap();
+        console.log("response", response);
+        if (response.success === true) {
+          console.log("order placed successfully");
+          toast.success(response?.message);
+        }
+      }
+
+      if (paymentMethod === "Stripe") {
+        const response = await axios.post(
+          "/api/orders/create-checkout-session",
+          { userOrderData }
+        );
+        console.log("response", response);
+        if (response?.data.url) {
+          router.push(response?.data.url);
+        }
+      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,12 +113,15 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
       setUserAddress("");
       setUserPhoneNumber("");
       resetCart();
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="flex flex-col md:flex-row gap-10">
-      {isLoading && <LoadingScreen />}
+      {(isLoading || PostOrderLoading) && (
+        <LoadingScreen text="hold on! we're working on your order" />
+      )}
       <div className="md:w-2/4 w-full">
         <UserOrderCard cardTitle="User Information">
           <div className="mb-6">
@@ -85,7 +146,7 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
                 <input
                   id="userName"
                   name="userName"
-                  type="email"
+                  type="text"
                   placeholder="Enter Your Email"
                   value={userName}
                   onChange={(e) => setUserName(e.target.value)}
@@ -95,7 +156,7 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
                 <input
                   id="userEmail"
                   name="userEmail"
-                  type="text"
+                  type="email"
                   placeholder="Enter Your Email"
                   value={userEmail}
                   onChange={(e) => setUserEmail(e.target.value)}
@@ -127,7 +188,83 @@ const UserOrder = ({ name, email, phoneNumber }: IUserOrderCardProps) => {
         </UserOrderCard>
       </div>
       <div className="md:w-2/4 w-full">
-        <OrderDetails onSubmitOrder={handleOrderSubmit} />
+        <UserOrderCard cardTitle="More Details">
+          <div className="px-2 md:px-4 py-2 md:py-4">
+            <Textsm className="text-gray-700 text-[20px] font-bold">
+              Order Summary
+            </Textsm>
+
+            <hr className="my-5" />
+
+            <hr className="my-5" />
+            <div className="flex flex-col font- font-semibold text-[15px]">
+              <div className="flex items-center justify-between">
+                <p>Subtotal</p>
+                <PriceFormater amount={subtotal} className="" />
+              </div>
+              {discount !== 0 && (
+                <div className="flex items-center justify-between">
+                  <p>Discount</p>
+                  <PriceFormater amount={discount} className="text-red-500" />
+                </div>
+              )}
+              <div className="flex items-center justify-between">
+                <p>Shipping</p>
+                <PriceFormater
+                  amount={shippingcharges}
+                  className="font-semibold"
+                />
+              </div>
+            </div>
+            <hr className="my-5" />
+            <Textsm className="">
+              <PriceFormater
+                amount={total}
+                className="text-gray-700 text-[20px] font-bold"
+              />
+            </Textsm>
+          </div>
+          <div className="flex flex-col gap-4 p-4">
+            <p>Payment method</p>
+            <div className="flex gap-3">
+              <div
+                onClick={() => setpaymentMethod("COD")}
+                className="h-7 max-w-max bg-gray-100 cursor-pointer flex justify-center gap-x-3 items-center border border-gray-400 p-7"
+              >
+                <span
+                  className={`w-4 h-4 rounded-full hoverEffect ${
+                    paymentMethod === "COD" ? "bg-primary-color" : "bg-white"
+                  }`}
+                ></span>{" "}
+                <p className="tracking-wide">Cash on delivary</p>
+              </div>
+              <div
+                onClick={() => setpaymentMethod("Stripe")}
+                className="h-7 bg-gray-100 cursor-pointer flex justify-center gap-x-3 items-center border border-gray-400 p-7"
+              >
+                <span
+                  className={`w-4 h-4 rounded-full hoverEffect ${
+                    paymentMethod === "Stripe" ? "bg-primary-color" : "bg-white"
+                  }`}
+                ></span>{" "}
+                <p className="tracking-widest">Stripe</p>
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center">
+            <button
+              onClick={() => handleOrderSubmit()}
+              disabled={total === 0}
+              className={` text-white w-full md:w-2/5 py-3 custom-button ${
+                total === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-gray-800 cursor-pointer"
+              }`}
+            >
+              Proceed to checkout
+            </button>
+          </div>
+        </UserOrderCard>
       </div>
     </div>
   );

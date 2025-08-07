@@ -1,11 +1,17 @@
 import { useCartStore } from "@/features/cart/cartStore";
 import { IProduct } from "@/interfaces/product.interface";
-import { Trash2 } from "lucide-react";
+import { RiDeleteBinLine } from "react-icons/ri";
 import React from "react";
 import IncrementAndDecrementQuantity from "../IncrementAndDecrementQuantity";
 import Link from "next/link";
 import Image from "next/image";
 import FavoriteHeartIcon from "./FavoriteHeartIcon";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "../ui/tooltip";
 
 interface IItemsBarCardProps {
   item: IProduct;
@@ -81,7 +87,7 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
               </div>
 
               {/* Quantity Buttons */}
-              <div className="flex justify-evenly items-center border gap-4">
+              <div className="flex justify-evenly items-center gap-4">
                 <IncrementAndDecrementQuantity
                   id={item._id}
                   incrementCartQuantity={incrementQuantity}
@@ -89,8 +95,31 @@ const ItemBarCard = ({ item, cartItems }: IItemsBarCardProps) => {
                   decrementCartQuantity={decrementQuantity}
                 />
                 <div className="flex items-center gap-3">
-                  <FavoriteHeartIcon id={item._id} />
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className="">
+                          <FavoriteHeartIcon id={item._id} />
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>favorities</TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div
+                        onClick={() => removeFromCart(item._id)}
+                        className="flex justify-center items-center gap-3 h-7 w-7 rounded-full 
+                bg-gray-200 text-gray-400 hover:text-red-500 hover:bg-red-100 hoverEffect"
+                      >
+                        <RiDeleteBinLine />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>remove from cart</TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </div>
             </div>
           </div>

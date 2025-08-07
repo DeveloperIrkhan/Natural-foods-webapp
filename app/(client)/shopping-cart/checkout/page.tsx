@@ -17,6 +17,7 @@ const checkout = async () => {
       <Container>
         <div className="w-full h-full py-5 md:py-16">
           <UserOrder
+            userId={user?.id}
             name={userInfo.name}
             email={userInfo.email}
             phoneNumber={userInfo.contact}

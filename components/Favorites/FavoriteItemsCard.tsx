@@ -1,3 +1,4 @@
+import { useCartStore } from "@/features/cart/cartStore";
 import { IProduct } from "@/interfaces/product.interface";
 import React from "react";
 
@@ -7,8 +8,10 @@ interface props {
   addToFav: (productId: string) => void;
 }
 const FavoriteItemsCard = ({ product, addToCart, addToFav }: props) => {
+  const { items, removeFromCart } = useCartStore();
+  const isInCart = items.some((item) => item.productId === product._id);
   return (
-    <div className="bg-white min-w-sm max-w-sm shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col group">
+    <div className="bg-white border min-w-sm max-w-sm shadow-lg rounded-xl overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col group">
       <div className="h-52 w-full overflow-hidden">
         <img
           src={product.images[0]}
@@ -66,13 +69,24 @@ const FavoriteItemsCard = ({ product, addToCart, addToFav }: props) => {
         </button>
       </div>
       <div className="p-4 pt-0">
-        <button
-          onClick={() => addToCart(product._id)}
-          className="w-full bg-primary-color text-white py-2 rounded-lg hover:bg-opacity-90 transition"
-          disabled={product.inStock === 0}
-        >
-          {product.inStock > 0 ? "Add to Cart" : "Sold Out"}
-        </button>
+        {!isInCart ? (
+          <button
+            onClick={() => addToCart(product._id)}
+            className={`w-full bg-primary-color text-white py-2 rounded-lg hover:bg-opacity-90 transition 
+              ${product.inStock === 0 && "opacity-50"}`}
+            disabled={product.inStock === 0}
+          >
+            {product.inStock > 0 ? "Add to Cart" : "Sold Out"}
+          </button>
+        ) : (
+          <button
+            disabled={product.inStock === 0}
+            onClick={() => removeFromCart(product._id)}
+            className="w-full bg-red-400 text-white py-2 rounded-lg hover:bg-opacity-90 transition"
+          >
+            Remove from Cart
+          </button>
+        )}
       </div>
     </div>
   );

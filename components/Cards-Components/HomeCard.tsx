@@ -4,11 +4,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import React, { useState } from "react";
 import AddtoWishList from "../AddtoWishList";
-import { Heart, ShoppingCart, StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
+import { FaCartPlus, FaCartShopping } from "react-icons/fa6";
 import PricePreview from "../PricePreview";
 import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
-import IncrementAndDecrementQuantity from "../IncrementAndDecrementQuantity";
 import { useCartStore } from "@/features/cart/cartStore";
+import CustomButton from "../custom-ui/CustomButton";
 
 interface IhomeCard {
   className?: string;
@@ -164,20 +165,27 @@ const HomeCard = ({
           <div className="flex items-center justify-between">
             {items.some((existingItem) => existingItem.productId === _id) ? (
               <>
-                <button
-                  onClick={() => removeFromCart(_id)}
-                  className="text-white font-semibold py-1 px-3 my-3 md:my-0 rounded-lg shadow-md
-                        transition-colors duration-200 focus:outline-none focus:ring-2
-                         focus:ring-opacity-50 bg-red-600 hover:bg-red-700 focus:ring-red-600"
-                >
-                  <div className="flex gap-2.5">
-                    <ShoppingCart /> <p>Remove From cart</p>
-                  </div>
-                </button>
+                <CustomButton
+                  disabled={inStock > 0 ? false : true}
+                  onClickFuntion={
+                    inStock > 0 ? () => removeFromCart(_id) : () => {}
+                  }
+                  buttonText="remove from cart"
+                  buttonColor="bg-red-600"
+                  icon={<FaCartShopping />}
+                />
               </>
             ) : (
               <>
-                <button
+                <CustomButton
+                  disabled={inStock > 0 ? false : true}
+                  onClickFuntion={() => addToCart(_id)}
+                  buttonText={inStock > 0 ? "Add to cart" : "Out of stock"}
+                  buttonColor={inStock > 0 ? "" : "opacity-30"}
+                  icon={<FaCartPlus />}
+                />
+
+                {/* <button
                   onClick={
                     inStock > 0
                       ? () => {
@@ -196,9 +204,9 @@ const HomeCard = ({
                 >
                   <div className="flex gap-2.5">
                     <ShoppingCart />{" "}
-                    <p>{inStock > 0 ? "Add to cart" : "Out of stock"}</p>
+                    <p></p>
                   </div>
-                </button>
+                </button> */}
               </>
             )}
           </div>

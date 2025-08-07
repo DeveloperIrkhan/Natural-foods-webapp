@@ -1,6 +1,5 @@
 import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
 import React from "react";
-import AddtoWishList from "../AddtoWishList";
 import { FaHeart } from "react-icons/fa";
 
 interface props {

@@ -5,7 +5,6 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     await connectDB();
-
     const body = await req.json();
     const newOrder = await Order.create(body);
     console.log(newOrder);

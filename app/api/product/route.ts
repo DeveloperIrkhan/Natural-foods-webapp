@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       name,
       description,
       price,
-      discountPrice: discountPrice,
+      discountPrice,
       category,
       slug: createdSlug,
       images: ImageArray,

@@ -1,27 +1,47 @@
 "use client";
-
 import Container from "@/components/Container";
 import FavoriteItemsCard from "@/components/Favorites/FavoriteItemsCard";
 import { useCartStore } from "@/features/cart/cartStore";
-import { useFavoriteItemsStore } from "@/features/favoriteitems/favoriteitemsStore";
+import {
+  IFavItemStore,
+  useFavoriteItemsStore
+} from "@/features/favoriteitems/favoriteitemsStore";
 import { useProductsStore } from "@/features/product/productStore";
 import Image from "next/image";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { images } from "@/public/ImagesUrls";
-const page = () => {
+import { Button } from "@/components/ui/button";
+const Page = () => {
   const { favItems, addToFavorite } = useFavoriteItemsStore();
   const { addToCart } = useCartStore();
   const { products } = useProductsStore();
+  const [visibleProducts, setVisibleProducts] = useState<IFavItemStore[]>([]);
+  useEffect(() => {
+    setVisibleProducts(favItems.slice(0, 2));
+  }, [favItems]);
   const favoriteProducts = useMemo(() => {
-    return favItems
+    return visibleProducts
       .map((fav) => products.find((product) => product._id === fav.productId))
       .filter(Boolean);
-  }, [favItems, products]);
-
+  }, [visibleProducts, products]);
+  const loadMore = () => {
+    setVisibleProducts((prev) => favItems.slice(0, prev.length + 2));
+    // setVisibleProducts((prev) => Math.min(prev + 4, favItems.length));
+  };
+  useEffect(() => {
+    console.log(
+      "visibleProducts",
+      visibleProducts.length,
+      "favoriteProducts",
+      favoriteProducts.length,
+      "favItems",
+      favItems.length
+    );
+  }, [visibleProducts, favoriteProducts]);
   return (
-    <Container>
+    <Container className="">
       <div className="flex justify-center items-center w-full my-12 flex-wrap gap-4">
         {favoriteProducts.length > 0 ? (
           favoriteProducts.map((item) => {
@@ -60,7 +80,7 @@ const page = () => {
                 Your favorite list is empty
               </h2>
               <p className="text-sm text-gray-600 mb-6">
-                it look like you haven't added anything to your favorite list
+                It look like you haven't added anything to your favorite list
                 yet, let's change that and find some amazing product for you!
               </p>
               <Link
@@ -75,8 +95,21 @@ const page = () => {
           </div>
         )}
       </div>
+      <div className="w-full text-center">
+        {visibleProducts.length !== favItems.length ? (
+          <Button
+            className="hover:bg-primary-color hover:text-white custom-button text-gray-300"
+            variant="outline"
+            onClick={() => loadMore()}
+          >
+            Load More...
+          </Button>
+        ) : (
+          <></>
+        )}
+      </div>
     </Container>
   );
 };
 
-export default page;
+export default Page;
