@@ -4,25 +4,23 @@ import LoadingScreen from "@/components/Loading/LoadingScreen";
 import { ICategoryModel } from "@/interfaces/product.interface";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 const AddProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
-  const [discountPrice, setDiscountPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState(0);
   const [category, setCategory] = useState("");
-  const [productStatus, setProductStatus] = useState("sale");
+  const [productStatus, setProductStatus] = useState(ProductStatuses[0]);
   const [categories, setCategories] = useState<ICategoryModel[]>([]);
-  const [inStock, setInStock] = useState("");
+  const [inStock, setInStock] = useState(0);
   const [loading, setLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState("");
   const [productImage0, setProductImage0] = useState<File | null>(null);
   const [productImage1, setProductImage1] = useState<File | null>(null);
   const [productImage2, setProductImage2] = useState<File | null>(null);
   const [productImage3, setProductImage3] = useState<File | null>(null);
   const sizes = ["250ml", "500ml", "1lt", "100g", "250g", "500g", "800g"];
-  useEffect(() => {
-    console.log(productStatus);
-  }, [productStatus]);
+
   const inputTextStyle =
     "border px-2 py-1.5 rounded-lg w-full focus:outline-none focus:border-primary-color";
   const handleSubmit = async (e: any) => {
@@ -33,11 +31,11 @@ const AddProduct = () => {
       form.append("name", name);
       form.append("description", description);
       form.append("price", price);
-      form.append("discountPrice", discountPrice);
+      form.append("discountPrice", discountPrice.toString());
       form.append("category", category);
       form.append("productStatus", productStatus);
       // form.append("quantity", JSON.stringify(quantity));
-      form.append("inStock", inStock);
+      form.append("inStock", inStock.toString());
       console.log("category passing", category);
       productImage0 && form.append("productImage0", productImage0);
       productImage1 && form.append("productImage1", productImage1);
@@ -46,19 +44,30 @@ const AddProduct = () => {
       const response = await axios.post("/api/product", form, {
         headers: { "Content-Type": "multipart/form-data" }
       });
-      console.log("response", response);
+      if (response?.data?.success) {
+        toast.success(response?.data?.message || "data added successfully");
+        setName("");
+        setDescription("");
+        setPrice("");
+        setDiscountPrice(0);
+        setProductStatus(ProductStatuses[0]);
+        setInStock(0);
+        setProductImage0(null);
+        setProductImage1(null);
+        setProductImage2(null);
+        setProductImage3(null);
+      } else {
+        toast.error(response?.data?.message);
+      }
       console.log("response data", response.data);
-      setMessage(response.data.message || "data added successfully");
     } catch (error) {
       console.log(error);
-      setMessage("some error");
+      toast.error("something went wrong!");
     } finally {
       setLoading(false);
     }
   };
-  // useEffect(() => {
-  //   console.log(quantity);
-  // }, [quantity]);
+
   const fetchCategory = async () => {
     try {
       setLoading(true);
@@ -322,7 +331,7 @@ const AddProduct = () => {
               type="number"
               placeholder="discount Price"
               value={discountPrice}
-              onChange={(e) => setDiscountPrice(e.target.value)}
+              onChange={(e) => setDiscountPrice(Number(e.target.value))}
               required
               className={inputTextStyle}
             />
@@ -353,10 +362,11 @@ const AddProduct = () => {
 
           <label className="flex items-center space-x-2">
             <input
+              className={inputTextStyle}
               name="inStock"
               type="number"
               placeholder="please enter product quantity"
-              onChange={(e) => setInStock(e.target.value)}
+              onChange={(e) => setInStock(Number(e.target.value))}
             />
             <span>In Stock</span>
           </label>
@@ -370,9 +380,6 @@ const AddProduct = () => {
             {loading ? "Submitting..." : "Create Product"}
           </button>
         </form>
-        {message && (
-          <p className="mt-4 text-center text-sm text-gray-600">{message}</p>
-        )}
       </div>
     </div>
   );

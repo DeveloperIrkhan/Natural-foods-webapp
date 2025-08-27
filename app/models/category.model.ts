@@ -16,6 +16,8 @@ const CategorySchema = new mongoose.Schema(
       lowercase: true,
       trim: true
     },
+    categoryImage: { type: String, default: "", required: false },
+
     description: {
       type: String,
       trim: true

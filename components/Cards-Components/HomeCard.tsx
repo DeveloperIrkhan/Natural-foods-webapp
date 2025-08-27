@@ -48,10 +48,7 @@ const HomeCard = ({
     addToCart,
     items,
     removeFromCart,
-    incrementQuantity,
-    decrementQuantity
   } = useCartStore();
-  const [showButtons, setShowButtons] = useState(false);
   return (
     <div
       className={cn(
@@ -62,7 +59,7 @@ const HomeCard = ({
         className
       )}
     >
-      <AnimatePresence>
+      <AnimatePresence mode="popLayout">
         <motion.div
           key={_id}
           initial={{ opacity: 0, y: -20 }}
@@ -95,18 +92,25 @@ const HomeCard = ({
               </>
             )}
           </div>
-          <Link href={`/product-details/${slug}`}>
-            <div className="relative w-full h-full overflow-hidden">
-              <img
-                src={image[0] || "/placeholder-image.jpg"} // Use actual image or a placeholder
-                alt={title}
-                className={`md:rounded-l-lg w-full h-full object-cover transition-transform duration-500 ease-in-out transform
-       group-hover:rotate-3 group-hover:scale-110 ${
-         inStock > 0 ? "" : "opacity-30"
-       }`}
-              />
-            </div>
-          </Link>
+          <div className="relative w-full h-full overflow-hidden">
+            <img
+              src={image[0] || "/placeholder-image.jpg"} // Use actual image or a placeholder
+              alt={title}
+              className={`md:rounded-l-lg w-full h-full object-contain md:object-cover transition-transform duration-500 
+                ease-in-out transform
+                  group-hover:rotate-3 group-hover:scale-110 ${
+                    inStock > 0 ? "" : "opacity-30"
+                  }`}
+            />
+            <Link href={`/product-details/${slug}`}>
+              <p
+                className="tracking-widest absolute z-50 top-1/2 left-1/2 border-b-2 pb-1 border-black
+       -translate-x-1/2 -translate-y-1/2 text-black text-lg font-semibold transition-all hidden duration-500 group-hover:block"
+              >
+                View Details
+              </p>
+            </Link>
+          </div>
         </motion.div>
 
         <motion.div

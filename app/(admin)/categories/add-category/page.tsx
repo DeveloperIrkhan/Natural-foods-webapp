@@ -7,16 +7,23 @@ const page = () => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [categoryImage, setCategoryImage] = useState<File | null>(null);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("description", description);
+      if (categoryImage) {
+        formData.append("categoryImage", categoryImage);
+      }
       setIsLoading(true);
-      const response = await axios.post(
-        "/api/category",
-        { name, description },
-        { headers: { "Content-Type": "application/json" } }
-      );
+      const response = await axios.post("/api/category", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
       console.log(response.data);
     } catch (error) {
       console.log(error);
@@ -32,6 +39,37 @@ const page = () => {
           Create category
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex justify-center">
+            <label
+              htmlFor="productImage0"
+              className="border-2 border-dashed w-32 h-32 md:w-64 md:h-64 flex justify-center items-center"
+            >
+              <img
+                src={
+                  categoryImage
+                    ? URL.createObjectURL(categoryImage)
+                    : "/Upload.png"
+                }
+                className={`${
+                  categoryImage != null
+                    ? "w-full h-full"
+                    : "w-9 h-9 md:w-32 md:h-32"
+                }`}
+                alt=""
+              />
+              <input
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) setCategoryImage(file);
+                }}
+                type="file"
+                accept="image/*"
+                name="productImage0"
+                id="productImage0"
+                hidden
+              />
+            </label>
+          </div>
           <input
             name="name"
             type="text"

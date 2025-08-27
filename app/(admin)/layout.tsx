@@ -3,13 +3,6 @@ import "../globals.css";
 import Link from "next/link";
 import AdminnAreaNav from "@/components/Admin/AdminnAreaNav";
 import { ToastContainer } from "react-toastify";
-// export const metadata: Metadata = {
-//   title: {
-//     template: "admin panel | eshopping Store",
-//     default: "admin panel | eshopping Store"
-//   },
-//   description: "Online Store for Shopping."
-// };
 export const metadata: Metadata = {
   title: "Admin Panel | Khalis Foods",
   description: "Khalis Foods",
@@ -25,7 +18,6 @@ export default function RootLayout({
 }>) {
   return (
     <div className="flex min-h-screen bg-white">
-      {/* Sidebar */}
       <ToastContainer />
       <aside className="w-64 bg-white border-r hidden md:block">
         <div className="p-6 border-b">
@@ -57,7 +49,7 @@ export default function RootLayout({
             Add Product
           </Link>
           <Link
-            href="/products/add-category"
+            href="/categories/add-category"
             className="block px-4 py-2 rounded hover:bg-blue-50"
           >
             Add Category

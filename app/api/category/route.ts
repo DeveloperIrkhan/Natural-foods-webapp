@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/app/dbConfig/DbConnection";
 import { Category } from "@/app/models/category.model";
 import { generateSlug } from "@/app/helpers/generateSlug";
+import { uploadOnCloudinary } from "@/app/helpers/cloudinaryUpload";
 export const dynamic = "force-dynamic";
 
 export async function GET(req: NextRequest) {
@@ -32,9 +33,17 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   await connectDB();
   try {
-    const body = await req.json();
-    const { name, description } = body;
-    const existingCategory = await Category.findOne({ name: name.trim() });
+    const formData = await req.formData();
+    const name = formData.get("name") as string;
+    const description = formData.get("description") as string;
+    const categoryImage = formData.get("categoryImage") as File;
+    console.log("name", name);
+    console.log("description", description);
+    console.log("categoryImage", categoryImage);
+    const existingCategory = await Category.findOne({
+      name: name
+    });
+
     console.log(existingCategory);
     if (existingCategory) {
       return NextResponse.json({
@@ -50,6 +59,29 @@ export async function POST(req: NextRequest) {
       name,
       existingSlugs: existingProductSlugs
     });
+
+    //saving iamge into cloudinary
+
+    if (categoryImage) {
+      const _buffer = Buffer.from(await categoryImage.arrayBuffer());
+      const _cloudnaryResp = await uploadOnCloudinary(
+        _buffer,
+        categoryImage.name
+      );
+
+      const newCategory = await Category.create({
+        name,
+        slug: createdSlug,
+        description,
+        categoryImage: _cloudnaryResp?.url
+      });
+
+      return NextResponse.json({
+        success: true,
+        message: "Category added successfully",
+        newCategory
+      });
+    }
     const newCategory = await Category.create({
       name,
       slug: createdSlug,

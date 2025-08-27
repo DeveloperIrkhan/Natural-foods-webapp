@@ -12,23 +12,23 @@ interface IHomeTabBar {
 const HomeTabBar = ({ selectedTab, onTabSelected }: IHomeTabBar) => {
   const { categories } = useCategoryStore();
   const { products, setProducts } = useProductsStore();
-  // Set products to redux
   useEffect(() => {
-    if (products && products.length === 0) {
-      const latest = [...products]
-        .sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        )
-        .slice(0, 6);
-      setProducts(latest);
-    }
-  }, []);
+    console.log(products);
+  }, [products]);
+  //sorting products by date
+  const sortedProducts = useMemo(() => {
+    return [...products].sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }, [products]);
   // Filtered Products
   const filteredProducts = useMemo(() => {
-    if (!products.length) return [];
-    if (selectedTab === "See all") return products;
-    return products.filter((product) => product.category === selectedTab);
+    if (!sortedProducts.length) return [];
+    if (selectedTab === "See all") return sortedProducts.slice(0, 8);
+    return products
+      .filter((product) => product.category === selectedTab)
+      .slice(0, 8);
   }, [products, selectedTab]);
 
   //for accessing cartItems

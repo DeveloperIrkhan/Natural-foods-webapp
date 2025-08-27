@@ -17,11 +17,13 @@ export async function POST(req: Request) {
   const { userOrderData }: { userOrderData: IUserOrderData } = await req.json();
 
   try {
+    // 1. Find existing Stripe customer or use email
     const customers = await stripe.customers.list({
       email: userOrderData.metaData.customerEmail,
       limit: 1
     });
 
+    // 2. Get all products and filter selected ones
     const products = await Product.find({});
     const selectedProducts: IProduct[] = products.filter((product) =>
       userOrderData.orderData.products.some(
@@ -29,7 +31,7 @@ export async function POST(req: Request) {
       )
     );
 
-    // Calculate total
+    // 3. Calculate subtotal
     let calculatedTotal = 0;
     selectedProducts.forEach((product) => {
       const cartItem = userOrderData.orderData.products.find(
@@ -40,14 +42,15 @@ export async function POST(req: Request) {
       calculatedTotal += price * quantity;
     });
 
+    // 4. Add shipping charges
     const shippingCharges = calculatedTotal > 3000 ? 0 : 500;
     const finalTotalAmount = calculatedTotal + shippingCharges;
 
-    console.log("finalTotalAmount", finalTotalAmount);
-    console.log("calculatedTotal", calculatedTotal);
-    console.log("shippingCharges", shippingCharges);
+    console.log("calculatedTotal:", calculatedTotal);
+    console.log("shippingCharges:", shippingCharges);
+    console.log("finalTotalAmount:", finalTotalAmount);
 
-    // ✅ Create line items properly
+    // 5. Create Stripe line items
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
     selectedProducts.forEach((item) => {
@@ -64,8 +67,7 @@ export async function POST(req: Request) {
           product_data: {
             name: item.name,
             description: item.description,
-            images:
-              item.images && item.images.length > 0 ? [item.images[0]] : [],
+            images: item.images && item.images.length > 0 ? [item.images[0]] : [],
             metadata: {
               id: item._id.toString()
             }
@@ -75,7 +77,7 @@ export async function POST(req: Request) {
       });
     });
 
-    // ✅ Add shipping as separate item if needed
+    // 6. Add shipping as separate item if needed
     if (shippingCharges > 0) {
       lineItems.push({
         price_data: {
@@ -83,14 +85,16 @@ export async function POST(req: Request) {
           unit_amount: shippingCharges * 100,
           product_data: {
             name: "Shipping Charges",
-            description: "Flat shipping fee under PKR 3000"
+            description: "Shipping fee under PKR 3000"
           }
         },
         quantity: 1
       });
     }
-    console.log("lineItems to Stripe:", JSON.stringify(lineItems, null, 2));
+
+    // 7. Create checkout session
     const customerId = customers.data.length > 0 ? customers.data[0].id : "";
+
     const sessionpayload: Stripe.Checkout.SessionCreateParams = {
       metadata: {
         customer_id: customerId,
@@ -115,6 +119,7 @@ export async function POST(req: Request) {
 
     const session = await stripe.checkout.sessions.create(sessionpayload);
 
+    // 8. Save order to database
     const savingOrder = {
       products: userOrderData.orderData.products.map((item: IProductItems) => ({
         productId: item.productId,
@@ -130,6 +135,7 @@ export async function POST(req: Request) {
       paymentStatus: userOrderData.orderData.paymentStatus
     };
 
+    console.log("Saving Order:", savingOrder);
     await Order.create(savingOrder);
 
     return NextResponse.json({ url: session.url });

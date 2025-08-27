@@ -23,7 +23,7 @@ const ImagesView = ({ images }: Props) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className="overflow-hidden w-full h-[550px] md:h-[550px] rounded-md"
+          className="overflow-hidden w-[300px] h-[300px] md:w-[550px] md:h-[550px] rounded-xl drop-shadow-lg"
         >
           <motion.img
             key={displayImage}
@@ -31,21 +31,23 @@ const ImagesView = ({ images }: Props) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
-            className="w-fit h-auto object-cover duration-300 overflow-hidden rounded-xl 
-        shadow-lg hover:scale-110 hover:rotate-2"
+            className="w-full h-full object-cover duration-300 overflow-hidden rounded-xl 
+        hover:scale-110 hover:rotate-2"
             src={displayImage}
             alt={`image-${displayImage}`}
             width={300}
           />
         </motion.div>
-        <div className="grid grid-cols-6 mt-5 gap-2 h-20 md:h-24">
+        <div className="grid grid-cols-6 mt-5 gap-2 h-24 md:h-24">
           {images.map((img, index) => (
             <Image
               key={index}
               src={img}
               alt={`thumb-${index}`}
-              className={`w-full h-auto object-contain cursor-pointer rounded-md hoverEffect ${
-                displayImage === img ? "ring-2 ring-primary-color opacity-100" : "ring-1 ring-gray-400 opacity-50"
+              className={`w-full h-full object-cover cursor-pointer rounded-md hoverEffect ${
+                displayImage === img
+                  ? "ring-2 ring-primary-color opacity-100"
+                  : "ring-1 ring-gray-400 opacity-50"
               }`}
               width={100}
               height={100}

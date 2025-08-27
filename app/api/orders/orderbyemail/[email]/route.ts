@@ -6,11 +6,9 @@ export async function GET(
   req: Request,
   { params }: { params: { email: string } }
 ) {
-  console.log("hisadfasdfasdfasdfasdfasdfasdfasdfasfasdf");
   try {
     await connectDB();
     const { email } = params;
-
     const userOrders = await Order.find({ "userInfo.email": email });
 
     if (userOrders.length > 0) {

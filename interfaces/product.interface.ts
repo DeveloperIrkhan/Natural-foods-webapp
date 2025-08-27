@@ -18,6 +18,7 @@ export interface ICategoryModel extends Document {
   _id: mongoose.Types.ObjectId;
   name: string;
   slug: string;
+  categoryImage: string;
   description: string;
 }
 export interface IBlogsModel extends Document {
@@ -44,6 +45,7 @@ export interface ICategory {
   _id: string;
   name: string;
   slug: string;
+  categoryImage: string;
   description: string;
 }
 

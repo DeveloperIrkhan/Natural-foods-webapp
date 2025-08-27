@@ -34,10 +34,15 @@ export async function POST(req: NextRequest) {
     const description = formData.get("description") as string;
     const productStatus = formData.get("productStatus") as string;
     const price = parseFloat(formData.get("price") as string);
-    const discountPrice = parseFloat(formData.get("discountPrice") as string);
+    const discountPriceValue = formData.get("discountPrice");
+    const discountPrice = discountPriceValue
+      ? parseFloat(discountPriceValue as string)
+      : 0;
     const category = formData.get("category") as string;
-    const inStock = formData.get("inStock") as string;
+    const inStockValue = formData.get("inStock");
+    const inStock = inStockValue ? parseFloat(inStockValue as string) : 0;
     const ImageArray: string[] = [];
+    console.log("discount", discountPrice);
     // let quantities: string[] = [];
     // if (typeof quantities === "string") {
     //   quantities = JSON.parse(quantityRaw);

@@ -26,7 +26,9 @@ const CategoriesCard = ({
       {/* Product Image */}
       <div className="relative flex justify-center items-center p-4">
         <img
-          src="/banner.png" // Replace with your image path
+          src={`${
+            categories.categoryImage ? categories.categoryImage : "/banner.png"
+          } `}
           alt="Chocolate Cookie"
           className="w-28 h-28 object-cover rounded-full"
         />
